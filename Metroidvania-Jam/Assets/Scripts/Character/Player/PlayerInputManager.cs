@@ -44,7 +44,7 @@ namespace IM
 
             SceneManager.activeSceneChanged += OnSceneChange;
 
-            // Instance.enabled = false;
+            Instance.enabled = false;
         }
 
         private void OnEnable()
@@ -67,14 +67,14 @@ namespace IM
 
         private void OnSceneChange(Scene oldScene, Scene newScene)
         {
-            // if (newScene.buildIndex == WorldSaveGameManager.Instance.GetWorldSceneIndex())
-            // {
-            //     Instance.enabled = true;
-            // }
-            // else
-            // {
-            //     Instance.enabled = false;
-            // }
+            if (newScene.buildIndex == GameManager.Instance.GetWorldSceneIndex())
+            {
+                Instance.enabled = true;
+            }
+            else
+            {
+                Instance.enabled = false;
+            }
         }
 
         private void Update()
@@ -109,6 +109,11 @@ namespace IM
             player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.isSprinting);
 
             // If we are locked on pass the horizontal movement as well
+        }
+
+        private void OnDestroy()
+        {
+            SceneManager.activeSceneChanged -= OnSceneChange;
         }
     }
 }

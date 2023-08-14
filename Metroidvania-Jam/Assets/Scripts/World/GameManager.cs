@@ -1,14 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace IM
 {
     public class GameManager : MonoBehaviour
     {
-        public static GameManager Instance;
+        public static GameManager Instance { get; private set; }
 
         public bool isSprinting;
+
+        [SerializeField]
+        private int worldSceneIndex = 1;
 
         private void Awake()
         {
@@ -27,5 +30,16 @@ namespace IM
             DontDestroyOnLoad(gameObject);
         }
 
+        public IEnumerator LoadNewGame()
+        {
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(worldSceneIndex);
+
+            yield return null;
+        }
+
+        public int GetWorldSceneIndex()
+        {
+            return worldSceneIndex;
+        }
     }
 }

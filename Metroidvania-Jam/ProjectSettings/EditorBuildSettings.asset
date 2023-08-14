@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Valadares.unity
+    path: Assets/Scenes/Main_Menu.unity
+    guid: 227904c669efad8409d496f92ffd18fe
+  - enabled: 1
+    path: Assets/Scenes/Game_World_01.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects: {}
