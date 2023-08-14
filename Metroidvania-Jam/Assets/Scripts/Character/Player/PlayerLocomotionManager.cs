@@ -24,13 +24,6 @@ namespace IM
         [SerializeField]
         private float turnSpeed;
 
-        private Vector3 moveDirection;
-
-        private Vector3 targetRotationDirection;
-
-        [SerializeField]
-        private float deadZoneRadius = 1f;
-
         [SerializeField]
         private float walkingSpeed = 2f;
 
@@ -87,90 +80,63 @@ namespace IM
 
             GetMovementValues();
 
-            Vector3 input = new Vector3(horizontalMovement, 0, verticalMovement);
+            Vector3 input = new Vector3(horizontalMovement, 0, verticalMovement).ToIso();
 
-            if (player.isSprinting)
+            if (input.magnitude > 0)
             {
-                player.RB.MovePosition(transform.position + transform.forward * input.normalized.magnitude * sprintingSpeed * Time.deltaTime);
-            }
-            else
-            {
-                if (PlayerInputManager.Instance.moveAmount > 0.5f)
-                {
-                    player.RB.MovePosition(transform.position + transform.forward * input.normalized.magnitude * runningSpeed * Time.deltaTime);
-                }
-                else if (PlayerInputManager.Instance.moveAmount <= 0.5f)
-                {
-                    player.RB.MovePosition(transform.position + transform.forward * input.normalized.magnitude * walkingSpeed * Time.deltaTime);
-                }
+                float speed = walkingSpeed;
+
+                if (player.isSprinting)
+                    speed = sprintingSpeed;
+                else if (PlayerInputManager.Instance.moveAmount > 0.5f)
+                    speed = runningSpeed;
+
+                player.RB.MovePosition(transform.position + input * speed * Time.deltaTime);
             }
 
-            Look();
+            HandleRotation();
         }
 
-        private void Look()
+        private void HandleRotation()
         {
             if (PlayerInputManager.Instance.movementInput == Vector2.zero) return;
 
-            Vector3 input = new Vector3(horizontalMovement, 0, verticalMovement);
-
-            var rot = Quaternion.LookRotation(input.ToIso(), Vector3.up);
+            Vector3 input = new Vector3(horizontalMovement, 0, verticalMovement).ToIso();
+            var rot = Quaternion.LookRotation(input, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, turnSpeed * Time.deltaTime);
         }
 
-        // private void HandleRotation()
-        // {
-        //     if (!player.canRotate) return;
+        public void HandleSprinting()
+        {
+            if (player.isPerformingAction)
+            {
+                // Set sprinting do false
+                player.isSprinting = false;
+            }
 
-        //     targetRotationDirection = Vector3.zero;
-        //     targetRotationDirection = PlayerCamera.Instance.cameraObject.transform.forward * verticalMovement;
-        //     targetRotationDirection += PlayerCamera.Instance.cameraObject.transform.right * horizontalMovement;
+            // If we are out of stamina, set sprinting to false
+            if (player.playerStatsManager.GetCurrentStamina() <= 0)
+            {
+                player.isSprinting = false;
+                return;
+            }
 
-        //     targetRotationDirection.Normalize();
-        //     targetRotationDirection.y = 0;
+            // If we are moving enough, sprinting is true, otherwise is false
+            if (moveAmount > 0.5f)
+            {
+                player.isSprinting = true;
+            }
+            // If we are stationary, set sprinting to false
+            else
+            {
+                player.isSprinting = false;
+            }
 
-        //     if (targetRotationDirection == Vector3.zero)
-        //     {
-        //         targetRotationDirection = transform.forward;
-        //     }
-
-        //     Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
-        //     Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
-
-        //     transform.rotation = targetRotation;
-        // }
-
-        // public void HandleSprinting()
-        // {
-        //     if (player.isPerformingAction)
-        //     {
-        //         // Set sprinting do false
-        //         player.playerNetworkManager.isSprinting.Value = false;
-        //     }
-
-        //     // If we are out of stamina, set sprinting to false
-        //     if (player.playerNetworkManager.currentStamina.Value <= 0)
-        //     {
-        //         player.playerNetworkManager.isSprinting.Value = false;
-        //         return;
-        //     }
-
-        //     // If we are moving enough, sprinting is true, otherwise is false
-        //     if (moveAmount > 0.5f)
-        //     {
-        //         player.playerNetworkManager.isSprinting.Value = true;
-        //     }
-        //     // If we are stationary, set sprinting to false
-        //     else
-        //     {
-        //         player.playerNetworkManager.isSprinting.Value = false;
-        //     }
-
-        //     if (player.playerNetworkManager.isSprinting.Value)
-        //     {
-        //         player.playerNetworkManager.currentStamina.Value -= sprintingStaminaCost * Time.deltaTime;
-        //     }
-        // }
+            if (player.isSprinting)
+            {
+                player.playerStatsManager.SetCurrentStamina(player.playerStatsManager.GetCurrentStamina() - sprintingStaminaCost * Time.deltaTime);
+            }
+        }
 
         // public void AttemptToPerformDodge()
         // {

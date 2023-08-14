@@ -9,10 +9,15 @@ namespace IM
         [HideInInspector]
         public PlayerAnimatorManager playerAnimatorManager;
 
-        public bool isSprinting = false;
-
         [HideInInspector]
         public PlayerLocomotionManager playerLocomotionManager;
+
+        [HideInInspector]
+        public PlayerStatsManager playerStatsManager;
+
+        [Header("FLAGS")]
+
+        public bool isSprinting = false;
 
         protected override void Awake()
         {
@@ -20,7 +25,17 @@ namespace IM
 
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
+            playerStatsManager = GetComponent<PlayerStatsManager>();
+
             PlayerInputManager.Instance.player = this;
+        }
+
+        private void Start()
+        {
+            // playerNetworkManager.maxStamina.Value = playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(playerNetworkManager.endurance.Value);
+            //     playerNetworkManager.currentStamina.Value = playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(playerNetworkManager.endurance.Value);
+            PlayerUIManager.Instace.playerHUDManager.SetMaxHealthValue(playerStatsManager.GetMaxHealth());
+            PlayerUIManager.Instace.playerHUDManager.SetMaxStaminaValue(playerStatsManager.GetMaxStamina());
         }
 
         protected override void Update()
