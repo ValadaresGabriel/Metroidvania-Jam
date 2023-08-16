@@ -9820,7 +9820,8 @@ GameObject:
   - component: {fileID: 4426227916107385988}
   - component: {fileID: 6983131131149773318}
   - component: {fileID: 7418307817776873692}
-  m_Layer: 0
+  - component: {fileID: 6343043058115929424}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9842,7 +9843,7 @@ Transform:
   - {fileID: 1918733231441564752}
   - {fileID: 5136690464509302342}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8352828287542344810
 Animator:
@@ -9936,6 +9937,7 @@ MonoBehaviour:
   playerLocomotionManager: {fileID: 0}
   playerStatsManager: {fileID: 0}
   isSprinting: 0
+  isLockedOnEnemy: 0
 --- !u!114 &4426227916107385988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9986,6 +9988,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d73e09bada34ad4e97ae8339fc71dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6343043058115929424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349060570454581987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2ea00bd208ac4247af17f69c38a4a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  detectionRadius: 24
+  characterCollider: {fileID: 6448079913264258305}
 --- !u!1 &1350534968779539341
 GameObject:
   m_ObjectHideFlags: 0

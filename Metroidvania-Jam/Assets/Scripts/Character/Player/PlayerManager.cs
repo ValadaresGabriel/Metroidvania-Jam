@@ -19,6 +19,8 @@ namespace IM
 
         public bool isSprinting = false;
 
+        public bool isLockedOnEnemy = false;
+
         protected override void Awake()
         {
             base.Awake();

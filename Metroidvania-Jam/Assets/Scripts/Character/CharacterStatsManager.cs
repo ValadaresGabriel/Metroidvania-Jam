@@ -19,12 +19,12 @@ namespace IM
         [SerializeField]
         protected float currentStamina;
 
-        private void Start()
+        protected virtual void Start()
         {
             InitializeStats();
         }
 
-        public void InitializeStats()
+        public virtual void InitializeStats()
         {
             SetCurrentHealth(maxHealth);
             SetCurrentStamina(maxStamina);
