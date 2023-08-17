@@ -8,5 +8,10 @@ namespace IM
         {
             StartCoroutine(GameManager.Instance.LoadNewGame());
         }
+
+        public void ExitGame()
+        {
+            Application.Quit();
+        }
     }
 }
