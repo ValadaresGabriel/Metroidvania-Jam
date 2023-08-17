@@ -10,29 +10,42 @@ namespace IM
         private EnemyLocomotionManager enemyLocomotionManager;
 
         [HideInInspector]
-        public EnemyAnimatorManager animatorManager;
+        public EnemyAnimatorManager enemyAnimatorManager;
 
         [HideInInspector]
         public NavMeshAgent navMeshAgent;
 
+        public CharacterStatsManager currentTarget;
+
+        private EnemyStatsManager enemyStatsManager;
+
+        [SerializeField]
+        private State currentState;
+
+        [Header("Locomotion & Ranges Settings")]
+
+        [SerializeField]
+        private float distanceFromTarget;
+
+        [SerializeField]
+        private float rotationSpeed = 15f;
+
+        [SerializeField]
+        private float maximumAttackRange = 1.5f;
+
         [Header("A.I. Settings")]
 
         [SerializeField]
-        public float detectionRadius = 20f;
+        private float detectionRadius = 20f;
 
         [SerializeField]
-        public float minimumDetectionAngle = -50f;
+        private float minimumDetectionAngle = -50f;
 
         [SerializeField]
-        public float maximumDetectionAngle = 50f;
-
-        [Header("Enemy Attacks")]
+        private float maximumDetectionAngle = 50f;
 
         [SerializeField]
-        private EnemyAttackAction[] enemyAttacks;
-
-        [SerializeField]
-        private EnemyAttackAction currentAttack;
+        private float viewableAngle;
 
         public float currentRecoveryTime = 0;
 
@@ -40,8 +53,9 @@ namespace IM
         {
             base.Awake();
             enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
-            animatorManager = GetComponent<EnemyAnimatorManager>();
+            enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
+            enemyStatsManager = GetComponent<EnemyStatsManager>();
         }
 
         private void Start()
@@ -58,47 +72,28 @@ namespace IM
 
         private void FixedUpdate()
         {
-            HandleCurrentAction();
+            HandleStateMachine();
         }
 
-        private void HandleCurrentAction()
+        private void HandleStateMachine()
         {
-            if (enemyLocomotionManager.currentTarget != null)
+            if (currentState != null)
             {
-                enemyLocomotionManager.SetDistanceFromTarget(Vector3.Distance(enemyLocomotionManager.currentTarget.transform.position, transform.position));
-            }
+                State nextState = currentState.Tick(this, enemyStatsManager, enemyAnimatorManager);
 
-            if (enemyLocomotionManager.currentTarget == null)
-            {
-                enemyLocomotionManager.HandleDetection();
+                if (nextState != null)
+                {
+                    SwitchToNextState(nextState);
+                }
             }
-            else if (enemyLocomotionManager.GetDistanceFromTarget() > enemyLocomotionManager.GetStoppingDistance())
-            {
-                enemyLocomotionManager.HandleMoveToTarget();
-            }
-            else if (enemyLocomotionManager.GetDistanceFromTarget() <= enemyLocomotionManager.GetStoppingDistance())
-            {
-                GetAttackTarget();
-            }
+        }
+
+        private void SwitchToNextState(State nextState)
+        {
+            currentState = nextState;
         }
 
         // Attacks
-        private void GetAttackTarget()
-        {
-            if (isPerformingAction) return;
-
-            if (currentAttack == null)
-            {
-                GetNewAttack();
-            }
-            else
-            {
-                currentRecoveryTime = currentAttack.RecoveryTime;
-                animatorManager.PlayTargetActionAnimation(currentAttack.ActionAnimation, true);
-                currentAttack = null;
-            }
-        }
-
         private void HandleRecoveryTime()
         {
             if (currentRecoveryTime > 0)
@@ -115,46 +110,20 @@ namespace IM
             }
         }
 
-        private void GetNewAttack()
-        {
-            Vector3 targetsDirection = enemyLocomotionManager.currentTarget.transform.position - transform.position;
-            float viewableAngle = Vector3.Angle(targetsDirection, transform.forward);
+        public float SetDistanceFromTarget(float newDistance) => distanceFromTarget = newDistance;
 
-            enemyLocomotionManager.SetDistanceFromTarget(Vector3.Distance(enemyLocomotionManager.currentTarget.transform.position, transform.position));
+        public float GetDetectionRadius() => detectionRadius;
 
-            int maxScore = 0;
+        public float GetMinimumDetectionAngle() => minimumDetectionAngle;
 
-            foreach (EnemyAttackAction attack in enemyAttacks)
-            {
-                if (enemyLocomotionManager.GetDistanceFromTarget() <= attack.MaximumDistanceNeededToAttack && enemyLocomotionManager.GetDistanceFromTarget() >= attack.MinimumDistanceNeededToAttack)
-                {
-                    if (viewableAngle <= attack.MaximumAttackAngle && viewableAngle >= attack.MinimumDistanceNeededToAttack)
-                    {
-                        maxScore += attack.AttackScore;
-                    }
-                }
-            }
+        public float GetMaximumDetectionAngle() => maximumDetectionAngle;
 
-            int randomValue = Random.Range(0, maxScore);
-            int temporaryScore = 0;
+        public float GetDistanceFromTarget() => distanceFromTarget;
 
-            foreach (EnemyAttackAction attack in enemyAttacks)
-            {
-                if (enemyLocomotionManager.GetDistanceFromTarget() <= attack.MaximumDistanceNeededToAttack && enemyLocomotionManager.GetDistanceFromTarget() >= attack.MinimumDistanceNeededToAttack)
-                {
-                    if (viewableAngle <= attack.MaximumAttackAngle && viewableAngle >= attack.MinimumDistanceNeededToAttack)
-                    {
-                        if (currentAttack != null) return;
+        public float GetRotationSpeed() => rotationSpeed;
 
-                        temporaryScore += attack.AttackScore;
+        public float GetMaximumAttackRange() => maximumAttackRange;
 
-                        if (temporaryScore > randomValue)
-                        {
-                            currentAttack = attack;
-                        }
-                    }
-                }
-            }
-        }
+        public float GetViewableAngle() => viewableAngle;
     }
 }
