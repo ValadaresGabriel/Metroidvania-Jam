@@ -8,17 +8,23 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private List<AudioSource> musicSource, effectSource;
 
-    private void Awake() {
-        if(Instance == null){
+    private void Awake()
+    {
+        if (Instance == null)
+        {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-        }else{
+        }
+        else
+        {
             Destroy(gameObject);
         }
     }
 
-    public void PlaySound(int index){
-        if(index >= 0 && index < effectSource.Count){
+    public void PlaySound(int index)
+    {
+        if (index >= 0 && index < effectSource.Count)
+        {
             AudioSource source = effectSource[index];
             source.Play();
         }

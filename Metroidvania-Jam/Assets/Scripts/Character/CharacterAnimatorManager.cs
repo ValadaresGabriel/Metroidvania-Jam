@@ -6,7 +6,7 @@ namespace IM
 {
     public class CharacterAnimatorManager : MonoBehaviour
     {
-        private CharacterManager character;
+        protected CharacterManager character;
 
         private int horizontal;
 
