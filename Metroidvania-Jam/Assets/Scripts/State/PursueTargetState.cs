@@ -37,29 +37,15 @@ namespace IM
 
         private void HandleRotationToTarget(EnemyManager enemyManager)
         {
-            if (enemyManager.isPerformingAction)
+            Vector3 directionToTarget = enemyManager.currentTarget.transform.position - transform.position;
+            directionToTarget.y = 0;
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+            enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, targetRotation, Time.deltaTime * enemyManager.GetRotationSpeed());
+
+            if (!enemyManager.isPerformingAction)
             {
-                Vector3 direction = enemyManager.currentTarget.transform.position - transform.position;
-                direction.y = 0;
-                direction.Normalize();
-
-                if (direction == Vector3.zero)
-                {
-                    direction = transform.forward;
-                }
-
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, targetRotation, enemyManager.GetRotationSpeed() / Time.deltaTime);
-            }
-            else
-            {
-                Vector3 relativeDirection = transform.InverseTransformDirection(enemyManager.navMeshAgent.desiredVelocity);
-                Vector3 targetVelocity = enemyManager.RB.velocity;
-
                 enemyManager.navMeshAgent.enabled = true;
                 enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
-                enemyManager.RB.velocity = targetVelocity;
-                enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation, enemyManager.GetRotationSpeed() / Time.deltaTime);
             }
         }
     }
