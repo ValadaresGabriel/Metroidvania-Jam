@@ -15,17 +15,17 @@ namespace IM
         [HideInInspector]
         public NavMeshAgent navMeshAgent;
 
-        public CharacterStatsManager currentTarget;
+        [HideInInspector]
+        public EnemyStatsManager enemyStatsManager;
 
-        private EnemyStatsManager enemyStatsManager;
+        [Header("Target")]
+
+        public CharacterStatsManager currentTarget;
 
         [SerializeField]
         private State currentState;
 
         [Header("Locomotion & Ranges Settings")]
-
-        [SerializeField]
-        private float distanceFromTarget;
 
         [SerializeField]
         private float rotationSpeed = 15f;
@@ -43,9 +43,6 @@ namespace IM
 
         [SerializeField]
         private float maximumDetectionAngle = 50f;
-
-        [SerializeField]
-        private float viewableAngle;
 
         public float currentRecoveryTime = 0;
 
@@ -110,20 +107,15 @@ namespace IM
             }
         }
 
-        public float SetDistanceFromTarget(float newDistance) => distanceFromTarget = newDistance;
-
         public float GetDetectionRadius() => detectionRadius;
 
         public float GetMinimumDetectionAngle() => minimumDetectionAngle;
 
         public float GetMaximumDetectionAngle() => maximumDetectionAngle;
 
-        public float GetDistanceFromTarget() => distanceFromTarget;
-
         public float GetRotationSpeed() => rotationSpeed;
 
         public float GetMaximumAttackRange() => maximumAttackRange;
 
-        public float GetViewableAngle() => viewableAngle;
     }
 }

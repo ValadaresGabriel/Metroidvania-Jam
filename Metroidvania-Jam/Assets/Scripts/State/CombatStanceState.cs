@@ -15,13 +15,18 @@ namespace IM
 
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStatsManager, EnemyAnimatorManager enemyAnimatorManager)
         {
-            enemyManager.SetDistanceFromTarget(Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position));
+            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
 
-            if (enemyManager.currentRecoveryTime <= 0 && enemyManager.GetDistanceFromTarget() <= enemyManager.GetMaximumAttackRange())
+            if (enemyManager.isPerformingAction)
+            {
+                enemyAnimatorManager.UpdateAnimatorMovementParameters(0, 0);
+            }
+
+            if (enemyManager.currentRecoveryTime <= 0 && distanceFromTarget <= enemyManager.GetMaximumAttackRange())
             {
                 return attackState;
             }
-            else if (enemyManager.GetDistanceFromTarget() > enemyManager.GetMaximumAttackRange())
+            else if (distanceFromTarget > enemyManager.GetMaximumAttackRange())
             {
                 return pursueTargetState;
             }

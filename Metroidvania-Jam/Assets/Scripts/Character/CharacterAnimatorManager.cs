@@ -19,7 +19,7 @@ namespace IM
             vertical = Animator.StringToHash("Vertical");
         }
 
-        public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue, bool isSprinting)
+        public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue, bool isSprinting = false)
         {
             float horizontalAmount = horizontalValue;
             float verticalAmount = verticalValue;

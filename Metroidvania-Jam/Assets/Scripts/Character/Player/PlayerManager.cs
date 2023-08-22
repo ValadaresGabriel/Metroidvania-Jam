@@ -13,7 +13,7 @@ namespace IM
         public PlayerLocomotionManager playerLocomotionManager;
 
         [HideInInspector]
-        public PlayerStatsManager playerStatsManager;
+        public PlayerInventoryManager playerInventoryManager;
 
         [Header("FLAGS")]
 
@@ -27,7 +27,8 @@ namespace IM
 
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
-            playerStatsManager = GetComponent<PlayerStatsManager>();
+            characterStatsManager = GetComponent<PlayerStatsManager>();
+            playerInventoryManager = GetComponent<PlayerInventoryManager>();
 
             PlayerInputManager.Instance.player = this;
         }
@@ -36,8 +37,30 @@ namespace IM
         {
             // playerNetworkManager.maxStamina.Value = playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(playerNetworkManager.endurance.Value);
             //     playerNetworkManager.currentStamina.Value = playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(playerNetworkManager.endurance.Value);
-            PlayerUIManager.Instace.playerHUDManager.SetMaxHealthValue(playerStatsManager.GetMaxHealth());
-            PlayerUIManager.Instace.playerHUDManager.SetMaxStaminaValue(playerStatsManager.GetMaxStamina());
+            PlayerUIManager.Instace.playerHUDManager.SetMaxHealthValue(characterStatsManager.GetMaxHealth());
+            PlayerUIManager.Instace.playerHUDManager.SetMaxStaminaValue(characterStatsManager.GetMaxStamina());
+        }
+
+        public override void UpdateCharacterHealth(float newHealthValue)
+        {
+            base.UpdateCharacterHealth(newHealthValue);
+
+            PlayerUIManager.Instace.playerHUDManager.SetNewHealthValue(characterStatsManager.GetCurrentHealth());
+        }
+
+        public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
+        {
+            PlayerUIManager.Instace.playerUIPopupManager.SendYouDiedPopup();
+            return base.ProcessDeathEvent(manuallySelectDeathAnimation);
+        }
+
+        public override void ReviveCharacter()
+        {
+            base.ReviveCharacter();
+
+            characterStatsManager.InitializeStats();
+            playerAnimatorManager.PlayTargetActionAnimation("Empty", false);
+            isDead = false;
         }
 
         protected override void Update()

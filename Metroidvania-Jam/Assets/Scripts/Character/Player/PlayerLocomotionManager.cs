@@ -115,7 +115,7 @@ namespace IM
             }
 
             // If we are out of stamina, set sprinting to false
-            if (player.playerStatsManager.GetCurrentStamina() <= 0)
+            if (player.characterStatsManager.GetCurrentStamina() <= 0)
             {
                 player.isSprinting = false;
                 return;
@@ -134,7 +134,7 @@ namespace IM
 
             if (player.isSprinting)
             {
-                player.playerStatsManager.SetCurrentStamina(player.playerStatsManager.GetCurrentStamina() - sprintingStaminaCost * Time.deltaTime);
+                player.characterStatsManager.SetCurrentStamina(player.characterStatsManager.GetCurrentStamina() - sprintingStaminaCost * Time.deltaTime);
             }
         }
 

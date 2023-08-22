@@ -14,6 +14,15 @@ namespace IM
         [SerializeField]
         private UI_StatBar staminaBar;
 
+        public void RefreshHUD()
+        {
+            healthBar.gameObject.SetActive(false);
+            healthBar.gameObject.SetActive(true);
+
+            staminaBar.gameObject.SetActive(false);
+            staminaBar.gameObject.SetActive(true);
+        }
+
         #region Health
         public void SetNewHealthValue(float newValue)
         {

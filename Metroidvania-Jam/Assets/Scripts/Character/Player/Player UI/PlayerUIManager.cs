@@ -11,6 +11,9 @@ namespace IM
         [HideInInspector]
         public PlayerHUDManager playerHUDManager;
 
+        [HideInInspector]
+        public PlayerUIPopupManager playerUIPopupManager;
+
         private void Awake()
         {
             if (Instace == null)
@@ -27,6 +30,7 @@ namespace IM
         private void Start()
         {
             playerHUDManager = GetComponentInChildren<PlayerHUDManager>();
+            playerUIPopupManager = GetComponentInChildren<PlayerUIPopupManager>();
         }
     }
 }

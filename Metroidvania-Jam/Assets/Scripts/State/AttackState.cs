@@ -19,19 +19,20 @@ namespace IM
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStatsManager, EnemyAnimatorManager enemyAnimatorManager)
         {
             Vector3 targetDirection = enemyManager.currentTarget.transform.position - transform.position;
+            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
             float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
 
             if (enemyManager.isPerformingAction) return combatStanceState;
 
             if (currentAttack != null)
             {
-                if (enemyManager.GetDistanceFromTarget() < currentAttack.MinimumDistanceNeededToAttack)
+                if (distanceFromTarget < currentAttack.MinimumDistanceNeededToAttack)
                 {
                     return this;
                 }
-                else if (enemyManager.GetDistanceFromTarget() < currentAttack.MaximumDistanceNeededToAttack)
+                else if (distanceFromTarget < currentAttack.MaximumDistanceNeededToAttack)
                 {
-                    if (enemyManager.GetViewableAngle() <= currentAttack.MaximumAttackAngle && enemyManager.GetViewableAngle() >= currentAttack.MinimumAttackAngle)
+                    if (viewableAngle <= currentAttack.MaximumAttackAngle && viewableAngle >= currentAttack.MinimumAttackAngle)
                     {
                         if (enemyManager.currentRecoveryTime <= 0 && enemyManager.isPerformingAction == false)
                         {
@@ -58,14 +59,13 @@ namespace IM
         {
             Vector3 targetsDirection = enemyManager.currentTarget.transform.position - transform.position;
             float viewableAngle = Vector3.Angle(targetsDirection, transform.forward);
-
-            enemyManager.SetDistanceFromTarget(Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position));
+            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
 
             int maxScore = 0;
 
             foreach (EnemyAttackAction attack in enemyAttacks)
             {
-                if (enemyManager.GetDistanceFromTarget() <= attack.MaximumDistanceNeededToAttack && enemyManager.GetDistanceFromTarget() >= attack.MinimumDistanceNeededToAttack)
+                if (distanceFromTarget <= attack.MaximumDistanceNeededToAttack && distanceFromTarget >= attack.MinimumDistanceNeededToAttack)
                 {
                     if (viewableAngle <= attack.MaximumAttackAngle && viewableAngle >= attack.MinimumDistanceNeededToAttack)
                     {
@@ -79,7 +79,7 @@ namespace IM
 
             foreach (EnemyAttackAction attack in enemyAttacks)
             {
-                if (enemyManager.GetDistanceFromTarget() <= attack.MaximumDistanceNeededToAttack && enemyManager.GetDistanceFromTarget() >= attack.MinimumDistanceNeededToAttack)
+                if (distanceFromTarget <= attack.MaximumDistanceNeededToAttack && distanceFromTarget >= attack.MinimumDistanceNeededToAttack)
                 {
                     if (viewableAngle <= attack.MaximumAttackAngle && viewableAngle >= attack.MinimumDistanceNeededToAttack)
                     {
