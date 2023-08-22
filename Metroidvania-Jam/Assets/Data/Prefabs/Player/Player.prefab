@@ -6117,7 +6117,7 @@ Transform:
   m_GameObject: {fileID: 829850471949850570}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4369558324169381728}
@@ -9846,8 +9846,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4444067098681571133}
   - component: {fileID: 8352828287542344810}
-  - component: {fileID: 6448079913264258305}
-  - component: {fileID: 453347735598231110}
+  - component: {fileID: 3456985146082378751}
   - component: {fileID: 4006952998267322134}
   - component: {fileID: 4426227916107385988}
   - component: {fileID: 6983131131149773318}
@@ -9902,8 +9901,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!136 &6448079913264258305
-CapsuleCollider:
+--- !u!143 &3456985146082378751
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -9920,38 +9919,14 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
+  m_Height: 1.825676
   m_Radius: 0.5
-  m_Height: 1.8256757
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.89595044, z: 0}
---- !u!54 &453347735598231110
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1349060570454581987}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 116
-  m_CollisionDetection: 0
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.8959504, z: 0}
 --- !u!114 &4006952998267322134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9964,6 +9939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481d1e77ae39b494fb5df212356aa9f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterController: {fileID: 0}
   animator: {fileID: 0}
   characterStatsManager: {fileID: 0}
   characterEffectsManager: {fileID: 0}
@@ -9973,8 +9949,8 @@ MonoBehaviour:
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
-  parentCollider: {fileID: 0}
-  characterCollisionBlocker: {fileID: 0}
+  parentCollider: {fileID: 3456985146082378751}
+  characterCollisionBlocker: {fileID: 5308356975041963682}
   playerAnimatorManager: {fileID: 0}
   playerLocomotionManager: {fileID: 0}
   playerInventoryManager: {fileID: 0}
@@ -9995,7 +9971,6 @@ MonoBehaviour:
   horizontalMovement: 0
   verticalMovement: 0
   moveAmount: 0
-  turnSpeed: 1000
   walkingSpeed: 2
   runningSpeed: 5
   sprintingSpeed: 6.5
@@ -10044,9 +10019,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   detectionRadius: 24
-  characterCollider: {fileID: 6448079913264258305}
+  characterCollider: {fileID: 0}
 --- !u!114 &6554350861833357860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10059,7 +10034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c75915df40d57346b79d0d284da531c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectToTest: {fileID: 11400000, guid: 9de9f110cdd6310499becf8cc9a9efca, type: 2}
+  effectToTest: {fileID: 11400000, guid: c4a2494978c12884d9916d74b62f4012, type: 2}
   processEffect: 0
 --- !u!114 &-2539617345158853850
 MonoBehaviour:
@@ -10090,6 +10065,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightHandSlot: {fileID: 0}
   leftHandSlot: {fileID: 0}
+  rightHandWeaponModel: {fileID: 0}
+  leftHandWeaponModel: {fileID: 0}
 --- !u!1 &1350534968779539341
 GameObject:
   m_ObjectHideFlags: 0
@@ -19085,7 +19062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91d89bace91082244a6decfc06919ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponSlot: 0
+  weaponSlot: 1
   currentWeaponModel: {fileID: 0}
 --- !u!1 &2651107449642548846
 GameObject:

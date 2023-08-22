@@ -14,17 +14,31 @@ namespace IM
         [HideInInspector]
         public PlayerManager player;
 
-        [Header("PLAYER MOVEMENT INPUT")]
+        [Header("CAMERA MOVEMENT INPUT")]
 
         [SerializeField]
+        private Vector2 cameraInput;
+
+        public float cameraHorizontalInput;
+
+        public float cameraVerticalInput;
+
+        [Header("PLAYER MOVEMENT INPUT")]
         public Vector2 movementInput;
 
         public float horizontalInput;
 
         public float verticalInput;
 
-        [SerializeField]
         public float moveAmount;
+
+        [Header("PLAYER ACTION INPUT")]
+
+        [SerializeField]
+        private bool dodgeInput = false;
+
+        [SerializeField]
+        private bool sprintInput = false;
 
         private void Awake()
         {
@@ -54,12 +68,12 @@ namespace IM
                 playerControls = new PlayerControls();
 
                 playerControls.PlayerLocomotion.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
-                // playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
-                // playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
+                playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
+                playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
 
                 // Holding the input
-                // playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
-                // playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
+                playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
+                playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
             }
 
             playerControls.Enable();
@@ -85,8 +99,12 @@ namespace IM
         private void HandleAllInputs()
         {
             HandlePlayerMovementInput();
+            HandleCameraMovementInput();
+            HandleDodgeInput();
+            HandleSprinting();
         }
 
+        #region Movement
         private void HandlePlayerMovementInput()
         {
             horizontalInput = movementInput.x;
@@ -110,6 +128,39 @@ namespace IM
 
             // If we are locked on pass the horizontal movement as well
         }
+
+        private void HandleCameraMovementInput()
+        {
+            cameraVerticalInput = cameraInput.y;
+            cameraHorizontalInput = cameraInput.x;
+        }
+        #endregion
+
+        #region Action
+        private void HandleDodgeInput()
+        {
+            if (dodgeInput)
+            {
+                dodgeInput = false;
+
+                // Future note: return (DO NOTHING) if menu or UI window is open, do nothing
+                // Perform dodge
+                player.playerLocomotionManager.AttemptToPerformDodge();
+            }
+        }
+
+        private void HandleSprinting()
+        {
+            if (sprintInput)
+            {
+                player.playerLocomotionManager.HandleSprinting();
+            }
+            else
+            {
+                player.isSprinting = false;
+            }
+        }
+        #endregion
 
         private void OnDestroy()
         {

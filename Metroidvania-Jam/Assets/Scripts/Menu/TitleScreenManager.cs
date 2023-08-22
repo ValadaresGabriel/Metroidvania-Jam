@@ -5,8 +5,10 @@ namespace IM
     public class TitleScreenManager : MonoBehaviour
     {
         [SerializeField] private GameObject optionPanel;
+        [SerializeField] private GameObject playerPrefab;
         public void StartNewGame()
         {
+            Instantiate(playerPrefab);
             StartCoroutine(GameManager.Instance.LoadNewGame());
         }
 

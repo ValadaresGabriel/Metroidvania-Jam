@@ -30,6 +30,7 @@ namespace IM
             characterStatsManager = GetComponent<PlayerStatsManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
 
+            PlayerCamera.Instance.player = this;
             PlayerInputManager.Instance.player = this;
         }
 
@@ -71,6 +72,13 @@ namespace IM
 
             // Regen stamina
             // playerStatsManager.RegenerateStamina();
+        }
+
+        protected override void LateUpdate()
+        {
+            base.LateUpdate();
+
+            PlayerCamera.Instance.HandleAllCameraActions();
         }
     }
 }

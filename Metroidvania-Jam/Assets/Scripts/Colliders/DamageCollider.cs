@@ -20,7 +20,6 @@ namespace IM
         {
             if (other.TryGetComponent(out CharacterManager damageTarget))
             {
-                Debug.Log("Entered");
                 contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
 
                 // Check if we can damage target (friendly)

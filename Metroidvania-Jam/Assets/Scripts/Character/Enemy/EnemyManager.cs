@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,6 +18,9 @@ namespace IM
 
         [HideInInspector]
         public EnemyStatsManager enemyStatsManager;
+
+        [HideInInspector]
+        public Rigidbody RB;
 
         [Header("Target")]
 
@@ -53,6 +57,7 @@ namespace IM
             enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyStatsManager = GetComponent<EnemyStatsManager>();
+            RB = GetComponent<Rigidbody>();
         }
 
         private void Start()

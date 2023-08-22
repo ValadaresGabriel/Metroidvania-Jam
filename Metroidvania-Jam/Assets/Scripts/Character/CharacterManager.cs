@@ -6,8 +6,10 @@ namespace IM
 {
     public class CharacterManager : MonoBehaviour
     {
+        // [HideInInspector]
+        // public Rigidbody RB { get; private set; }
         [HideInInspector]
-        public Rigidbody RB { get; private set; }
+        public CharacterController characterController;
 
         [HideInInspector]
         public Animator animator;
@@ -42,7 +44,8 @@ namespace IM
         {
             DontDestroyOnLoad(gameObject);
 
-            RB = GetComponent<Rigidbody>();
+            // RB = GetComponent<Rigidbody>();
+            characterController = GetComponent<CharacterController>();
             animator = GetComponent<Animator>();
             characterEffectsManager = GetComponent<CharacterEffectsManager>();
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
