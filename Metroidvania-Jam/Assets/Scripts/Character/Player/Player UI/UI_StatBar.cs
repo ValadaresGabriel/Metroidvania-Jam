@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using IM;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RPG
+namespace IM
 {
     public class UI_StatBar : MonoBehaviour
     {
@@ -21,12 +20,17 @@ namespace RPG
         [SerializeField]
         protected float widthScaleMultiplier = 1f;
 
+        private float normalXSize;
+
         protected virtual void Awake()
         {
             if (slider == null)
             {
                 slider = GetComponent<Slider>();
             }
+
+            rectTransform = GetComponent<RectTransform>();
+            normalXSize = rectTransform.sizeDelta.x;
         }
 
         public virtual void SetStat(float newValue)
@@ -41,7 +45,7 @@ namespace RPG
 
             if (scaleBarLengthWithStats)
             {
-                rectTransform.sizeDelta = new Vector2(maxValue * widthScaleMultiplier, rectTransform.sizeDelta.y);
+                rectTransform.sizeDelta = new Vector2(normalXSize + (maxValue * widthScaleMultiplier), rectTransform.sizeDelta.y);
                 PlayerUIManager.Instace.playerHUDManager.RefreshHUD();
             }
         }

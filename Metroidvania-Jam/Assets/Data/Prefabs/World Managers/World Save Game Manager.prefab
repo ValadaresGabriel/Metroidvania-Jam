@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8151838641960433192}
-  - component: {fileID: 1253603031349566610}
+  - component: {fileID: 5820450171982591546}
   m_Layer: 0
-  m_Name: World Game Manager
+  m_Name: World Save Game Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,9 +30,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1253603031349566610
+--- !u!114 &5820450171982591546
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 6064613779715023661}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9793b6257bb60974f9aa982aa194e56d, type: 3}
+  m_Script: {fileID: 11500000, guid: be0239d04a1e030488a0e97a39739c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSprinting: 0
+  player: {fileID: 0}
+  worldSceneIndex: 1
+  saveGame: 0
+  loadGame: 0
+  currentCharacterSlotBeingUsed: 0
+  currentCharacterData:
+    characterName: 
+    secondsPlayed: 0
+    xPosition: 0
+    yPosition: 0
+    zPosition: 0
+  characterSlot01:
+    characterName: 
+    secondsPlayed: 0
+    xPosition: 0
+    yPosition: 0
+    zPosition: 0
+  characterSlot02:
+    characterName: 
+    secondsPlayed: 0
+    xPosition: 0
+    yPosition: 0
+    zPosition: 0
+  characterSlot03:
+    characterName: 
+    secondsPlayed: 0
+    xPosition: 0
+    yPosition: 0
+    zPosition: 0

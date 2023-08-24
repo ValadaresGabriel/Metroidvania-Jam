@@ -15,6 +15,10 @@ namespace IM
         [HideInInspector]
         public PlayerInventoryManager playerInventoryManager;
 
+        [Header("Player Name")]
+        [SerializeField]
+        private string characterName;
+
         [Header("FLAGS")]
 
         public bool isSprinting = false;
@@ -32,6 +36,7 @@ namespace IM
 
             PlayerCamera.Instance.player = this;
             PlayerInputManager.Instance.player = this;
+            WorldSaveGameManager.Instance.player = this;
         }
 
         private void Start()
@@ -80,5 +85,22 @@ namespace IM
 
             PlayerCamera.Instance.HandleAllCameraActions();
         }
+
+        #region Save System
+        public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
+        {
+            currentCharacterData.characterName = characterName;
+            currentCharacterData.xPosition = transform.position.x;
+            currentCharacterData.yPosition = transform.position.y;
+            currentCharacterData.zPosition = transform.position.z;
+        }
+
+        public void LoadGameDataFromCurrentCharacterData(ref CharacterSaveData currentCharacterData)
+        {
+            characterName = currentCharacterData.characterName;
+            Vector3 myPosition = new Vector3(currentCharacterData.xPosition, currentCharacterData.yPosition, currentCharacterData.zPosition);
+            transform.position = myPosition;
+        }
+        #endregion
     }
 }

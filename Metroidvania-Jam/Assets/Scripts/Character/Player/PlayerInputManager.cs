@@ -81,7 +81,7 @@ namespace IM
 
         private void OnSceneChange(Scene oldScene, Scene newScene)
         {
-            if (newScene.buildIndex == GameManager.Instance.GetWorldSceneIndex())
+            if (newScene.buildIndex == WorldSaveGameManager.Instance.GetWorldSceneIndex())
             {
                 Instance.enabled = true;
             }
