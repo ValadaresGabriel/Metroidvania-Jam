@@ -1,28 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace IM
 {
     public class PlayerManager : CharacterManager
     {
-        [HideInInspector]
-        public PlayerAnimatorManager playerAnimatorManager;
+        [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
 
-        [HideInInspector]
-        public PlayerLocomotionManager playerLocomotionManager;
+        [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
 
-        [HideInInspector]
-        public PlayerInventoryManager playerInventoryManager;
+        [HideInInspector] public PlayerInventoryManager playerInventoryManager;
 
         [Header("Player Name")]
-        [SerializeField]
-        private string characterName;
+        [SerializeField] private string characterName;
 
         [Header("FLAGS")]
-
         public bool isSprinting = false;
-
         public bool isLockedOnEnemy = false;
 
         protected override void Awake()
@@ -41,8 +35,6 @@ namespace IM
 
         private void Start()
         {
-            // playerNetworkManager.maxStamina.Value = playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(playerNetworkManager.endurance.Value);
-            //     playerNetworkManager.currentStamina.Value = playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(playerNetworkManager.endurance.Value);
             PlayerUIManager.Instace.playerHUDManager.SetMaxHealthValue(characterStatsManager.GetMaxHealth());
             PlayerUIManager.Instace.playerHUDManager.SetMaxStaminaValue(characterStatsManager.GetMaxStamina());
         }
@@ -89,6 +81,7 @@ namespace IM
         #region Save System
         public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
         {
+            currentCharacterData.sceneIndex = SceneManager.GetActiveScene().buildIndex;
             currentCharacterData.characterName = characterName;
             currentCharacterData.xPosition = transform.position.x;
             currentCharacterData.yPosition = transform.position.y;

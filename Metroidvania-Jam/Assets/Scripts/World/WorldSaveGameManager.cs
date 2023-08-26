@@ -170,6 +170,16 @@ namespace IM
             saveFileDataWriter.CreateNewCharacterSaveFile(currentCharacterData);
         }
 
+        public void DeleteGame(CharacterSlot characterSlot)
+        {
+            saveFileDataWriter = new SaveFileDataWriter
+            {
+                saveDataDirectoyPath = Application.persistentDataPath,
+                saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot)
+            };
+
+            saveFileDataWriter.DeleteSaveFile();
+        }
         // Load all characters slots on device when starting game
         private void LoadAllCharacterSlots()
         {
@@ -190,7 +200,7 @@ namespace IM
 
         public IEnumerator LoadWorldScene()
         {
-            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(worldSceneIndex);
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(currentCharacterData.sceneIndex);
 
             player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
 

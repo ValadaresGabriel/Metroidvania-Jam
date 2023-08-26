@@ -17,10 +17,15 @@ namespace IM
         [SerializeField] private Button mainMenuNewGameButton;
         [SerializeField] private Button mainMenuLoadGameButton;
         [SerializeField] private Button loadMenuReturnButton;
+        [SerializeField] private Button noCharacterSlotsOkayButton;
+        [SerializeField] private Button deleteCharacterPopUpConfirmButton;
 
         [Header("Pop Ups")]
         [SerializeField] private GameObject noCharacterSlotsPopUp;
-        [SerializeField] private Button noCharacterSlotsOkayButton;
+        [SerializeField] private GameObject deleteCharacterSlotPopUp;
+
+        [Header("Character Slots")]
+        public CharacterSlot currentSelectedSlot = CharacterSlot.NO_SLOT;
 
         private void Awake()
         {
@@ -71,6 +76,50 @@ namespace IM
             noCharacterSlotsPopUp.SetActive(false);
             mainMenuNewGameButton.Select();
         }
+
+        #region Character Slots
+
+        public void SelectCharacterSlot(CharacterSlot characterSlot)
+        {
+            currentSelectedSlot = characterSlot;
+        }
+
+        public void SelectNoSlot()
+        {
+            currentSelectedSlot = CharacterSlot.NO_SLOT;
+        }
+
+        public void AttemptToDeleteCharacterSlot()
+        {
+            if (currentSelectedSlot != CharacterSlot.NO_SLOT)
+            {
+                deleteCharacterSlotPopUp.SetActive(true);
+                deleteCharacterPopUpConfirmButton.Select();
+            }
+        }
+
+        public void CloseDeleteCharacterSlot()
+        {
+            if (currentSelectedSlot != CharacterSlot.NO_SLOT)
+            {
+                deleteCharacterSlotPopUp.SetActive(false);
+                loadMenuReturnButton.Select();
+            }
+        }
+
+        public void DeleteCharacterSlot()
+        {
+            deleteCharacterSlotPopUp.SetActive(false);
+            WorldSaveGameManager.Instance.DeleteGame(currentSelectedSlot);
+
+            // Disable and enable to update screen
+            titleScreenLoadMenu.SetActive(false);
+            titleScreenLoadMenu.SetActive(true);
+
+            loadMenuReturnButton.Select();
+        }
+
+        #endregion
 
         public void ExitGame()
         {

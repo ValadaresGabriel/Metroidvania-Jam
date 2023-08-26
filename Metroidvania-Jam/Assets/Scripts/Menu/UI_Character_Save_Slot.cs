@@ -70,5 +70,10 @@ namespace IM
             WorldSaveGameManager.Instance.currentCharacterSlotBeingUsed = characterSlot;
             WorldSaveGameManager.Instance.LoadGame();
         }
+
+        public void SelectCurrentSlot()
+        {
+            TitleScreenManager.Instance.SelectCharacterSlot(characterSlot);
+        }
     }
 }
