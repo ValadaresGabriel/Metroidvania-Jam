@@ -8,19 +8,16 @@ namespace IM
     public class PlayerUIPopupManager : MonoBehaviour
     {
         [Header("You Died Pop Up")]
+        [SerializeField] private GameObject youDiedPopupGameObject;
+        [SerializeField] private TextMeshProUGUI youDiedPopupBackgroundText;
+        [SerializeField] private TextMeshProUGUI youDiedPopupText;
+        [SerializeField] private CanvasGroup youDiedPopupCanvasGroup;
 
-        [SerializeField]
-        private GameObject youDiedPopupGameObject;
+        [Header("Interact Popup")]
+        [SerializeField] private GameObject interactPopUpGameObject;
+        [SerializeField] private TextMeshProUGUI interactText;
 
-        [SerializeField]
-        private TextMeshProUGUI youDiedPopupBackgroundText;
-
-        [SerializeField]
-        private TextMeshProUGUI youDiedPopupText;
-
-        [SerializeField]
-        private CanvasGroup youDiedPopupCanvasGroup;
-
+        #region You Died
         public void SendYouDiedPopup()
         {
             youDiedPopupGameObject.SetActive(true);
@@ -100,5 +97,22 @@ namespace IM
 
             yield return null;
         }
+        #endregion
+
+        #region Interact
+        public void SendInteractPopup(string newInteractText)
+        {
+            interactPopUpGameObject.SetActive(true);
+            interactText.text = newInteractText;
+        }
+
+        public void CloseInteractPopup()
+        {
+            if (interactPopUpGameObject.activeSelf)
+            {
+                interactPopUpGameObject.SetActive(false);
+            }
+        }
+        #endregion
     }
 }

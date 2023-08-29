@@ -6,9 +6,11 @@ namespace IM
 {
     public class DamageCollider : MonoBehaviour
     {
+        [Header("Collider")]
+        protected Collider damageCollider;
+
         [Header("Damage")]
-        [SerializeField]
-        private float damage;
+        [SerializeField] private float damage;
 
         [Header("Contact Point")]
         private Vector3 contactPoint;
@@ -44,5 +46,18 @@ namespace IM
 
             damageTarget.characterEffectsManager.ProcessInstantEffect(damageEffect);
         }
+
+        public virtual void EnableDamageCollider()
+        {
+            damageCollider.enabled = true;
+        }
+
+        public virtual void DisableDamageCollider()
+        {
+            damageCollider.enabled = false;
+            charactersDamaged.Clear();
+        }
+
+        public void SetDamage(float newDamage) => damage = newDamage;
     }
 }

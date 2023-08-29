@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9cb5e268750d264bb50ef04663163be, type: 3}
-  m_Name: Straight Sword
+  m_Name: Straight Sword 01
   m_EditorClassIdentifier: 
   itemID: 0
-  itemName: 
+  itemName: Straight Sword
   itemIcon: {fileID: 0}
   itemDescription: 
   weaponModel: {fileID: 4433012728404475728, guid: a2201a8ac7608ec4cac8ece53d00d4df,

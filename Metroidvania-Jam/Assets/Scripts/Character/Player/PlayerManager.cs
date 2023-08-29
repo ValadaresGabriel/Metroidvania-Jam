@@ -7,10 +7,10 @@ namespace IM
     public class PlayerManager : CharacterManager
     {
         [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
-
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
-
         [HideInInspector] public PlayerInventoryManager playerInventoryManager;
+        [HideInInspector] public PlayerEquipmentManager playerEquipmentManager;
+        [HideInInspector] public PlayerInteractableManager interactableManager;
 
         [Header("Player Name")]
         [SerializeField] private string characterName;
@@ -27,16 +27,24 @@ namespace IM
             playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
             characterStatsManager = GetComponent<PlayerStatsManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
+            playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
+            interactableManager = GetComponent<PlayerInteractableManager>();
 
             PlayerCamera.Instance.player = this;
             PlayerInputManager.Instance.player = this;
             WorldSaveGameManager.Instance.player = this;
         }
 
-        private void Start()
+        protected override void Update()
         {
-            PlayerUIManager.Instace.playerHUDManager.SetMaxHealthValue(characterStatsManager.GetMaxHealth());
-            PlayerUIManager.Instace.playerHUDManager.SetMaxStaminaValue(characterStatsManager.GetMaxStamina());
+            base.Update();
+
+            playerLocomotionManager.HandleAllMovement();
+
+            interactableManager.CheckForInteractableObject(this);
+
+            // Regen stamina
+            // playerStatsManager.RegenerateStamina();
         }
 
         public override void UpdateCharacterHealth(float newHealthValue)
@@ -52,6 +60,7 @@ namespace IM
             return base.ProcessDeathEvent(manuallySelectDeathAnimation);
         }
 
+        [ContextMenu("Revive Character")]
         public override void ReviveCharacter()
         {
             base.ReviveCharacter();
@@ -59,16 +68,6 @@ namespace IM
             characterStatsManager.InitializeStats();
             playerAnimatorManager.PlayTargetActionAnimation("Empty", false);
             isDead = false;
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-
-            playerLocomotionManager.HandleAllMovement();
-
-            // Regen stamina
-            // playerStatsManager.RegenerateStamina();
         }
 
         protected override void LateUpdate()
@@ -86,6 +85,14 @@ namespace IM
             currentCharacterData.xPosition = transform.position.x;
             currentCharacterData.yPosition = transform.position.y;
             currentCharacterData.zPosition = transform.position.z;
+
+            #region Stats
+            currentCharacterData.maxHealth = characterStatsManager.GetMaxHealth();
+            currentCharacterData.currentHealth = characterStatsManager.GetCurrentHealth();
+
+            currentCharacterData.maxStamina = characterStatsManager.GetMaxStamina();
+            currentCharacterData.currentStamina = characterStatsManager.GetCurrentStamina();
+            #endregion
         }
 
         public void LoadGameDataFromCurrentCharacterData(ref CharacterSaveData currentCharacterData)
@@ -93,6 +100,29 @@ namespace IM
             characterName = currentCharacterData.characterName;
             Vector3 myPosition = new Vector3(currentCharacterData.xPosition, currentCharacterData.yPosition, currentCharacterData.zPosition);
             transform.position = myPosition;
+
+            #region Stats
+            characterStatsManager.SetMaxHealth(currentCharacterData.maxHealth);
+            characterStatsManager.SetMaxStamina(currentCharacterData.maxStamina);
+
+            characterStatsManager.SetCurrentHealth(currentCharacterData.currentHealth);
+            characterStatsManager.SetCurrentStamina(currentCharacterData.currentStamina);
+
+            PlayerUIManager.Instace.playerHUDManager.SetMaxHealthValue(characterStatsManager.GetMaxHealth());
+            PlayerUIManager.Instace.playerHUDManager.SetMaxStaminaValue(characterStatsManager.GetMaxStamina());
+
+            PlayerUIManager.Instace.playerHUDManager.SetNewHealthValue(characterStatsManager.GetCurrentHealth());
+            PlayerUIManager.Instace.playerHUDManager.SetNewStaminaValue(characterStatsManager.GetCurrentStamina());
+            #endregion
+        }
+        #endregion
+
+        #region Change Weapon
+        public void OnCurrentRightHandWeaponIDChange(int newWeaponID)
+        {
+            WeaponItem newWeaponInstance = Instantiate(WorldItemDatabase.Instance.GetWeaponByID(newWeaponID));
+            playerInventoryManager.currentRightHandWeapon = newWeaponInstance;
+            playerEquipmentManager.LoadRightWeapon();
         }
         #endregion
     }

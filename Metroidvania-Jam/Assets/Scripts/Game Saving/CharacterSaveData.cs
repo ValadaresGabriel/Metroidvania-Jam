@@ -20,5 +20,11 @@ namespace IM
         public float xPosition;
         public float yPosition;
         public float zPosition;
+
+        [Header("Player Stats")]
+        public float maxHealth = 10;
+        public float currentHealth = 10;
+        public float maxStamina = 20;
+        public float currentStamina = 20;
     }
 }

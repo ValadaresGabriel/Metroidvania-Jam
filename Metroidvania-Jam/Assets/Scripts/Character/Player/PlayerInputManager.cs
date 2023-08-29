@@ -35,6 +35,12 @@ namespace IM
         [Header("PLAYER ACTION INPUT")]
 
         [SerializeField]
+        private bool LightAttackInput = false;
+
+        [SerializeField]
+        private bool interactInput = false;
+
+        [SerializeField]
         private bool dodgeInput = false;
 
         [SerializeField]
@@ -69,6 +75,9 @@ namespace IM
 
                 playerControls.PlayerLocomotion.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
                 playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
+
+                playerControls.PlayerActions.LightAttack.performed += i => LightAttackInput = true;
+                playerControls.PlayerActions.Interact.performed += i => interactInput = true;
                 playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
 
                 // Holding the input
@@ -102,6 +111,8 @@ namespace IM
             HandleCameraMovementInput();
             HandleDodgeInput();
             HandleSprinting();
+
+            AttemptToInteract();
         }
 
         #region Movement
@@ -158,6 +169,15 @@ namespace IM
             else
             {
                 player.isSprinting = false;
+            }
+        }
+
+        private void AttemptToInteract()
+        {
+            if (interactInput)
+            {
+                interactInput = false;
+                player.interactableManager.AttemptToInteract();
             }
         }
         #endregion
