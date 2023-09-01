@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace IM
+namespace TS
 {
     public class WorldSaveGameManager : MonoBehaviour
     {
@@ -201,6 +201,12 @@ namespace IM
         public IEnumerator LoadWorldScene()
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(currentCharacterData.sceneIndex);
+
+            // Espere até que a cena esteja completamente carregada
+            while (!loadOperation.isDone)
+            {
+                yield return null;
+            }
 
             player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
 

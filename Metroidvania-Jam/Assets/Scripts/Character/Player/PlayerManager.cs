@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace IM
+namespace TS
 {
     public class PlayerManager : CharacterManager
     {
@@ -93,11 +93,17 @@ namespace IM
             currentCharacterData.maxStamina = characterStatsManager.GetMaxStamina();
             currentCharacterData.currentStamina = characterStatsManager.GetCurrentStamina();
             #endregion
+
+            #region Items
+            currentCharacterData.currentRightHandWeaponID = playerInventoryManager.currentRightHandWeapon.itemID;
+            currentCharacterData.currentLeftHandWeaponID = playerInventoryManager.currentLeftHandWeapon.itemID;
+            #endregion
         }
 
         public void LoadGameDataFromCurrentCharacterData(ref CharacterSaveData currentCharacterData)
         {
             characterName = currentCharacterData.characterName;
+
             Vector3 myPosition = new Vector3(currentCharacterData.xPosition, currentCharacterData.yPosition, currentCharacterData.zPosition);
             transform.position = myPosition;
 
@@ -113,6 +119,13 @@ namespace IM
 
             PlayerUIManager.Instace.playerHUDManager.SetNewHealthValue(characterStatsManager.GetCurrentHealth());
             PlayerUIManager.Instace.playerHUDManager.SetNewStaminaValue(characterStatsManager.GetCurrentStamina());
+            #endregion
+
+            #region Items
+            playerInventoryManager.currentRightHandWeapon = WorldItemDatabase.Instance.GetWeaponByID(currentCharacterData.currentRightHandWeaponID);
+            playerInventoryManager.currentLeftHandWeapon = WorldItemDatabase.Instance.GetWeaponByID(currentCharacterData.currentLeftHandWeaponID);
+            // playerEquipmentManager.LoadWeaponsOnBothHands();
+            playerEquipmentManager.LoadRightWeapon();
             #endregion
         }
         #endregion

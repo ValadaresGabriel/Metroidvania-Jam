@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace IM
+namespace TS
 {
     public class WeaponModelInstantiationSlot : MonoBehaviour
     {

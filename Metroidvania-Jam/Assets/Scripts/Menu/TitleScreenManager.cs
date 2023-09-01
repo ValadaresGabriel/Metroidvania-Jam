@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace IM
+namespace TS
 {
     public class TitleScreenManager : MonoBehaviour
     {

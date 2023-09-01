@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IM
+namespace TS
 {
     [CreateAssetMenu(menuName = "Character Effects/Instant Effects/Take Damage")]
     public class TakeDamageEffect : InstantCharacterEffect

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace IM
+namespace TS
 {
     public class UI_Character_Save_Slot : MonoBehaviour
     {

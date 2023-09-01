@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using UnityEngine;
 
-namespace IM
+namespace TS
 {
     public class AmbushState : State
     {

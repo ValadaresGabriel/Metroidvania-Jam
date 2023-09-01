@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using EZCameraShake;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace IM
+namespace TS
 {
     public class PlayerInputManager : MonoBehaviour
     {

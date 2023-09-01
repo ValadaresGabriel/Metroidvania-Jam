@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IM
+namespace TS
 {
     public class CharacterAnimatorManager : MonoBehaviour
     {

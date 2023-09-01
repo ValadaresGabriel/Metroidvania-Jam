@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IM
+namespace TS
 {
     public class PlayerUIManager : MonoBehaviour
     {
@@ -13,6 +13,9 @@ namespace IM
 
         [HideInInspector]
         public PlayerUIPopupManager playerUIPopupManager;
+
+        [HideInInspector]
+        public PlayerUIDialogManager playerUIDialogManager;
 
         private void Awake()
         {
@@ -31,6 +34,7 @@ namespace IM
         {
             playerHUDManager = GetComponentInChildren<PlayerHUDManager>();
             playerUIPopupManager = GetComponentInChildren<PlayerUIPopupManager>();
+            playerUIDialogManager = GetComponentInChildren<PlayerUIDialogManager>();
         }
     }
 }

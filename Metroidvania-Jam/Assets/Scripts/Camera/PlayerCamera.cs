@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace IM
+namespace TS
 {
     public class PlayerCamera : MonoBehaviour
     {

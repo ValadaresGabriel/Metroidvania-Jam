@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-namespace IM
+namespace TS
 {
     public class PlayerUIPopupManager : MonoBehaviour
     {

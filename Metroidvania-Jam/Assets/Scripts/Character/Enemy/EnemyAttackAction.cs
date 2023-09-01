@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.EditorTools;
 using UnityEngine;
 
-namespace IM
+namespace TS
 {
     [CreateAssetMenu(menuName = "A.I./Enemy Actions/Attack Action")]
     public class EnemyAttackAction : EnemyAction

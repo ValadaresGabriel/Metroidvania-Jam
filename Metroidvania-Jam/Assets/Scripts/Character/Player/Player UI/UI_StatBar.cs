@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace IM
+namespace TS
 {
     public class UI_StatBar : MonoBehaviour
     {

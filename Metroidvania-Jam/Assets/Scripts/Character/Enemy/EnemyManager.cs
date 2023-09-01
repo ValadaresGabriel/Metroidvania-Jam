@@ -4,7 +4,7 @@ using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace IM
+namespace TS
 {
     public class EnemyManager : CharacterManager
     {

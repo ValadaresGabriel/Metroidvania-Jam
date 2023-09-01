@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace IM
+namespace TS
 {
     public class WorldCharacterEffectsManager : MonoBehaviour
     {

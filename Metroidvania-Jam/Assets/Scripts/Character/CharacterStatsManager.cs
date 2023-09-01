@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-namespace IM
+namespace TS
 {
     public class CharacterStatsManager : MonoBehaviour
     {

@@ -1,4 +1,4 @@
-namespace IM
+namespace TS
 {
     public class PlayerStatsManager : CharacterStatsManager
     {

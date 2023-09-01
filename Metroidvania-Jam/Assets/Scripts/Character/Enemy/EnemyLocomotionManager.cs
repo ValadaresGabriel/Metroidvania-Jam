@@ -4,7 +4,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Timeline;
 
-namespace IM
+namespace TS
 {
     public class EnemyLocomotionManager : CharacterLocomotionManager
     {

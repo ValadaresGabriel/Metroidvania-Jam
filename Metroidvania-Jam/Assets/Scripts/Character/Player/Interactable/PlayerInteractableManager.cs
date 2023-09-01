@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace IM
+namespace TS
 {
     public class PlayerInteractableManager : MonoBehaviour
     {

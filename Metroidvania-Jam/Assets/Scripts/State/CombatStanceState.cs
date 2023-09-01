@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace IM
+namespace TS
 {
     public class CombatStanceState : State
     {

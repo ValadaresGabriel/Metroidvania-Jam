@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IM
+namespace TS
 {
     public class PlayerLocomotionManager : CharacterLocomotionManager
     {
@@ -163,7 +163,7 @@ namespace IM
         {
             if (player.isPerformingAction) return;
 
-            if (player.characterStatsManager.GetCurrentStamina() <= 0) return;
+            // if (player.characterStatsManager.GetCurrentStamina() <= 0) return;
 
             // If we are moving, we perform a roll
             if (PlayerInputManager.Instance.moveAmount > 0)
@@ -198,7 +198,7 @@ namespace IM
 // using UnityEngine;
 // using UnityEngine.InputSystem;
 
-// namespace IM
+// namespace TS
 // {
 //     public class PlayerLocomotionManager : CharacterLocomotionManager
 //     {
