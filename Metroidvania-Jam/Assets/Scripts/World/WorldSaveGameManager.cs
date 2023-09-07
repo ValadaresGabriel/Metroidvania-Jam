@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,7 +14,7 @@ namespace TS
 
         [Header("World Scene Index")]
         [SerializeField]
-        private int worldSceneIndex = 1;
+        private List<int> worldScenesIndex = new();
 
         [Header("Save & Load")]
         [SerializeField]
@@ -213,9 +214,9 @@ namespace TS
             yield return null;
         }
 
-        public int GetWorldSceneIndex()
+        public List<int> GetWorldSceneIndex()
         {
-            return worldSceneIndex;
+            return worldScenesIndex;
         }
     }
 }

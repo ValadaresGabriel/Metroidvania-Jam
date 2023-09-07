@@ -8,20 +8,11 @@ namespace TS
     {
         // [HideInInspector]
         // public Rigidbody RB { get; private set; }
-        [HideInInspector]
-        public CharacterController characterController;
-
-        [HideInInspector]
-        public Animator animator;
-
-        [HideInInspector]
-        public CharacterStatsManager characterStatsManager;
-
-        [HideInInspector]
-        public CharacterEffectsManager characterEffectsManager;
-
-        [HideInInspector]
-        public CharacterAnimatorManager characterAnimatorManager;
+        [HideInInspector] public CharacterController characterController;
+        [HideInInspector] public Animator animator;
+        [HideInInspector] public CharacterStatsManager characterStatsManager;
+        [HideInInspector] public CharacterEffectsManager characterEffectsManager;
+        [HideInInspector] public CharacterAnimatorManager characterAnimatorManager;
 
         [Header("Character Status")]
         public bool isDead = false;
@@ -33,12 +24,11 @@ namespace TS
         public bool canMove = true;
 
         [Header("Colliders")]
+        [SerializeField] private Collider parentCollider;
+        [SerializeField] private Collider characterCollisionBlocker;
 
-        [SerializeField]
-        private Collider parentCollider;
-
-        [SerializeField]
-        private Collider characterCollisionBlocker;
+        [Header("Camera Target Lock On")]
+        public Transform lockOnTransform;
 
         protected virtual void Awake()
         {

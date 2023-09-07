@@ -54,5 +54,30 @@ namespace TS
             // Tell the server/host we played an animation, and to play that animation for everybody else present
             // character.characterNetworkManager.NotifyTheServerOfActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
         }
+
+        public virtual void PlayTargetAttackActionAnimation(
+            string targetAnimation,
+            bool isPerformingAction,
+            bool applyRootMotion = true,
+            bool canRotate = false,
+            bool canMove = false)
+        {
+            // Keep track of the last attack, for combos
+            // Keep track of current attack type (light, heavy, magical)
+            // Update animation set to current weapons animations
+            character.applyRootMotion = applyRootMotion;
+            character.animator.CrossFade(targetAnimation, 0.2f);
+
+            // Can be used the character from attempting new actions
+            // For example, if you get damaged, and begin performing a damage animation
+            // This flag will turn true if you are stunned
+            // We can then check for this before attempting new actions
+            character.isPerformingAction = isPerformingAction;
+            character.canRotate = canRotate;
+            character.canMove = canMove;
+
+            // Tell the server/host we played an animation, and to play that animation for everybody else present
+            // character.characterNetworkManager.NotifyTheServerOfActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
+        }
     }
 }

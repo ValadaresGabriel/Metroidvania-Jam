@@ -12,40 +12,27 @@ namespace TS
 
         private PlayerControls playerControls;
 
-        [HideInInspector]
-        public PlayerManager player;
+        [HideInInspector] public PlayerManager player;
 
         [Header("CAMERA MOVEMENT INPUT")]
-
-        [SerializeField]
-        private Vector2 cameraInput;
-
+        [SerializeField] private Vector2 cameraInput;
         public float cameraHorizontalInput;
-
         public float cameraVerticalInput;
 
         [Header("PLAYER MOVEMENT INPUT")]
         public Vector2 movementInput;
-
         public float horizontalInput;
-
         public float verticalInput;
-
         public float moveAmount;
 
         [Header("PLAYER ACTION INPUT")]
-
-        [SerializeField]
-        private bool LightAttackInput = false;
-
-        [SerializeField]
-        private bool interactInput = false;
-
-        [SerializeField]
-        private bool dodgeInput = false;
-
-        [SerializeField]
-        private bool sprintInput = false;
+        [SerializeField] private bool A_Input = false;
+        [SerializeField] private bool interactInput = false;
+        [SerializeField] private bool dodgeInput = false;
+        [SerializeField] private bool sprintInput = false;
+        [SerializeField] private bool lockOnInput = false;
+        [SerializeField] private bool rightStick_Right = false;
+        [SerializeField] private bool rightStick_Left = false;
 
         private void Awake()
         {
@@ -77,9 +64,14 @@ namespace TS
                 playerControls.PlayerLocomotion.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
                 playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
 
-                playerControls.PlayerActions.LightAttack.performed += i => LightAttackInput = true;
+                playerControls.PlayerActions.LightAttack.performed += i => A_Input = true;
                 playerControls.PlayerActions.Interact.performed += i => interactInput = true;
                 playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
+
+                // Lock On
+                playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
+                playerControls.PlayerCamera.LockOnTargetRight.performed += i => rightStick_Right = true;
+                playerControls.PlayerCamera.LockOnTargetLeft.performed += i => rightStick_Left = true;
 
                 // Holding the input
                 playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
@@ -91,7 +83,7 @@ namespace TS
 
         private void OnSceneChange(Scene oldScene, Scene newScene)
         {
-            if (newScene.buildIndex == WorldSaveGameManager.Instance.GetWorldSceneIndex())
+            if (WorldSaveGameManager.Instance.GetWorldSceneIndex().Contains(newScene.buildIndex))
             {
                 Instance.enabled = true;
             }
@@ -112,6 +104,8 @@ namespace TS
             HandleCameraMovementInput();
             HandleDodgeInput();
             HandleSprinting();
+            HandleAInput();
+            HandleLockOnInput();
 
             AttemptToInteract();
         }
@@ -135,10 +129,16 @@ namespace TS
 
             if (player == null) return;
 
-            // If we are not locked on, only use the move amount
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.isSprinting);
-
             // If we are locked on pass the horizontal movement as well
+            if (player.isLockedOnEnemy && player.isSprinting == false)
+            {
+                player.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalInput, verticalInput);
+            }
+            else
+            {
+                // If we are not locked on, only use the move amount
+                player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.isSprinting);
+            }
         }
 
         private void HandleCameraMovementInput()
@@ -156,6 +156,7 @@ namespace TS
                 dodgeInput = false;
 
                 // Future note: return (DO NOTHING) if menu or UI window is open, do nothing
+
                 // Perform dodge
                 player.playerLocomotionManager.AttemptToPerformDodge();
             }
@@ -180,6 +181,46 @@ namespace TS
                 interactInput = false;
                 player.interactableManager.AttemptToInteract();
             }
+        }
+
+        private void HandleAInput()
+        {
+            if (A_Input)
+            {
+                A_Input = false;
+
+                player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.th_A_Action, player.playerInventoryManager.currentRightHandWeapon);
+            }
+        }
+
+        private void HandleLockOnInput()
+        {
+            if (lockOnInput && player.isLockedOnEnemy == false)
+            {
+                lockOnInput = false;
+
+                PlayerCamera.Instance.AttemptToLockOn();
+            }
+            else if (lockOnInput && player.isLockedOnEnemy)
+            {
+                lockOnInput = false;
+                player.isLockedOnEnemy = false;
+
+                PlayerCamera.Instance.ClearLockOnTargets();
+            }
+
+            if (player.isLockedOnEnemy && rightStick_Left)
+            {
+                rightStick_Left = false;
+                PlayerCamera.Instance.AttemptToSetLockOnBasedOnLeftOrRightTarget(LockOnRightLeftTarget.Left);
+            }
+
+            if (player.isLockedOnEnemy && rightStick_Right)
+            {
+                rightStick_Right = false;
+                PlayerCamera.Instance.AttemptToSetLockOnBasedOnLeftOrRightTarget(LockOnRightLeftTarget.Right);
+            }
+            PlayerCamera.Instance.SetCameraHeight();
         }
         #endregion
 

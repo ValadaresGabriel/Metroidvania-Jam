@@ -8,41 +8,22 @@ namespace TS
     {
         private PlayerManager player;
 
-        [HideInInspector]
-        public float horizontalMovement;
-
-        [HideInInspector]
-        public float verticalMovement;
-
-        [HideInInspector]
-        public float moveAmount;
+        [HideInInspector] public float horizontalMovement;
+        [HideInInspector] public float verticalMovement;
+        [HideInInspector] public float moveAmount;
 
         [Header("MOVEMENT SETTINGS")]
-
         private Vector3 moveDirection;
-
         private Vector3 targetRotationDirection;
-
-        [SerializeField]
-        private float walkingSpeed = 2f;
-
-        [SerializeField]
-        private float runningSpeed = 5f;
-
-        [SerializeField]
-        private float sprintingSpeed = 6.5f;
-
-        [SerializeField]
-        private float rotationSpeed = 15f;
-
-        [SerializeField]
-        private int sprintingStaminaCost = 2;
+        [SerializeField] private float walkingSpeed = 2f;
+        [SerializeField] private float runningSpeed = 5f;
+        [SerializeField] private float sprintingSpeed = 6.5f;
+        [SerializeField] private float rotationSpeed = 15f;
+        [SerializeField] private int sprintingStaminaCost = 2;
 
         [Header("DODGE")]
         private Vector3 rollDirection;
-
-        [SerializeField]
-        private float dodgeStaminaCost = 25;
+        [SerializeField] private float dodgeStaminaCost = 25;
 
         protected override void Awake()
         {
@@ -116,15 +97,46 @@ namespace TS
             targetRotationDirection.Normalize();
             targetRotationDirection.y = 0;
 
-            if (targetRotationDirection == Vector3.zero)
+            if (player.isLockedOnEnemy)
             {
-                targetRotationDirection = transform.forward;
+                // TO DO: isDodging
+                if (player.isSprinting || player.isSprinting)
+                {
+                    if (targetRotationDirection == Vector3.zero)
+                    {
+                        targetRotationDirection = transform.forward;
+                    }
+
+                    Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
+                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
+
+                    transform.rotation = targetRotation;
+                }
+                else
+                {
+                    targetRotationDirection = moveDirection;
+                    targetRotationDirection = PlayerCamera.Instance.GetLockOnCurrentTarget().position - transform.position;
+                    targetRotationDirection.Normalize();
+                    targetRotationDirection.y = 0;
+
+                    Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
+                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
+
+                    transform.rotation = targetRotation;
+                }
             }
+            else
+            {
+                if (targetRotationDirection == Vector3.zero)
+                {
+                    targetRotationDirection = transform.forward;
+                }
 
-            Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
-            Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
+                Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
+                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
 
-            transform.rotation = targetRotation;
+                transform.rotation = targetRotation;
+            }
         }
 
         public void HandleSprinting()

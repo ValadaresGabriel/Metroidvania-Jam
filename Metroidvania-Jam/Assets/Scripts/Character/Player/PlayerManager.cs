@@ -11,6 +11,7 @@ namespace TS
         [HideInInspector] public PlayerInventoryManager playerInventoryManager;
         [HideInInspector] public PlayerEquipmentManager playerEquipmentManager;
         [HideInInspector] public PlayerInteractableManager interactableManager;
+        [HideInInspector] public PlayerCombatManager playerCombatManager;
 
         [Header("Player Name")]
         [SerializeField] private string characterName;
@@ -18,6 +19,9 @@ namespace TS
         [Header("FLAGS")]
         public bool isSprinting = false;
         public bool isLockedOnEnemy = false;
+        public bool isGrounded = true;
+        public bool isUsingRightHand = true;
+        public bool isUsingLeftHand = false;
 
         protected override void Awake()
         {
@@ -29,6 +33,7 @@ namespace TS
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
             interactableManager = GetComponent<PlayerInteractableManager>();
+            playerCombatManager = GetComponent<PlayerCombatManager>();
 
             PlayerCamera.Instance.player = this;
             PlayerInputManager.Instance.player = this;
@@ -130,12 +135,32 @@ namespace TS
         }
         #endregion
 
-        #region Change Weapon
+        #region Weapon And Actions
         public void OnCurrentRightHandWeaponIDChange(int newWeaponID)
         {
             WeaponItem newWeaponInstance = Instantiate(WorldItemDatabase.Instance.GetWeaponByID(newWeaponID));
             playerInventoryManager.currentRightHandWeapon = newWeaponInstance;
             playerEquipmentManager.LoadRightWeapon();
+        }
+
+        public void OnCurrentWeaponBeingUsedIDChange(int newWeaponID)
+        {
+            WeaponItem newWeaponInstance = Instantiate(WorldItemDatabase.Instance.GetWeaponByID(newWeaponID));
+            playerCombatManager.currentWeaponBeingUsed = newWeaponInstance;
+        }
+
+        public void PerformWeaponBasedAction(int actionID, int weaponID)
+        {
+            WeaponItemAction weaponAction = WorldActionManager.Instance.GetWeaponItemActionByID(actionID);
+
+            if (weaponAction != null)
+            {
+                weaponAction.AttemptToPerformAction(this, WorldItemDatabase.Instance.GetWeaponByID(weaponID));
+            }
+            else
+            {
+                Debug.LogError("ACTION IS NULL, CANNOT BE PERFORMED");
+            }
         }
         #endregion
     }

@@ -149,7 +149,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 0
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -273,6 +273,20 @@ MonoBehaviour:
   cameraCollisionRadius: 0.2
   collideWithLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 512
+  environmentLayer:
+    serializedVersion: 2
+    m_Bits: 512
   leftAndRightLookAngle: 0
   upAndDownLookAngle: 0
+  lockOnTargetLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  lockOnMaximumDistance: 30
+  lockOnNearestTarget: {fileID: 0}
+  lockOnCurrentTarget: {fileID: 0}
+  lockOnLeftTarget: {fileID: 0}
+  lockOnRightTarget: {fileID: 0}
+  shortestDistanceOfLeftTarget: {fileID: 0}
+  lockedPivotPosition: 2.25
+  unlockedPivotPosition: 1.65

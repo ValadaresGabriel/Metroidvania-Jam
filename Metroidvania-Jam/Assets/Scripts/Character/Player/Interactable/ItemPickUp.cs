@@ -45,12 +45,7 @@ namespace TS
                 WorldSaveGameManager.Instance.currentCharacterData.itemsInWorld.Remove(itemPickUpID);
             }
 
-            Debug.Log(WorldSaveGameManager.Instance.currentCharacterData.itemsInWorld.Count);
-
             WorldSaveGameManager.Instance.currentCharacterData.itemsInWorld.Add(itemPickUpID, true);
-
-            Debug.Log(WorldSaveGameManager.Instance.currentCharacterData.itemsInWorld.Count);
-            Debug.Log(WorldSaveGameManager.Instance.currentCharacterData.itemsInWorld[itemPickUpID]);
 
             hasBeenLooted = true;
 

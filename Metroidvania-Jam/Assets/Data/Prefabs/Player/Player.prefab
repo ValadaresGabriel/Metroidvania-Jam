@@ -364,14 +364,14 @@ GameObject:
   - component: {fileID: 4426227916107385988}
   - component: {fileID: 6983131131149773318}
   - component: {fileID: 7418307817776873692}
-  - component: {fileID: 6343043058115929424}
   - component: {fileID: 6554350861833357860}
   - component: {fileID: -2539617345158853850}
   - component: {fileID: -5634443522188581276}
   - component: {fileID: 951330368906378667}
+  - component: {fileID: 8651932645413148681}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -391,6 +391,7 @@ Transform:
   - {fileID: 2908317651091364574}
   - {fileID: 5727634364731423177}
   - {fileID: 4961988088096162228}
+  - {fileID: 5901356129736300866}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -465,14 +466,19 @@ MonoBehaviour:
   canMove: 1
   parentCollider: {fileID: 3456985146082378751}
   characterCollisionBlocker: {fileID: 5308356975041963682}
+  lockOnTransform: {fileID: 5901356129736300866}
   playerAnimatorManager: {fileID: 0}
   playerLocomotionManager: {fileID: 0}
   playerInventoryManager: {fileID: 0}
   playerEquipmentManager: {fileID: 0}
   interactableManager: {fileID: 0}
+  playerCombatManager: {fileID: 0}
   characterName: 
   isSprinting: 0
   isLockedOnEnemy: 0
+  isGrounded: 1
+  isUsingRightHand: 1
+  isUsingLeftHand: 0
 --- !u!114 &4426227916107385988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,23 +528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d73e09bada34ad4e97ae8339fc71dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6343043058115929424
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1349060570454581987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2ea00bd208ac4247af17f69c38a4a38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  detectionRadius: 24
-  characterCollider: {fileID: 0}
 --- !u!114 &6554350861833357860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -602,6 +591,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88ff8322a1bca3a4dbe4ee73277acace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8651932645413148681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349060570454581987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f77d5e7b82183d4eb7a332e6bff37f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentWeaponBeingUsed: {fileID: 0}
 --- !u!1 &1367833217027717718
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,7 +772,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8257928079569425312, guid: 0ad932253e8dc8841948afa5d1a0d051, type: 3}
+  - {fileID: 2100000, guid: 26ad22d1bdfd4534aac7de706426665d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -941,6 +943,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 32298138874993176}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3111429984372247696
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5901356129736300866}
+  m_Layer: 6
+  m_Name: Lock On Transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5901356129736300866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3111429984372247696}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.35, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4444067098681571133}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3235352637820420541

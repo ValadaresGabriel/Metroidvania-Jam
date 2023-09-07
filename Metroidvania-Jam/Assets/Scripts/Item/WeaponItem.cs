@@ -27,6 +27,10 @@ namespace TS
         [Header("Stamina Cost")]
         public int baseStaminaCost = 20;
 
+        [Header("Actions")]
+        public WeaponItemAction oh_A_Action; // oh = One Handed; A = A button from xbox controller.
+        public WeaponItemAction th_A_Action; // th = Two Handed; A = A button from xbox controller.
+
         // Weapon modifiers
         // Light attack modifiers
         // Heavy attack modifiers
