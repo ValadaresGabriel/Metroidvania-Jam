@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +23,8 @@ namespace TS
         public bool isGrounded = true;
         public bool isUsingRightHand = true;
         public bool isUsingLeftHand = false;
+
+        private float secondsPlayed = 0f;
 
         protected override void Awake()
         {
@@ -48,8 +51,15 @@ namespace TS
 
             interactableManager.CheckForInteractableObject(this);
 
+            CountPlayedTime();
+
             // Regen stamina
             // playerStatsManager.RegenerateStamina();
+        }
+
+        private void CountPlayedTime()
+        {
+            secondsPlayed += Time.deltaTime;
         }
 
         public override void UpdateCharacterHealth(float newHealthValue)
@@ -103,6 +113,8 @@ namespace TS
             currentCharacterData.currentRightHandWeaponID = playerInventoryManager.currentRightHandWeapon.itemID;
             currentCharacterData.currentLeftHandWeaponID = playerInventoryManager.currentLeftHandWeapon.itemID;
             #endregion
+
+            currentCharacterData.secondsPlayed = secondsPlayed;
         }
 
         public void LoadGameDataFromCurrentCharacterData(ref CharacterSaveData currentCharacterData)
@@ -132,6 +144,8 @@ namespace TS
             // playerEquipmentManager.LoadWeaponsOnBothHands();
             playerEquipmentManager.LoadRightWeapon();
             #endregion
+
+            secondsPlayed = currentCharacterData.secondsPlayed;
         }
         #endregion
 

@@ -22,6 +22,20 @@ namespace TS
             LoadSaveSlot();
         }
 
+        private string FormatSecondsToTime(int totalSeconds)
+        {
+            // Converter o total de segundos em horas, minutos e segundos
+            int hours = totalSeconds / 3600;
+            int remainingSeconds = totalSeconds % 3600;
+            int minutes = remainingSeconds / 60;
+            int seconds = remainingSeconds % 60;
+
+            // Formatar para que fique com dois dígitos
+            string formattedTime = string.Format("{0:D2}:{1:D2}:{2:D2}", hours, minutes, seconds);
+
+            return formattedTime;
+        }
+
         private void LoadSaveSlot()
         {
             saveFileWriter = new SaveFileDataWriter
@@ -36,6 +50,7 @@ namespace TS
                     if (saveFileWriter.FileExists())
                     {
                         characterName.text = WorldSaveGameManager.Instance.characterSlot01.characterName;
+                        timedPlayed.text = FormatSecondsToTime(Mathf.RoundToInt(WorldSaveGameManager.Instance.characterSlot01.secondsPlayed));
                     }
                     else
                     {
@@ -46,6 +61,7 @@ namespace TS
                     if (saveFileWriter.FileExists())
                     {
                         characterName.text = WorldSaveGameManager.Instance.characterSlot02.characterName;
+                        timedPlayed.text = FormatSecondsToTime(Mathf.RoundToInt(WorldSaveGameManager.Instance.characterSlot02.secondsPlayed));
                     }
                     else
                     {
@@ -56,6 +72,7 @@ namespace TS
                     if (saveFileWriter.FileExists())
                     {
                         characterName.text = WorldSaveGameManager.Instance.characterSlot03.characterName;
+                        timedPlayed.text = FormatSecondsToTime(Mathf.RoundToInt(WorldSaveGameManager.Instance.characterSlot03.secondsPlayed));
                     }
                     else
                     {
