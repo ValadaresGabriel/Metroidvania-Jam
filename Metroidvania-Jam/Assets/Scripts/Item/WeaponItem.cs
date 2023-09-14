@@ -24,8 +24,13 @@ namespace TS
         public int holyDamage = 0;
         public int lightningDamage = 0;
 
-        [Header("Stamina Cost")]
+        [Header("Attack Modifiers")]
+        public float light_attack_01_modifier = 1.1f;
+        public float light_attack_02_modifier = 1.2f;
+
+        [Header("Stamina Cost Modifier")]
         public int baseStaminaCost = 20;
+        public float lightAttackStaminaCostMultiplier = 0.9f;
 
         [Header("Actions")]
         public WeaponItemAction oh_A_Action; // oh = One Handed; A = A button from xbox controller.

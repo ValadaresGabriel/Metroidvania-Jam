@@ -15,6 +15,8 @@ namespace TS
 
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStatsManager, EnemyAnimatorManager enemyAnimatorManager)
         {
+            if (enemyManager.IsInteracting) return this;
+
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
 
             if (enemyManager.isPerformingAction)
@@ -30,10 +32,8 @@ namespace TS
             {
                 return pursueTargetState;
             }
-            else
-            {
-                return this;
-            }
+
+            return this;
         }
     }
 }

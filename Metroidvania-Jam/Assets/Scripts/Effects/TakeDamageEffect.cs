@@ -24,7 +24,7 @@ namespace TS
         private string damageAnimation;
 
         [SerializeField]
-        private float damage;
+        public float damage;
 
         [Header("Sound FX")]
 

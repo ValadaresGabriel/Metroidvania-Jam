@@ -59,6 +59,7 @@ namespace TS
             LoadLeftWeapon();
         }
 
+        #region Right Weapon
         public void LoadRightWeapon()
         {
             if (playerManager.playerInventoryManager.currentRightHandWeapon != null)
@@ -78,6 +79,7 @@ namespace TS
 
             UpdateRightHandWeaponIndex();
         }
+        #endregion
 
         private void PlayWeaponSwapAnimation()
         {
@@ -115,7 +117,7 @@ namespace TS
             }
         }
 
-
+        #region Left Weapon
         public void LoadLeftWeapon()
         {
             if (playerManager.playerInventoryManager.currentLeftHandWeapon != null)
@@ -126,5 +128,32 @@ namespace TS
                 leftWeaponManager.SetWeaponDamage(playerManager, playerManager.playerInventoryManager.currentLeftHandWeapon);
             }
         }
+        #endregion
+
+        #region Damage Colliders
+        public void OpenDamageCollider()
+        {
+            // Open right hand
+            if (playerManager.isUsingRightHand)
+            {
+                rightWeaponManager.meleeDamageCollider.EnableDamageCollider();
+            }
+
+            // TO DO: open left hand
+
+            // Play woosh SFX
+        }
+
+        public void CloseDamageCollider()
+        {
+            // Open right hand
+            if (playerManager.isUsingRightHand)
+            {
+                rightWeaponManager.meleeDamageCollider.DisableDamageCollider();
+            }
+
+            // TO DO: open left hand
+        }
+        #endregion
     }
 }

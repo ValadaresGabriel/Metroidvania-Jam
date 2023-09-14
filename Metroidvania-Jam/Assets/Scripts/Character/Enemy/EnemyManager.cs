@@ -8,52 +8,34 @@ namespace TS
 {
     public class EnemyManager : CharacterManager
     {
-        private EnemyLocomotionManager enemyLocomotionManager;
-
-        [HideInInspector]
-        public EnemyAnimatorManager enemyAnimatorManager;
-
-        [HideInInspector]
-        public NavMeshAgent navMeshAgent;
-
-        [HideInInspector]
-        public EnemyStatsManager enemyStatsManager;
-
-        [HideInInspector]
-        public Rigidbody RB;
+        [HideInInspector] public EnemyAnimatorManager enemyAnimatorManager;
+        [HideInInspector] public EnemyCombatManager enemyCombatManager;
+        [HideInInspector] public NavMeshAgent navMeshAgent;
+        [HideInInspector] public EnemyStatsManager enemyStatsManager;
+        [HideInInspector] public Rigidbody RB;
 
         [Header("Target")]
-
+        [SerializeField] private State currentState;
         public CharacterStatsManager currentTarget;
 
-        [SerializeField]
-        private State currentState;
-
         [Header("Locomotion & Ranges Settings")]
-
-        [SerializeField]
-        private float rotationSpeed = 15f;
-
-        [SerializeField]
-        private float maximumAttackRange = 1.5f;
+        [SerializeField] private float rotationSpeed = 15f;
+        [SerializeField] private float maximumAttackRange = 1.5f;
 
         [Header("A.I. Settings")]
-
-        [SerializeField]
-        private float detectionRadius = 20f;
-
-        [SerializeField]
-        private float minimumDetectionAngle = -50f;
-
-        [SerializeField]
-        private float maximumDetectionAngle = 50f;
-
+        [SerializeField] private float detectionRadius = 20f;
+        [SerializeField] private float minimumDetectionAngle = -50f;
+        [SerializeField] private float maximumDetectionAngle = 50f;
         public float currentRecoveryTime = 0;
+        public float distanceFromTarget;
+        public bool allowAIToPerformCombo;
+        public float comboLikelyHood = 0.2f;
+        public bool IsInteracting;
 
         protected override void Awake()
         {
             base.Awake();
-            enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
+            enemyCombatManager = GetComponent<EnemyCombatManager>();
             enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyStatsManager = GetComponent<EnemyStatsManager>();
@@ -69,12 +51,18 @@ namespace TS
         protected override void Update()
         {
             base.Update();
+
+            IsInteracting = animator.GetBool("IsInteracting");
             HandleRecoveryTime();
+            HandleStateMachine();
         }
 
-        private void FixedUpdate()
+        protected override void LateUpdate()
         {
-            HandleStateMachine();
+            base.LateUpdate();
+
+            navMeshAgent.transform.position = Vector3.zero;
+            navMeshAgent.transform.localRotation = Quaternion.identity;
         }
 
         private void HandleStateMachine()

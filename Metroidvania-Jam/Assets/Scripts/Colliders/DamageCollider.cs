@@ -10,15 +10,20 @@ namespace TS
         protected Collider damageCollider;
 
         [Header("Damage")]
-        [SerializeField] private float damage;
+        [SerializeField] protected float damage;
 
         [Header("Contact Point")]
-        private Vector3 contactPoint;
+        protected Vector3 contactPoint;
 
         [Header("Characters Damaged")]
-        private List<CharacterManager> charactersDamaged = new List<CharacterManager>();
+        protected List<CharacterManager> charactersDamaged = new List<CharacterManager>();
 
-        private void OnTriggerEnter(Collider other)
+        protected virtual void Awake()
+        {
+
+        }
+
+        protected virtual void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out CharacterManager damageTarget))
             {

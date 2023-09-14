@@ -69,6 +69,12 @@ namespace TS
             PlayerUIManager.Instace.playerHUDManager.SetNewHealthValue(characterStatsManager.GetCurrentHealth());
         }
 
+        public void UpdateCharacterStamina(float newStaminaValue)
+        {
+            characterStatsManager.SetCurrentHealth(characterStatsManager.GetCurrentStamina() - newStaminaValue);
+            PlayerUIManager.Instace.playerHUDManager.SetNewStaminaValue(characterStatsManager.GetCurrentStamina());
+        }
+
         public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
         {
             PlayerUIManager.Instace.playerUIPopupManager.SendYouDiedPopup();

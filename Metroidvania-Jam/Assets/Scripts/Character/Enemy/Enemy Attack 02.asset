@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6293cb0dfd4e02a4585c92ebf7c0b822, type: 3}
   m_Name: Enemy Attack 02
   m_EditorClassIdentifier: 
-  ActionAnimation: Light Attack 02
-  AttackScore: 3
+  ActionAnimation: Main_Light_Attack_02
+  AttackScore: 0
   RecoveryTime: 2
   MaximumAttackAngle: 35
   MinimumAttackAngle: -35
   MinimumDistanceNeededToAttack: 0
   MaximumDistanceNeededToAttack: 3
+  canCombo: 1
+  attackCombo: {fileID: 11400000, guid: be3bd29c32cef944690266d50c787ac0, type: 2}

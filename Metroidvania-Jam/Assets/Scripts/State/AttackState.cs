@@ -1,20 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
 using UnityEngine;
 
 namespace TS
 {
     public class AttackState : State
     {
-        [SerializeField]
-        private CombatStanceState combatStanceState;
+        [SerializeField] private CombatStanceState combatStanceState;
+        [SerializeField] private EnemyAttackAction[] enemyAttacks;
+        [SerializeField] private EnemyAttackAction currentAttack;
 
-        [SerializeField]
-        private EnemyAttackAction[] enemyAttacks;
+        [SerializeField] private string light_attack_01 = "Main_Light_Attack_01";
+        // Temporary Combo
+        [SerializeField] private string light_attack_02 = "Main_Light_Attack_02";
+        [SerializeField] private string light_attack_03 = "Main_Light_Attack_03";
 
-        [SerializeField]
-        private EnemyAttackAction currentAttack;
+        private bool willDoComboOnNextAttack = false;
 
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStatsManager, EnemyAnimatorManager enemyAnimatorManager)
         {
@@ -22,7 +25,15 @@ namespace TS
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
             float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
 
-            if (enemyManager.isPerformingAction) return combatStanceState;
+            if (enemyManager.isPerformingAction && willDoComboOnNextAttack == false)
+            {
+                return combatStanceState;
+            }
+            else if (willDoComboOnNextAttack && enemyManager.canDoCombo)
+            {
+                willDoComboOnNextAttack = false;
+                enemyAnimatorManager.PlayTargetAttackActionAnimation(currentAttack.attackType, currentAttack.ActionAnimation, true);
+            }
 
             if (currentAttack != null)
             {
@@ -36,13 +47,22 @@ namespace TS
                     {
                         if (enemyManager.currentRecoveryTime <= 0 && enemyManager.isPerformingAction == false)
                         {
-                            enemyAnimatorManager.UpdateAnimatorMovementParameters(0, 0, false);
-                            enemyAnimatorManager.PlayTargetActionAnimation(currentAttack.ActionAnimation, true);
+                            // enemyAnimatorManager.PlayTargetAttackActionAnimation(currentAttack.attackType, currentAttack.ActionAnimation, true);
+                            PerformAttack(enemyManager);
+                            RollForComboChance(enemyManager);
 
-                            enemyManager.currentRecoveryTime = currentAttack.RecoveryTime;
-                            currentAttack = null;
+                            if (currentAttack.canCombo && willDoComboOnNextAttack && enemyManager.canDoCombo)
+                            {
+                                currentAttack = currentAttack.attackCombo;
+                                return this;
+                            }
+                            else
+                            {
+                                enemyManager.currentRecoveryTime = currentAttack.RecoveryTime;
+                                currentAttack = null;
 
-                            return combatStanceState;
+                                return combatStanceState;
+                            }
                         }
                     }
                 }
@@ -53,6 +73,36 @@ namespace TS
             }
 
             return combatStanceState;
+        }
+
+        private void PerformAttack(EnemyManager enemyPerformingAction)
+        {
+            enemyPerformingAction.enemyAnimatorManager.UpdateAnimatorMovementParameters(0, 0, false);
+
+            switch (enemyPerformingAction.enemyCombatManager.currentAttackType)
+            {
+                case AttackType.NONE:
+                    enemyPerformingAction.enemyAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack01, light_attack_01, true);
+                    break;
+                case AttackType.LightAttack01:
+                    enemyPerformingAction.enemyAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack02, light_attack_02, true);
+                    break;
+                case AttackType.LightAttack02:
+                    enemyPerformingAction.enemyAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack03, light_attack_03, true);
+                    break;
+            }
+
+            enemyPerformingAction.enemyCombatManager.CloseCanDoCombo();
+        }
+
+        private void RollForComboChance(EnemyManager enemyManager)
+        {
+            float comboChance = Random.Range(0f, 1f);
+
+            if (enemyManager.allowAIToPerformCombo && comboChance <= enemyManager.comboLikelyHood)
+            {
+                willDoComboOnNextAttack = true;
+            }
         }
 
         private void GetNewAttack(EnemyManager enemyManager)

@@ -8,14 +8,10 @@ namespace TS
     {
         public static PlayerUIManager Instace { get; private set; }
 
-        [HideInInspector]
-        public PlayerHUDManager playerHUDManager;
-
-        [HideInInspector]
-        public PlayerUIPopupManager playerUIPopupManager;
-
-        [HideInInspector]
-        public PlayerUIDialogManager playerUIDialogManager;
+        [HideInInspector] public PlayerHUDManager playerHUDManager;
+        [HideInInspector] public PlayerUIPopupManager playerUIPopupManager;
+        [HideInInspector] public PlayerUIDialogManager playerUIDialogManager;
+        [HideInInspector] public PlayerUIPauseManager playerUIPauseManager;
 
         private void Awake()
         {
@@ -35,6 +31,7 @@ namespace TS
             playerHUDManager = GetComponentInChildren<PlayerHUDManager>();
             playerUIPopupManager = GetComponentInChildren<PlayerUIPopupManager>();
             playerUIDialogManager = GetComponentInChildren<PlayerUIDialogManager>();
+            playerUIPauseManager = GetComponentInChildren<PlayerUIPauseManager>();
         }
     }
 }

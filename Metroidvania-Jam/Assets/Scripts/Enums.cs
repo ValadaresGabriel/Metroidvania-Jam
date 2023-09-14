@@ -28,3 +28,14 @@ public enum WeaponModelSlot
     LeftHand,
     Back
 }
+
+public enum AttackType
+{
+    NONE,
+    LightAttack01,
+    LightAttack02,
+    LightAttack03,
+    HeavyAttack01,
+    HeavyAttack02,
+    HeavyAttack03,
+}

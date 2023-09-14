@@ -13,6 +13,7 @@ namespace TS
         [HideInInspector] public CharacterStatsManager characterStatsManager;
         [HideInInspector] public CharacterEffectsManager characterEffectsManager;
         [HideInInspector] public CharacterAnimatorManager characterAnimatorManager;
+        [HideInInspector] public CharacterCombatManager characterCombatManager;
 
         [Header("Character Status")]
         public bool isDead = false;
@@ -22,6 +23,7 @@ namespace TS
         public bool applyRootMotion = false;
         public bool canRotate = true;
         public bool canMove = true;
+        public bool canDoCombo;
 
         [Header("Colliders")]
         [SerializeField] private Collider parentCollider;
@@ -37,8 +39,10 @@ namespace TS
             // RB = GetComponent<Rigidbody>();
             characterController = GetComponent<CharacterController>();
             animator = GetComponent<Animator>();
+            characterStatsManager = GetComponent<CharacterStatsManager>();
             characterEffectsManager = GetComponent<CharacterEffectsManager>();
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
+            characterCombatManager = GetComponent<CharacterCombatManager>();
 
             Physics.IgnoreCollision(parentCollider, characterCollisionBlocker, true);
         }
@@ -55,7 +59,7 @@ namespace TS
 
         protected virtual void Update()
         {
-            //
+            canDoCombo = animator.GetBool("CanDoCombo");
         }
 
         protected virtual void LateUpdate()

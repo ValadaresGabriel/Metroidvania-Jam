@@ -6,7 +6,7 @@ namespace TS
 {
     public class WeaponManager : MonoBehaviour
     {
-        [SerializeField] private MeleeWeaponDamageCollider meleeDamageCollider;
+        public MeleeWeaponDamageCollider meleeDamageCollider;
 
         private void Awake()
         {
@@ -16,6 +16,7 @@ namespace TS
         public void SetWeaponDamage(CharacterManager characterCausingDamage, WeaponItem weapon)
         {
             meleeDamageCollider.characterCausingDamage = characterCausingDamage;
+            meleeDamageCollider.light_attack_01_modifier = weapon.light_attack_01_modifier;
             meleeDamageCollider.SetDamage(weapon.physicalDamage);
         }
     }

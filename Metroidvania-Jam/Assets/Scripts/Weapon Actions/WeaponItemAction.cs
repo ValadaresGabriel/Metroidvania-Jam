@@ -12,8 +12,6 @@ namespace TS
         {
             // What does every weapon action have in common?
             playerPerformingAction.OnCurrentWeaponBeingUsedIDChange(weaponPerformingAction.itemID);
-
-            Debug.Log("The Action has been fired");
         }
     }
 }

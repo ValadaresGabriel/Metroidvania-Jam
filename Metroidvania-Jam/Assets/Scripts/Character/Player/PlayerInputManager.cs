@@ -34,6 +34,8 @@ namespace TS
         [SerializeField] private bool rightStick_Right = false;
         [SerializeField] private bool rightStick_Left = false;
 
+        private bool isMenuOpened = false;
+
         private void Awake()
         {
             if (Instance == null)
@@ -76,6 +78,9 @@ namespace TS
                 // Holding the input
                 playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
                 playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
+
+                // Pause
+                playerControls.UI.Pause.performed += i => HandlePause();
             }
 
             playerControls.Enable();
@@ -223,6 +228,11 @@ namespace TS
             PlayerCamera.Instance.SetCameraHeight();
         }
         #endregion
+
+        private void HandlePause()
+        {
+            PlayerUIManager.Instace.playerUIPauseManager.InitializePause();
+        }
 
         private void OnDestroy()
         {

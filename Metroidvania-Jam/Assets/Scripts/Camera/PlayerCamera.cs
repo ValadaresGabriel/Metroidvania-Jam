@@ -42,11 +42,11 @@ namespace TS
         [Header("Lock On Settings")]
         [SerializeField] private LayerMask lockOnTargetLayerMask;
         [SerializeField] private float lockOnMaximumDistance = 30;
-        [SerializeField] private Transform lockOnNearestTarget;
-        [SerializeField] private Transform lockOnCurrentTarget;
-        [SerializeField] private Transform lockOnLeftTarget;
-        [SerializeField] private Transform lockOnRightTarget;
-        [SerializeField] private Transform shortestDistanceOfLeftTarget;
+        [SerializeField] private CharacterManager lockOnCurrentTarget;
+        [SerializeField] private CharacterManager lockOnNearestTarget;
+        [SerializeField] private CharacterManager lockOnLeftTarget;
+        [SerializeField] private CharacterManager lockOnRightTarget;
+        // [SerializeField] private Transform shortestDistanceOfLeftTarget;
         [SerializeField] private float lockedPivotPosition = 2.25f;
         [SerializeField] private float unlockedPivotPosition = 1.65f;
         private List<CharacterManager> lockOnAvailableTargets = new();
@@ -96,14 +96,14 @@ namespace TS
             {
                 float velocity = 0;
 
-                Vector3 direction = lockOnCurrentTarget.position - transform.position;
+                Vector3 direction = lockOnCurrentTarget.transform.position - transform.position;
                 direction.Normalize();
                 direction.y = 0;
 
                 targetRotation = Quaternion.LookRotation(direction);
                 transform.rotation = targetRotation;
 
-                direction = lockOnCurrentTarget.position - cameraPivotTransform.position;
+                direction = lockOnCurrentTarget.transform.position - cameraPivotTransform.position;
                 direction.Normalize();
 
                 targetRotation = Quaternion.LookRotation(direction);
@@ -207,7 +207,7 @@ namespace TS
         private void HandleLockOn()
         {
             float shortestDistance = Mathf.Infinity;
-            float shortestDistanceOfLeftTarget = Mathf.Infinity;
+            float shortestDistanceOfLeftTarget = -Mathf.Infinity;
             float shortestDistanceOfRightTarget = Mathf.Infinity;
 
             foreach (Collider targetCollider in Physics.OverlapSphere(player.transform.position, 26, lockOnTargetLayerMask))
@@ -249,25 +249,28 @@ namespace TS
                 if (distanceFormTarget < shortestDistance)
                 {
                     shortestDistance = distanceFormTarget;
-                    lockOnNearestTarget = target.lockOnTransform;
+                    lockOnNearestTarget = target;
                 }
 
                 if (player.isLockedOnEnemy)
                 {
-                    Vector3 relativeEnemyPosition = lockOnCurrentTarget.InverseTransformPoint(target.transform.position);
-                    var distanceFromLeftTarget = lockOnCurrentTarget.transform.position.x - target.transform.position.x;
-                    var distanceFromRightTarget = lockOnCurrentTarget.transform.position.x + target.transform.position.x;
+                    // Vector3 relativeEnemyPosition = lockOnCurrentTarget.transform.InverseTransformPoint(target.transform.position);
+                    // var distanceFromLeftTarget = lockOnCurrentTarget.transform.position.x - target.transform.position.x;
+                    // var distanceFromRightTarget = lockOnCurrentTarget.transform.position.x + target.transform.position.x;
 
-                    if (relativeEnemyPosition.x > 0 && distanceFromLeftTarget < shortestDistanceOfLeftTarget)
+                    Vector3 relativeEnemyPosition = player.transform.InverseTransformPoint(target.transform.position);
+                    var distanceFromLeftTarget = relativeEnemyPosition.x;
+                    var distanceFromRightTarget = relativeEnemyPosition.x;
+
+                    if (relativeEnemyPosition.x <= 0 && distanceFromLeftTarget > shortestDistanceOfLeftTarget && target != lockOnCurrentTarget)
                     {
                         shortestDistanceOfLeftTarget = distanceFromLeftTarget;
-                        lockOnLeftTarget = target.lockOnTransform;
+                        lockOnLeftTarget = target;
                     }
-
-                    if (relativeEnemyPosition.x < 0 && distanceFromLeftTarget < shortestDistanceOfRightTarget)
+                    else if (relativeEnemyPosition.x >= 0 && distanceFromLeftTarget < shortestDistanceOfRightTarget && target != lockOnCurrentTarget)
                     {
                         shortestDistanceOfRightTarget = distanceFromRightTarget;
-                        lockOnRightTarget = target.lockOnTransform;
+                        lockOnRightTarget = target;
                     }
                 }
             }
@@ -296,7 +299,7 @@ namespace TS
             }
         }
 
-        public Transform GetLockOnCurrentTarget() => lockOnCurrentTarget;
+        public Transform GetLockOnCurrentTarget() => lockOnCurrentTarget.transform;
     }
     // public class PlayerCamera : MonoBehaviour
     // {

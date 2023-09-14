@@ -11,7 +11,7 @@ namespace TS
         public int sceneIndex = 1;
 
         [Header("Character Name")]
-        public string characterName = "[Character Name]";
+        public string characterName = "Arthur";
 
         [Header("Time Player")]
         public float secondsPlayed;

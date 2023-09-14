@@ -7,9 +7,7 @@ namespace TS
     public class CharacterAnimatorManager : MonoBehaviour
     {
         protected CharacterManager character;
-
         private int horizontal;
-
         private int vertical;
 
         protected virtual void Awake()
@@ -38,7 +36,8 @@ namespace TS
             bool isPerformingAction,
             bool applyRootMotion = true,
             bool canRotate = false,
-            bool canMove = false)
+            bool canMove = false,
+            bool isInteracting = false)
         {
             character.applyRootMotion = applyRootMotion;
             character.animator.CrossFade(targetAnimation, 0.2f);
@@ -56,6 +55,7 @@ namespace TS
         }
 
         public virtual void PlayTargetAttackActionAnimation(
+            AttackType attackType,
             string targetAnimation,
             bool isPerformingAction,
             bool applyRootMotion = true,
@@ -65,6 +65,8 @@ namespace TS
             // Keep track of the last attack, for combos
             // Keep track of current attack type (light, heavy, magical)
             // Update animation set to current weapons animations
+
+            character.characterCombatManager.currentAttackType = attackType;
             character.applyRootMotion = applyRootMotion;
             character.animator.CrossFade(targetAnimation, 0.2f);
 
