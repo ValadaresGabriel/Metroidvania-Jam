@@ -20,7 +20,6 @@ namespace TS
         [Header("FLAGS")]
         public bool isSprinting = false;
         public bool isLockedOnEnemy = false;
-        public bool isGrounded = true;
         public bool isUsingRightHand = true;
         public bool isUsingLeftHand = false;
 
@@ -46,6 +45,8 @@ namespace TS
         protected override void Update()
         {
             base.Update();
+
+            DontDestroyOnLoad(gameObject);
 
             playerLocomotionManager.HandleAllMovement();
 

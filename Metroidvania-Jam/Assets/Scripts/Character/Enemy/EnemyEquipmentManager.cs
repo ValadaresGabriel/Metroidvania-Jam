@@ -32,6 +32,8 @@ namespace TS
         protected override void Start()
         {
             base.Start();
+
+            LoadWeaponsOnBothHands();
         }
 
         private void InitializeWeaponSlots()
@@ -51,11 +53,32 @@ namespace TS
             }
         }
 
+        public void LoadWeaponsOnBothHands()
+        {
+            LoadRightWeapon();
+            // LoadLeftWeapon();
+        }
+
+        #region Right Weapon
+        public void LoadRightWeapon()
+        {
+            if (enemyManager.enemyInventoryManager.currentRightHandWeapon != null)
+            {
+                rightHandSlot.UnloadWeaponModel();
+                rightHandWeaponModel = Instantiate(enemyManager.enemyInventoryManager.currentRightHandWeapon.weaponModel);
+                rightHandSlot.LoadWeapon(rightHandWeaponModel);
+                rightWeaponManager = rightHandWeaponModel.GetComponent<WeaponManager>();
+                rightWeaponManager.SetWeaponDamage(enemyManager, enemyManager.enemyInventoryManager.currentRightHandWeapon);
+            }
+        }
+        #endregion
+
         #region Damage Colliders
         public void OpenDamageCollider()
         {
             // Open right hand
             rightWeaponManager.meleeDamageCollider.EnableDamageCollider();
+
             // TO DO: open left hand
 
             // Play woosh SFX
@@ -65,6 +88,7 @@ namespace TS
         {
             // Open right hand
             rightWeaponManager.meleeDamageCollider.DisableDamageCollider();
+
             // TO DO: open left hand
         }
         #endregion

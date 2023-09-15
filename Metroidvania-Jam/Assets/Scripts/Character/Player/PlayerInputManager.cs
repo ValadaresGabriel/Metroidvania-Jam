@@ -30,6 +30,7 @@ namespace TS
         [SerializeField] private bool interactInput = false;
         [SerializeField] private bool dodgeInput = false;
         [SerializeField] private bool sprintInput = false;
+        [SerializeField] private bool jumpInput = false;
         [SerializeField] private bool lockOnInput = false;
         [SerializeField] private bool rightStick_Right = false;
         [SerializeField] private bool rightStick_Left = false;
@@ -55,6 +56,11 @@ namespace TS
             SceneManager.activeSceneChanged += OnSceneChange;
 
             Instance.enabled = false;
+
+            if (playerControls != null)
+            {
+                playerControls.Disable();
+            }
         }
 
         private void OnEnable()
@@ -69,6 +75,9 @@ namespace TS
                 playerControls.PlayerActions.LightAttack.performed += i => A_Input = true;
                 playerControls.PlayerActions.Interact.performed += i => interactInput = true;
                 playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
+
+                // Jump
+                playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
 
                 // Lock On
                 playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
@@ -91,10 +100,20 @@ namespace TS
             if (WorldSaveGameManager.Instance.GetWorldSceneIndex().Contains(newScene.buildIndex))
             {
                 Instance.enabled = true;
+
+                if (playerControls != null)
+                {
+                    playerControls.Enable();
+                }
             }
             else
             {
                 Instance.enabled = false;
+
+                if (playerControls != null)
+                {
+                    playerControls.Disable();
+                }
             }
         }
 
@@ -108,9 +127,10 @@ namespace TS
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
             HandleDodgeInput();
-            HandleSprinting();
+            HandleSprintingInput();
             HandleAInput();
             HandleLockOnInput();
+            HandleJumpInput();
 
             AttemptToInteract();
         }
@@ -167,7 +187,7 @@ namespace TS
             }
         }
 
-        private void HandleSprinting()
+        private void HandleSprintingInput()
         {
             if (sprintInput)
             {
@@ -176,6 +196,17 @@ namespace TS
             else
             {
                 player.isSprinting = false;
+            }
+        }
+
+        private void HandleJumpInput()
+        {
+            if (jumpInput)
+            {
+                jumpInput = false;
+
+                // If UI is open, do nothing (return)
+                player.playerLocomotionManager.AttemptToPerformJump();
             }
         }
 

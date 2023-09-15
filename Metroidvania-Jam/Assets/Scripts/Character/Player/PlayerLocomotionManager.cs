@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace TS
 {
@@ -12,18 +13,25 @@ namespace TS
         [HideInInspector] public float verticalMovement;
         [HideInInspector] public float moveAmount;
 
-        [Header("MOVEMENT SETTINGS")]
-        private Vector3 moveDirection;
-        private Vector3 targetRotationDirection;
+        [Header("Movement Settings")]
         [SerializeField] private float walkingSpeed = 2f;
         [SerializeField] private float runningSpeed = 5f;
         [SerializeField] private float sprintingSpeed = 6.5f;
         [SerializeField] private float rotationSpeed = 15f;
         [SerializeField] private int sprintingStaminaCost = 2;
+        private Vector3 moveDirection;
+        private Vector3 targetRotationDirection;
 
-        [Header("DODGE")]
-        private Vector3 rollDirection;
+        [Header("Jump")]
+        [SerializeField] private float jumpForwardSpeed = 5f;
+        [SerializeField] private float freeFallSpeed = 2f;
+        [SerializeField] private float jumpHeight = 4f;
+        [SerializeField] private float jumpStaminaCost = 10f;
+        private Vector3 jumpDirection;
+
+        [Header("Dodge")]
         [SerializeField] private float dodgeStaminaCost = 25;
+        private Vector3 rollDirection;
 
         protected override void Awake()
         {
@@ -44,7 +52,9 @@ namespace TS
         public void HandleAllMovement()
         {
             HandleGroundedMovement();
+            HandleJumpingMovement();
             HandleRotation();
+            HandleFreeFallMovement();
         }
 
         private void GetMovementValues()
@@ -83,6 +93,28 @@ namespace TS
                     // Walking speed
                     player.characterController.Move(moveDirection * walkingSpeed * Time.deltaTime);
                 }
+            }
+        }
+
+        private void HandleJumpingMovement()
+        {
+            if (player.isJumping)
+            {
+                player.characterController.Move(jumpDirection * jumpForwardSpeed * Time.deltaTime);
+            }
+        }
+
+        private void HandleFreeFallMovement()
+        {
+            if (!player.isGrounded)
+            {
+                Vector3 freeFallDirection;
+
+                freeFallDirection = PlayerCamera.Instance.cameraObject.transform.forward * PlayerInputManager.Instance.verticalInput;
+                freeFallDirection += PlayerCamera.Instance.cameraObject.transform.right * PlayerInputManager.Instance.horizontalInput;
+                freeFallDirection.y = 0;
+
+                player.characterController.Move(freeFallDirection * freeFallSpeed * Time.deltaTime);
             }
         }
 
@@ -199,6 +231,50 @@ namespace TS
             }
 
             player.characterStatsManager.SetCurrentStamina(player.characterStatsManager.GetCurrentStamina() - dodgeStaminaCost);
+
+            jumpDirection = PlayerCamera.Instance.cameraObject.transform.forward * PlayerInputManager.Instance.verticalInput;
+            jumpDirection += PlayerCamera.Instance.cameraObject.transform.right * PlayerInputManager.Instance.horizontalInput;
+            jumpDirection.y = 0;
+
+            if (jumpDirection != Vector3.zero)
+            {
+                if (player.isSprinting)
+                {
+                    jumpDirection *= 2f;
+                }
+                else if (PlayerInputManager.Instance.moveAmount > 0.5f)
+                {
+                    jumpDirection *= 1f;
+                }
+                else if (PlayerInputManager.Instance.moveAmount < 0.5f)
+                {
+                    jumpDirection *= 0.5f;
+                }
+            }
+        }
+
+        public void AttemptToPerformJump()
+        {
+            if (player.isPerformingAction) return;
+
+            if (player.isJumping) return;
+
+            if (player.isGrounded == false) return;
+
+            // if (player.characterStatsManager.GetCurrentStamina() <= 0) return;
+
+            // If we are two handing our weapon, perform two handed jump animation, otherwise play the one handed animation
+            player.playerAnimatorManager.PlayTargetActionAnimation("Th_Jump_Start_01", false);
+
+            player.isJumping = true;
+
+            player.characterStatsManager.SetCurrentStamina(player.characterStatsManager.GetCurrentStamina() - jumpStaminaCost);
+        }
+
+        public void ApplyJumpingVelocity()
+        {
+            // Apply and upward velocity
+            yVelocity.y = Mathf.Sqrt(jumpHeight * -2 * gravityForce);
         }
     }
 }

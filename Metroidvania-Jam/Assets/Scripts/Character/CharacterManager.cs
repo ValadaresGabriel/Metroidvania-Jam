@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,8 @@ namespace TS
         public bool canRotate = true;
         public bool canMove = true;
         public bool canDoCombo;
+        public bool isJumping = false;
+        public bool isGrounded = false;
 
         [Header("Colliders")]
         [SerializeField] private Collider parentCollider;
@@ -34,7 +37,7 @@ namespace TS
 
         protected virtual void Awake()
         {
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
 
             // RB = GetComponent<Rigidbody>();
             characterController = GetComponent<CharacterController>();
@@ -59,7 +62,13 @@ namespace TS
 
         protected virtual void Update()
         {
+            HandleAnimatorFlags();
+        }
+
+        private void HandleAnimatorFlags()
+        {
             canDoCombo = animator.GetBool("CanDoCombo");
+            animator.SetBool("IsGrounded", isGrounded);
         }
 
         protected virtual void LateUpdate()

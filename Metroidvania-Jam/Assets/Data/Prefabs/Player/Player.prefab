@@ -435,7 +435,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.825676
+  m_Height: 1.8
   m_Radius: 0.26
   m_SlopeLimit: 45
   m_StepOffset: 0.3
@@ -459,11 +459,15 @@ MonoBehaviour:
   characterStatsManager: {fileID: 0}
   characterEffectsManager: {fileID: 0}
   characterAnimatorManager: {fileID: 0}
+  characterCombatManager: {fileID: 0}
   isDead: 0
   isPerformingAction: 0
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
+  canDoCombo: 0
+  isJumping: 0
+  isGrounded: 1
   parentCollider: {fileID: 3456985146082378751}
   characterCollisionBlocker: {fileID: 5308356975041963682}
   lockOnTransform: {fileID: 5901356129736300866}
@@ -476,7 +480,6 @@ MonoBehaviour:
   characterName: 
   isSprinting: 0
   isLockedOnEnemy: 0
-  isGrounded: 1
   isUsingRightHand: 1
   isUsingLeftHand: 0
 --- !u!114 &4426227916107385988
@@ -491,6 +494,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c0f9c5d73685dc4781b86dddf6538ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  gravityForce: -30
+  groundCheckSphereRadius: 0.3
+  yVelocity: {x: 0, y: 0, z: 0}
+  groundedYVelocity: -20
+  fallStartYVelocity: -5
   horizontalMovement: 0
   verticalMovement: 0
   moveAmount: 0
@@ -499,6 +510,10 @@ MonoBehaviour:
   sprintingSpeed: 6.5
   rotationSpeed: 15
   sprintingStaminaCost: 2
+  jumpForwardSpeed: 20
+  freeFallSpeed: 5
+  jumpHeight: 6
+  jumpStaminaCost: 10
   dodgeStaminaCost: 25
 --- !u!114 &6983131131149773318
 MonoBehaviour:
@@ -603,6 +618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f77d5e7b82183d4eb7a332e6bff37f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentAttackType: 0
   currentWeaponBeingUsed: {fileID: 0}
 --- !u!1 &1367833217027717718
 GameObject:
@@ -1662,7 +1678,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.26
-  m_Height: 1.8256757
+  m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.89595044, z: 0}
 --- !u!1 &6188632663140309712

@@ -12,6 +12,8 @@ namespace TS
         [HideInInspector] public EnemyCombatManager enemyCombatManager;
         [HideInInspector] public NavMeshAgent navMeshAgent;
         [HideInInspector] public EnemyStatsManager enemyStatsManager;
+        [HideInInspector] public EnemyInventoryManager enemyInventoryManager;
+        [HideInInspector] public EnemyEquipmentManager enemyEquipmentManager;
         [HideInInspector] public Rigidbody RB;
 
         [Header("Target")]
@@ -39,6 +41,8 @@ namespace TS
             enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyStatsManager = GetComponent<EnemyStatsManager>();
+            enemyEquipmentManager = GetComponent<EnemyEquipmentManager>();
+            enemyInventoryManager = GetComponent<EnemyInventoryManager>();
             RB = GetComponent<Rigidbody>();
         }
 
@@ -81,6 +85,19 @@ namespace TS
         private void SwitchToNextState(State nextState)
         {
             currentState = nextState;
+        }
+
+        public void OnCurrentRightHandWeaponIDChange(int newWeaponID)
+        {
+            WeaponItem newWeaponInstance = Instantiate(WorldItemDatabase.Instance.GetWeaponByID(newWeaponID));
+            enemyInventoryManager.currentRightHandWeapon = newWeaponInstance;
+            enemyEquipmentManager.LoadRightWeapon();
+        }
+
+        public void OnCurrentWeaponBeingUsedIDChange(int newWeaponID)
+        {
+            WeaponItem newWeaponInstance = Instantiate(WorldItemDatabase.Instance.GetWeaponByID(newWeaponID));
+            enemyCombatManager.currentWeaponBeingUsed = newWeaponInstance;
         }
 
         // Attacks
