@@ -8,6 +8,7 @@ namespace TS
     {
         private PlayerManager player;
         public WeaponItem currentWeaponBeingUsed;
+        public float heavyAttackMultiplier;
 
         protected override void Awake()
         {
@@ -16,12 +17,12 @@ namespace TS
             player = GetComponent<PlayerManager>();
         }
 
-        public void PerformWeaponBasedAction(WeaponItemAction weaponAction, WeaponItem weaponPerformingAction)
+        public void PerformWeaponBasedAction(WeaponItemAction weaponAction, WeaponItem weaponPerformingAction, bool isHeavyAttack = false, bool isHeavyAttackFull = false)
         {
-            if (player.isPerformingAction && player.canDoCombo == false) return;
+            if (player.isPerformingAction && player.canDoCombo == false && isHeavyAttack == false) return;
 
             // Perform the Action
-            weaponAction.AttemptToPerformAction(player, weaponPerformingAction);
+            weaponAction.AttemptToPerformAction(player, weaponPerformingAction, isHeavyAttack, isHeavyAttackFull);
 
             // player.PerformWeaponBasedAction(weaponAction.actionID, weaponPerformingAction.itemID);
         }

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52b5b0a137c5ca64399bcc57e374ae73, type: 3}
+  m_Name: NPC_Monk_Male_01 00
+  m_EditorClassIdentifier: 
+  owner: Monk
+  text: Ah, you've finally arrived. I saw in my meditation that we would be visited
+    by a lone warrior.
+  dialogSequence:
+  - {fileID: 11400000, guid: b23702c6fea1f324a91cc03d07fbe1db, type: 2}
+  - {fileID: 11400000, guid: 84cf90ffeded2d14cb52ca6843b5fc8a, type: 2}
+  - {fileID: 11400000, guid: a5b2165c06636bf4bb41371cdfb65099, type: 2}
+  - {fileID: 11400000, guid: 40b863dde8acec24c86ec5ec39f96095, type: 2}

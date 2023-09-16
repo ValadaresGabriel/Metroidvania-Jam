@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace TS
 {
@@ -13,21 +14,41 @@ namespace TS
         [SerializeField] private string light_attack_02 = "Main_Light_Attack_02";
         [SerializeField] private string light_attack_03 = "Main_Light_Attack_03";
 
-        public override void AttemptToPerformAction(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction)
+        [SerializeField] private float timeToPerformHeavyAttack = 1.28f;
+
+        public override void AttemptToPerformAction(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction, bool isHeavyAttack, bool isHeavyAttackFull)
         {
             base.AttemptToPerformAction(playerPerformingAction, weaponPerformingAction);
 
             // Check for stops. Example: stamina <= 0 (will not be in this demo)
 
             if (!playerPerformingAction.isGrounded) return;
+            Debug.Log("CHegou0");
 
-            if (playerPerformingAction.canDoCombo)
+            // Temporary Heavy Attack
+            if (isHeavyAttack)
             {
-                PerformLightAttackCombo(playerPerformingAction, weaponPerformingAction);
+                Debug.Log("CHegou1");
+                if (isHeavyAttackFull)
+                {
+                    Debug.Log("CHegou2");
+                    playerPerformingAction.isChargeAttackFullReleased = true;
+                }
+                else
+                {
+                    playerPerformingAction.isChargeAttackReleased = true;
+                }
             }
             else
             {
-                PerformLightAttack(playerPerformingAction, weaponPerformingAction);
+                if (playerPerformingAction.canDoCombo)
+                {
+                    PerformLightAttackCombo(playerPerformingAction, weaponPerformingAction);
+                }
+                else
+                {
+                    PerformLightAttack(playerPerformingAction, weaponPerformingAction);
+                }
             }
         }
 
@@ -55,6 +76,11 @@ namespace TS
 
                 playerPerformingAction.playerCombatManager.CloseCanDoCombo();
             }
+        }
+
+        private void PerformHeavyAttack()
+        {
+
         }
     }
 }

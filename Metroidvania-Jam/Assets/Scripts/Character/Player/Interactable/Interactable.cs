@@ -7,7 +7,7 @@ namespace TS
     public class Interactable : MonoBehaviour
     {
         [SerializeField] private float radius = 0.6f;
-        public string interactableText;
+        [TextArea] public string interactableText = "Press <b><size=40>E</size></b> or <b><size=40>Y</size></b> to interact";
 
         protected virtual void Awake()
         {

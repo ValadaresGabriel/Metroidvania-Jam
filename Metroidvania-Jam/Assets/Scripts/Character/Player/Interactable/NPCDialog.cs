@@ -18,6 +18,8 @@ namespace TS
         {
             base.Start();
 
+            interactableText = "Press <b><size=40>E</size></b> or <b><size=40>Y</size></b> to interact";
+
             if (!WorldSaveGameManager.Instance.currentCharacterData.npcsInWorld.ContainsKey(npcID))
             {
                 WorldSaveGameManager.Instance.currentCharacterData.npcsInWorld.Add(npcID, false); // false = not looted

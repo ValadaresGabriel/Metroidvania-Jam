@@ -27,6 +27,9 @@ namespace TS
         public bool canDoCombo;
         public bool isJumping = false;
         public bool isGrounded = false;
+        public bool isChargingAttack = false;
+        public bool isChargeAttackReleased = false;
+        public bool isChargeAttackFullReleased = false;
 
         [Header("Colliders")]
         [SerializeField] private Collider parentCollider;
@@ -69,6 +72,8 @@ namespace TS
         {
             canDoCombo = animator.GetBool("CanDoCombo");
             animator.SetBool("IsGrounded", isGrounded);
+            animator.SetBool("IsChargeAttackReleased", isChargeAttackReleased);
+            animator.SetBool("IsChargeAttackFullReleased", isChargeAttackFullReleased);
         }
 
         protected virtual void LateUpdate()

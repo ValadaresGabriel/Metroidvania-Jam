@@ -2130,9 +2130,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9ca08749064c4034f87930106026f7ca, type: 2}
   - {fileID: 11400000, guid: 4fc36733dfd17984cb7151fe130a20ed, type: 2}
   currentAttack: {fileID: 0}
-  light_attack_01: Main_Light_Attack_01
-  light_attack_02: Main_Light_Attack_02
-  light_attack_03: Main_Light_Attack_03
 --- !u!1 &3771356873752760949
 GameObject:
   m_ObjectHideFlags: 0
@@ -2436,6 +2433,11 @@ MonoBehaviour:
   canRotate: 1
   canMove: 1
   canDoCombo: 0
+  isJumping: 0
+  isGrounded: 0
+  isChargingAttack: 0
+  isChargeAttackReleased: 0
+  isChargeAttackFullReleased: 0
   parentCollider: {fileID: 2514249790809093488}
   characterCollisionBlocker: {fileID: 4763614801255277512}
   lockOnTransform: {fileID: 739390323049766894}
@@ -2498,6 +2500,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f86ac6bda05ee6b4aa6c5b34c87c2371, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  gravityForce: -5.55
+  groundCheckSphereRadius: 1
+  yVelocity: {x: 0, y: 0, z: 0}
+  groundedYVelocity: -20
+  fallStartYVelocity: -5
 --- !u!114 &4072895110934221866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2554,7 +2564,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fb557506eede904ba090b2cda0d9871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentRightHandWeapon: {fileID: 0}
+  currentRightHandWeapon: {fileID: 11400000, guid: b9254c418c369324298747a76d51d900,
+    type: 2}
   currentLeftHandWeapon: {fileID: 0}
   items: []
   weaponsInRightHandSlot:

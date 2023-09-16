@@ -34,8 +34,12 @@ namespace TS
         [SerializeField] private bool lockOnInput = false;
         [SerializeField] private bool rightStick_Right = false;
         [SerializeField] private bool rightStick_Left = false;
+        [SerializeField] private bool started_Heavy_Attack = false;
+        [SerializeField] private bool isHolding_Heavy_Attack = false;
+        [SerializeField] private float timeToPerformHeavyAttack = 1.28f;
+        private float currentTimeToPerformHeavyAttack = 0;
 
-        private bool isMenuOpened = false;
+        public bool isMenuOpened = false;
 
         private void Awake()
         {
@@ -78,6 +82,11 @@ namespace TS
 
                 // Jump
                 playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
+
+                // Heavy Attack
+                // playerControls.PlayerActions.HeavyAttack.started += i => { started_Heavy_Attack = true; isHolding_Heavy_Attack = true; };
+                playerControls.PlayerActions.HeavyAttack.performed += i => { started_Heavy_Attack = true; isHolding_Heavy_Attack = true; StartCoroutine(HandleHeavyAttack()); };
+                playerControls.PlayerActions.HeavyAttack.canceled += i => { isHolding_Heavy_Attack = false; };
 
                 // Lock On
                 playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
@@ -258,11 +267,93 @@ namespace TS
             }
             PlayerCamera.Instance.SetCameraHeight();
         }
+
+        private IEnumerator HandleHeavyAttack()
+        {
+            if (player.canUseHeavyAttack)
+            {
+                bool isHeavyAttackFull = false;
+                currentTimeToPerformHeavyAttack = 0;
+
+                player.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.HeavyAttack01, "Th_Charged_Attack_Start_01", true);
+
+                while (isHolding_Heavy_Attack && currentTimeToPerformHeavyAttack < timeToPerformHeavyAttack)
+                {
+                    currentTimeToPerformHeavyAttack += Time.deltaTime;
+                    yield return null;
+                }
+
+                Debug.Log("Passou");
+
+                if (currentTimeToPerformHeavyAttack >= timeToPerformHeavyAttack)
+                {
+                    player.playerCombatManager.heavyAttackMultiplier = currentTimeToPerformHeavyAttack * 2;
+                    isHeavyAttackFull = true;
+                }
+                else
+                {
+                    player.playerCombatManager.heavyAttackMultiplier = currentTimeToPerformHeavyAttack * 1.5f;
+                }
+
+                isHolding_Heavy_Attack = false;
+                currentTimeToPerformHeavyAttack = 0;
+                player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.th_A_Action, player.playerInventoryManager.currentRightHandWeapon, isHeavyAttack: true, isHeavyAttackFull: isHeavyAttackFull);
+            }
+        }
+
+        // private void HandleHeavyAttack()
+        // {
+        //     bool isHeavyAttackFull;
+
+        //     if (started_Heavy_Attack)
+        //     {
+        //         started_Heavy_Attack = false;
+
+        //         player.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.HeavyAttack01, "Th_Charged_Attack_Start_01", true);
+
+        //         while (isHolding_Heavy_Attack || currentTimeToPerformHeavyAttack < timeToPerformHeavyAttack)
+        //         {
+        //             currentTimeToPerformHeavyAttack += Time.deltaTime;
+        //         }
+
+        //         if (currentTimeToPerformHeavyAttack >= timeToPerformHeavyAttack)
+        //         {
+        //             player.playerCombatManager.heavyAttackMultiplier = currentTimeToPerformHeavyAttack * 2;
+        //             isHeavyAttackFull = true;
+        //         }
+        //         else
+        //         {
+        //             player.playerCombatManager.heavyAttackMultiplier = currentTimeToPerformHeavyAttack * 1.5f;
+        //             isHeavyAttackFull = false;
+        //         }
+
+        //         isHolding_Heavy_Attack = false;
+        //         currentTimeToPerformHeavyAttack = 0;
+        //         player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.th_A_Action, player.playerInventoryManager.currentRightHandWeapon, isHeavyAttack: true, isHeavyAttackFull: isHeavyAttackFull);
+        //     }
+        // }
         #endregion
 
         private void HandlePause()
         {
+            isMenuOpened = true;
+
+            if (playerControls != null)
+            {
+                playerControls.Disable();
+            }
+
             PlayerUIManager.Instace.playerUIPauseManager.InitializePause();
+        }
+
+        public void ClosePause()
+        {
+            isMenuOpened = false;
+
+            if (playerControls != null)
+            {
+                playerControls.Enable();
+            }
         }
 
         private void OnDestroy()

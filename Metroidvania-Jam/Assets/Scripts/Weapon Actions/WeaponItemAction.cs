@@ -8,7 +8,7 @@ namespace TS
     {
         public int actionID;
 
-        public virtual void AttemptToPerformAction(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction)
+        public virtual void AttemptToPerformAction(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction, bool isHeavyAttack = false, bool isHeavyAttackFull = false)
         {
             // What does every weapon action have in common?
             playerPerformingAction.OnCurrentWeaponBeingUsedIDChange(weaponPerformingAction.itemID);

@@ -71,6 +71,42 @@ namespace TS
                 rightWeaponManager.SetWeaponDamage(enemyManager, enemyManager.enemyInventoryManager.currentRightHandWeapon);
             }
         }
+
+        public void SwitchRightHandWeapon()
+        {
+            UpdateRightHandWeaponIndex();
+        }
+
+        private void UpdateRightHandWeaponIndex()
+        {
+            // Caching frequent method calls
+            int currentIndex = enemyManager.enemyInventoryManager.GetRightHandWeaponIndex();
+            WeaponItem[] rightHandWeapons = enemyManager.enemyInventoryManager.GetWeaponsInRightHandSlot();
+            int weaponCount = rightHandWeapons.Length;
+
+            // Calculate new index and update
+            int newIndex = (currentIndex + 1) % (weaponCount + 1);
+            enemyManager.enemyInventoryManager.UpdateRightHandWeaponIndex(newIndex);
+
+            if (newIndex < weaponCount)
+            {
+                // Update if a weapon exists at the new index
+                WeaponItem selectedWeapon = rightHandWeapons[newIndex];
+                enemyManager.OnCurrentRightHandWeaponIDChange(selectedWeapon.itemID);
+            }
+            else if (newIndex == weaponCount)
+            {
+                // Handle the case where no weapon exists in the new slot (reset or do something else)
+                SwitchRightHandWeapon();
+            }
+            else
+            {
+                // Handle unexpected cases. For instance, when newIndex is out of bounds.
+                // Reset to the first weapon
+                enemyManager.enemyInventoryManager.UpdateRightHandWeaponIndex(0);
+                enemyManager.OnCurrentRightHandWeaponIDChange(rightHandWeapons[0]?.itemID ?? 0);
+            }
+        }
         #endregion
 
         #region Damage Colliders

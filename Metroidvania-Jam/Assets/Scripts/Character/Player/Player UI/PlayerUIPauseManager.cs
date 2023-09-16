@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace TS
@@ -21,6 +22,7 @@ namespace TS
         {
             Time.timeScale = 1;
             pauseMenuGameObject.SetActive(false);
+            PlayerInputManager.Instance.isMenuOpened = false;
         }
 
         public void QuitGame()

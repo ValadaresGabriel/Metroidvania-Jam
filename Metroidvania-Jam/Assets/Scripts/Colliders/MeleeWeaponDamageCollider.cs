@@ -11,6 +11,8 @@ namespace TS
 
         [Header("Weapon Attack Modifiers")]
         public float light_attack_01_modifier;
+        public float light_attack_02_modifier;
+        public float light_attack_03_modifier;
 
         protected override void Awake()
         {
@@ -61,9 +63,6 @@ namespace TS
                 default:
                     break;
             }
-
-            Debug.Log(damageTarget);
-            Debug.Log(damageEffect);
 
             damageTarget.characterEffectsManager.ProcessInstantEffect(damageEffect);
         }

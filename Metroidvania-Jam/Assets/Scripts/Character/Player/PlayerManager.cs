@@ -17,13 +17,15 @@ namespace TS
         [Header("Player Name")]
         [SerializeField] private string characterName;
 
-        [Header("FLAGS")]
+        [Header("Flags")]
         public bool isSprinting = false;
         public bool isLockedOnEnemy = false;
         public bool isUsingRightHand = true;
         public bool isUsingLeftHand = false;
 
         private float secondsPlayed = 0f;
+
+        public bool canUseHeavyAttack = false;
 
         protected override void Awake()
         {
@@ -130,6 +132,12 @@ namespace TS
 
             Vector3 myPosition = new Vector3(currentCharacterData.xPosition, currentCharacterData.yPosition, currentCharacterData.zPosition);
             transform.position = myPosition;
+
+            if (currentCharacterData.secondsPlayed < 10)
+            {
+                Transform spawnPointTransform = GameObject.FindGameObjectWithTag("Spawn Point").transform;
+                transform.position = spawnPointTransform.position;
+            }
 
             #region Stats
             characterStatsManager.SetMaxHealth(currentCharacterData.maxHealth);

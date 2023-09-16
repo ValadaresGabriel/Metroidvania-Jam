@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52b5b0a137c5ca64399bcc57e374ae73, type: 3}
+  m_Name: Bandit_King_01 00
+  m_EditorClassIdentifier: 
+  owner: Bandit King
+  text: So you're the warrior who's been troubling my men. Interesting.
+  dialogSequence:
+  - {fileID: 11400000, guid: 785a478bfc5f27347b614843ce0616de, type: 2}
+  - {fileID: 11400000, guid: 964d94b4281890c47bb0dcbf8a5b1856, type: 2}
+  - {fileID: 11400000, guid: cf6e6a2c3a24c58428e3cb22a63507fd, type: 2}
+  - {fileID: 11400000, guid: ce8f8552c063fc64ab870d042dab341a, type: 2}
+  - {fileID: 11400000, guid: 43ae846c5138c6e4abc0f2aa7c110b53, type: 2}
+  - {fileID: 11400000, guid: 22ed8f31dc8d37848bc39a145f5d7581, type: 2}

@@ -9,11 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Main_Menu.unity
     guid: 227904c669efad8409d496f92ffd18fe
   - enabled: 1
-    path: Assets/Scenes/Game_World_01.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
-    path: Assets/Scenes/MapTest.unity
-    guid: 489b0830d4aa2644698d67c0a1ef85fe
+    path: Assets/Scenes/Game_World_City.unity
+    guid: 615b71ed94922464aadbc5770c06b699
   - enabled: 1
     path: Assets/Scenes/Game_World_Forest_01.unity
     guid: 109f48e907b73104c9fec8455bcec0b9

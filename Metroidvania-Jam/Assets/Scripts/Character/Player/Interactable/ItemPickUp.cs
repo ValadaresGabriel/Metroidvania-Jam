@@ -22,6 +22,8 @@ namespace TS
         {
             base.Start();
 
+            interactableText = "Press <b><size=40>E</size></b> or <b><size=40>Y</size></b> to interact";
+
             if (!WorldSaveGameManager.Instance.currentCharacterData.itemsInWorld.ContainsKey(itemPickUpID))
             {
                 WorldSaveGameManager.Instance.currentCharacterData.itemsInWorld.Add(itemPickUpID, false); // false = not looted

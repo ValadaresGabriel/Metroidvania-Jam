@@ -7,7 +7,7 @@ namespace TS
     public class Dialog : ScriptableObject
     {
         public string owner;
-        public string text;
+        [TextArea] public string text;
         [SerializeField] private List<Dialog> dialogSequence;
 
         public List<Dialog> DialogSequence => dialogSequence;

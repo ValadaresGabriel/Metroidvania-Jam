@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -50,6 +49,7 @@ namespace TS
         {
             navMeshAgent.enabled = false;
             RB.isKinematic = false;
+            OnCurrentWeaponBeingUsedIDChange(0);
         }
 
         protected override void Update()
