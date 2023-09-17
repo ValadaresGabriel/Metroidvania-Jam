@@ -37,10 +37,14 @@ namespace TS
         [Header("Has Met NPC")]
         public SerializableDictionary<int, bool> npcsInWorld; // The int is the world npc id, the bool is if the player has met the npc before, so he doesn't play the same dialog as the first one.
 
+        [Header("Power Ups")]
+        public SerializableDictionary<int, bool> powerUpsInWorld; // The int is the world npc id, the bool is if the player has met the npc before, so he doesn't play the same dialog as the first one.
+
         public CharacterSaveData()
         {
             itemsInWorld = new SerializableDictionary<int, bool>();
             npcsInWorld = new SerializableDictionary<int, bool>();
+            powerUpsInWorld = new SerializableDictionary<int, bool>();
         }
     }
 }

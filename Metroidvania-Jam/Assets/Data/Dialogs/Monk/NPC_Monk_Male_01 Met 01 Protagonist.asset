@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b5b0a137c5ca64399bcc57e374ae73, type: 3}
   m_Name: NPC_Monk_Male_01 Met 01 Protagonist
   m_EditorClassIdentifier: 
-  owner: 
+  owner: Arthur
   text: I haven't finished what I started.
   dialogSequence:
   - {fileID: 0}

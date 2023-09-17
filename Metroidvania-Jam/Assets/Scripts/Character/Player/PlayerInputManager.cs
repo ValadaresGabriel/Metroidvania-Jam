@@ -283,8 +283,6 @@ namespace TS
                     yield return null;
                 }
 
-                Debug.Log("Passou");
-
                 if (currentTimeToPerformHeavyAttack >= timeToPerformHeavyAttack)
                 {
                     player.playerCombatManager.heavyAttackMultiplier = currentTimeToPerformHeavyAttack * 2;
@@ -343,7 +341,7 @@ namespace TS
                 playerControls.Disable();
             }
 
-            PlayerUIManager.Instace.playerUIPauseManager.InitializePause();
+            PlayerUIManager.Instance.playerUIPauseManager.InitializePause();
         }
 
         public void ClosePause()

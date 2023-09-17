@@ -15,13 +15,13 @@ namespace TS
         public override void SetMaxHealth(float newMaxHealth)
         {
             base.SetMaxHealth(newMaxHealth);
-            PlayerUIManager.Instace.playerHUDManager.SetMaxHealthValue(newMaxHealth);
+            PlayerUIManager.Instance.playerHUDManager.SetMaxHealthValue(newMaxHealth);
         }
 
         public override void SetMaxStamina(float newMaxStamina)
         {
             base.SetMaxStamina(newMaxStamina);
-            PlayerUIManager.Instace.playerHUDManager.SetNewStaminaValue(newMaxStamina);
+            PlayerUIManager.Instance.playerHUDManager.SetNewStaminaValue(newMaxStamina);
         }
     }
 }

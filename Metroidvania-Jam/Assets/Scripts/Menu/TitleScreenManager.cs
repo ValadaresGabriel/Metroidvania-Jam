@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace TS
 {
@@ -19,6 +20,7 @@ namespace TS
         [SerializeField] private Button loadMenuReturnButton;
         [SerializeField] private Button noCharacterSlotsOkayButton;
         [SerializeField] private Button deleteCharacterPopUpConfirmButton;
+        [SerializeField] private Button mainMenuCreditsButton;
 
         [Header("Pop Ups")]
         [SerializeField] private GameObject noCharacterSlotsPopUp;
@@ -26,6 +28,11 @@ namespace TS
 
         [Header("Character Slots")]
         public CharacterSlot currentSelectedSlot = CharacterSlot.NO_SLOT;
+
+        [Header("Credits")]
+        [SerializeField] private GameObject creditsPopUp;
+        [SerializeField] private Button creditsCloseButton;
+        [SerializeField] private TextMeshProUGUI creditsText;
 
         private void Awake()
         {
@@ -134,6 +141,23 @@ namespace TS
         public void CloseOption()
         {
             optionPanel.SetActive(false);
+        }
+
+        public void OpenCreditsPopUp()
+        {
+            titleScreenMainMenu.SetActive(false);
+            creditsPopUp.SetActive(true);
+
+            creditsCloseButton.Select();
+            creditsText.SetText("\"Makai Symphony - The Army of Minotaur\" is under a Creative Commons music (CC BY-SA 3.0). Music provided by BreakingCopyright: <color=\"#35A0EF\">https://bit.ly/b-army-minotaur</color>");
+        }
+
+        public void CloseCreditsPopUp()
+        {
+            titleScreenMainMenu.SetActive(true);
+            creditsPopUp.SetActive(false);
+
+            mainMenuCreditsButton.Select();
         }
     }
 }

@@ -49,11 +49,11 @@ namespace TS
         {
             if (hasBeenMet)
             {
-                PlayerUIManager.Instace.playerUIDialogManager.InitializeDialog(hasBeenMetDialog);
+                PlayerUIManager.Instance.playerUIDialogManager.InitializeDialog(hasBeenMetDialog);
                 return;
             }
 
-            PlayerUIManager.Instace.playerUIDialogManager.InitializeDialog(dialog);
+            PlayerUIManager.Instance.playerUIDialogManager.InitializeDialog(dialog);
         }
     }
 }

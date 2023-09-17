@@ -21,6 +21,7 @@ namespace TS
         {
             if (player.isPerformingAction && player.canDoCombo == false && isHeavyAttack == false) return;
 
+            player.playerLocomotionManager.HandleRotation();
             // Perform the Action
             weaponAction.AttemptToPerformAction(player, weaponPerformingAction, isHeavyAttack, isHeavyAttackFull);
 

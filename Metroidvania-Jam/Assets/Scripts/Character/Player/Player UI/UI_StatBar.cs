@@ -46,7 +46,7 @@ namespace TS
             if (scaleBarLengthWithStats)
             {
                 rectTransform.sizeDelta = new Vector2(normalXSize + (maxValue * widthScaleMultiplier), rectTransform.sizeDelta.y);
-                PlayerUIManager.Instace.playerHUDManager.RefreshHUD();
+                PlayerUIManager.Instance.playerHUDManager.RefreshHUD();
             }
         }
     }

@@ -25,7 +25,7 @@ namespace TS
                     if (hit.collider.TryGetComponent(out Interactable interactableObject))
                     {
                         string interactableText = interactableObject.interactableText;
-                        PlayerUIManager.Instace.playerUIPopupManager.SendInteractPopup(interactableText);
+                        PlayerUIManager.Instance.playerUIPopupManager.SendInteractPopup(interactableText);
 
                         if (interact)
                         {
@@ -41,7 +41,7 @@ namespace TS
             }
             else
             {
-                PlayerUIManager.Instace.playerUIPopupManager.CloseInteractPopup();
+                PlayerUIManager.Instance.playerUIPopupManager.CloseInteractPopup();
             }
         }
     }

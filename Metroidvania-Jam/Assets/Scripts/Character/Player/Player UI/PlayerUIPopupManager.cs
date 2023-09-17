@@ -95,6 +95,8 @@ namespace TS
 
             canvasGroup.alpha = 0;
 
+            CloseInteractPopup();
+
             yield return null;
         }
         #endregion

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9cb5e268750d264bb50ef04663163be, type: 3}
+  m_Name: Broad Sword 02
+  m_EditorClassIdentifier: 
+  itemID: 3
+  itemName: Broad Sword
+  itemIcon: {fileID: 0}
+  itemDescription: 
+  weaponModel: {fileID: 68703948693543892, guid: dcb416d12cec459489bb4ed500610f42,
+    type: 3}
+  strREQ: 0
+  dexREQ: 0
+  intREQ: 0
+  faithREQ: 0
+  physicalDamage: 6
+  magicDamage: 0
+  fireDamage: 0
+  holyDamage: 0
+  lightningDamage: 0
+  light_attack_01_modifier: 1.1
+  light_attack_02_modifier: 1.2
+  baseStaminaCost: 20
+  lightAttackStaminaCostMultiplier: 0.9
+  oh_A_Action: {fileID: 0}
+  th_A_Action: {fileID: 11400000, guid: 81f669b508b5e2d4ba0a4f0a3243c716, type: 2}

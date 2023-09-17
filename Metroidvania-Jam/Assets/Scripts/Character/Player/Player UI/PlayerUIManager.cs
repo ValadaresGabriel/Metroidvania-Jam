@@ -6,18 +6,19 @@ namespace TS
 {
     public class PlayerUIManager : MonoBehaviour
     {
-        public static PlayerUIManager Instace { get; private set; }
+        public static PlayerUIManager Instance { get; private set; }
 
         [HideInInspector] public PlayerHUDManager playerHUDManager;
         [HideInInspector] public PlayerUIPopupManager playerUIPopupManager;
         [HideInInspector] public PlayerUIDialogManager playerUIDialogManager;
         [HideInInspector] public PlayerUIPauseManager playerUIPauseManager;
+        [HideInInspector] public PlayerUIInteractMessage playerUIInteractMessage;
 
         private void Awake()
         {
-            if (Instace == null)
+            if (Instance == null)
             {
-                Instace = this;
+                Instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else
@@ -32,6 +33,7 @@ namespace TS
             playerUIPopupManager = GetComponentInChildren<PlayerUIPopupManager>();
             playerUIDialogManager = GetComponentInChildren<PlayerUIDialogManager>();
             playerUIPauseManager = GetComponentInChildren<PlayerUIPauseManager>();
+            playerUIInteractMessage = GetComponentInChildren<PlayerUIInteractMessage>();
         }
     }
 }

@@ -69,18 +69,19 @@ namespace TS
         {
             base.UpdateCharacterHealth(newHealthValue);
 
-            PlayerUIManager.Instace.playerHUDManager.SetNewHealthValue(characterStatsManager.GetCurrentHealth());
+            PlayerUIManager.Instance.playerHUDManager.SetNewHealthValue(characterStatsManager.GetCurrentHealth());
         }
 
         public void UpdateCharacterStamina(float newStaminaValue)
         {
             characterStatsManager.SetCurrentHealth(characterStatsManager.GetCurrentStamina() - newStaminaValue);
-            PlayerUIManager.Instace.playerHUDManager.SetNewStaminaValue(characterStatsManager.GetCurrentStamina());
+            PlayerUIManager.Instance.playerHUDManager.SetNewStaminaValue(characterStatsManager.GetCurrentStamina());
         }
 
         public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
         {
-            PlayerUIManager.Instace.playerUIPopupManager.SendYouDiedPopup();
+            PlayerUIManager.Instance.playerUIPopupManager.SendYouDiedPopup();
+            ReviveCharacter();
             return base.ProcessDeathEvent(manuallySelectDeathAnimation);
         }
 
@@ -146,11 +147,11 @@ namespace TS
             characterStatsManager.SetCurrentHealth(currentCharacterData.currentHealth);
             characterStatsManager.SetCurrentStamina(currentCharacterData.currentStamina);
 
-            PlayerUIManager.Instace.playerHUDManager.SetMaxHealthValue(characterStatsManager.GetMaxHealth());
-            PlayerUIManager.Instace.playerHUDManager.SetMaxStaminaValue(characterStatsManager.GetMaxStamina());
+            PlayerUIManager.Instance.playerHUDManager.SetMaxHealthValue(characterStatsManager.GetMaxHealth());
+            PlayerUIManager.Instance.playerHUDManager.SetMaxStaminaValue(characterStatsManager.GetMaxStamina());
 
-            PlayerUIManager.Instace.playerHUDManager.SetNewHealthValue(characterStatsManager.GetCurrentHealth());
-            PlayerUIManager.Instace.playerHUDManager.SetNewStaminaValue(characterStatsManager.GetCurrentStamina());
+            PlayerUIManager.Instance.playerHUDManager.SetNewHealthValue(characterStatsManager.GetCurrentHealth());
+            PlayerUIManager.Instance.playerHUDManager.SetNewStaminaValue(characterStatsManager.GetCurrentStamina());
             #endregion
 
             #region Items
