@@ -598,6 +598,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Cursor",
+            "id": "8509ebb6-2137-4ce5-af2f-d05d2eec8687",
+            "actions": [
+                {
+                    "name": "Show Cursor",
+                    "type": "Button",
+                    "id": "07989756-0611-4a5a-b988-a24a2fb1eeaf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0f403ae8-63f8-41c5-8444-9a8f1df29af9",
+                    "path": "<Keyboard>/leftAlt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Show Cursor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

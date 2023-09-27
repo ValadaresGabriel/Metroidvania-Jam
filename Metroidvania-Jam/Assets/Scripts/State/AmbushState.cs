@@ -11,9 +11,6 @@ namespace TS
         private bool isSleeping;
 
         [SerializeField]
-        private float detectionRadius = 2;
-
-        [SerializeField]
         private string sleepAnimation;
 
         [SerializeField]

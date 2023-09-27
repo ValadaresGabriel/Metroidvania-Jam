@@ -9,17 +9,17 @@ namespace TS
         [SerializeField]
         private InstantCharacterEffect effectToTest;
 
-        [SerializeField]
-        private bool processEffect = false;
+        // [SerializeField]
+        // private bool processEffect = false;
         private void Update()
         {
-            if (processEffect)
-            {
-                processEffect = false;
+            // if (processEffect)
+            // {
+            //     processEffect = false;
 
-                InstantCharacterEffect effectInstance = Instantiate(effectToTest);
-                ProcessInstantEffect(effectInstance);
-            }
+            //     InstantCharacterEffect effectInstance = Instantiate(effectToTest);
+            //     ProcessInstantEffect(effectInstance);
+            // }
         }
     }
 }

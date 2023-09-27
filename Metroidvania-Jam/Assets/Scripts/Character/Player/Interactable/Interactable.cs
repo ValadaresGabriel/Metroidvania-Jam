@@ -8,6 +8,7 @@ namespace TS
     {
         [SerializeField] private float radius = 0.6f;
         [TextArea] public string interactableText = "Press <b><size=40>E</size></b> or <b><size=40>Y</size></b> to interact";
+        protected PlayerManager player;
 
         protected virtual void Awake()
         {
@@ -19,8 +20,14 @@ namespace TS
 
         }
 
+        protected virtual void Update()
+        {
+
+        }
+
         public virtual void Interact(PlayerManager playerManager)
         {
+            player = playerManager;
             Debug.Log("Successfull Interacted!");
         }
     }

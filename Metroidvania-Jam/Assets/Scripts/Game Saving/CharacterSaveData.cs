@@ -10,6 +10,9 @@ namespace TS
         [Header("Scene Index")]
         public int sceneIndex = 1;
 
+        [Header("Objective Index")]
+        public int objectiveIndex = 0;
+
         [Header("Character Name")]
         public string characterName = "Arthur";
 
@@ -38,7 +41,7 @@ namespace TS
         public SerializableDictionary<int, bool> npcsInWorld; // The int is the world npc id, the bool is if the player has met the npc before, so he doesn't play the same dialog as the first one.
 
         [Header("Power Ups")]
-        public SerializableDictionary<int, bool> powerUpsInWorld; // The int is the world npc id, the bool is if the player has met the npc before, so he doesn't play the same dialog as the first one.
+        public SerializableDictionary<int, bool> powerUpsInWorld;
 
         public CharacterSaveData()
         {

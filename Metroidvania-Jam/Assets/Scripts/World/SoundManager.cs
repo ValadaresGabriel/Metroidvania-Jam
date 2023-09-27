@@ -30,7 +30,7 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        // Stop currently playing music if any (optional)
+        // Stop currently playing music if any
         foreach (AudioSource source in musicSource)
         {
             if (source.isPlaying)

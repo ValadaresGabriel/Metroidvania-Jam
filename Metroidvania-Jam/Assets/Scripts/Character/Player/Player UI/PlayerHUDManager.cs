@@ -25,11 +25,13 @@ namespace TS
         public void SetNewHealthValue(float newValue)
         {
             healthBar.SetStat(newValue);
+            RefreshHUD();
         }
 
         public void SetMaxHealthValue(float maxHealth)
         {
             healthBar.SetMaxStat(maxHealth);
+            RefreshHUD();
         }
         #endregion
 

@@ -33,3 +33,4 @@ MonoBehaviour:
   lightAttackStaminaCostMultiplier: 0.9
   oh_A_Action: {fileID: 0}
   th_A_Action: {fileID: 11400000, guid: 81f669b508b5e2d4ba0a4f0a3243c716, type: 2}
+  th_A_Heavy_Action: {fileID: 11400000, guid: 43ed9e818339dc5469e62fefdc0a62f4, type: 2}

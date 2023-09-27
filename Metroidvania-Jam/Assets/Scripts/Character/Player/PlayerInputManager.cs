@@ -34,9 +34,12 @@ namespace TS
         [SerializeField] private bool lockOnInput = false;
         [SerializeField] private bool rightStick_Right = false;
         [SerializeField] private bool rightStick_Left = false;
-        [SerializeField] private bool started_Heavy_Attack = false;
         [SerializeField] private bool isHolding_Heavy_Attack = false;
         [SerializeField] private float timeToPerformHeavyAttack = 1.28f;
+        [SerializeField] private bool isInteracting;
+
+        [Header("Cursor")]
+        [SerializeField] private bool isHolding_Show_Cursor = false;
         private float currentTimeToPerformHeavyAttack = 0;
 
         public bool isMenuOpened = false;
@@ -76,7 +79,7 @@ namespace TS
                 playerControls.PlayerLocomotion.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
                 playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
 
-                playerControls.PlayerActions.LightAttack.performed += i => A_Input = true;
+                playerControls.PlayerActions.LightAttack.performed += i => HandleAInput();//A_Input = true;
                 playerControls.PlayerActions.Interact.performed += i => interactInput = true;
                 playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
 
@@ -84,9 +87,12 @@ namespace TS
                 playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
 
                 // Heavy Attack
-                // playerControls.PlayerActions.HeavyAttack.started += i => { started_Heavy_Attack = true; isHolding_Heavy_Attack = true; };
-                playerControls.PlayerActions.HeavyAttack.performed += i => { started_Heavy_Attack = true; isHolding_Heavy_Attack = true; StartCoroutine(HandleHeavyAttack()); };
+                playerControls.PlayerActions.HeavyAttack.performed += i => { isHolding_Heavy_Attack = true; StartCoroutine(HandleHeavyAttack()); };
                 playerControls.PlayerActions.HeavyAttack.canceled += i => { isHolding_Heavy_Attack = false; };
+
+                // Cursor
+                playerControls.Cursor.ShowCursor.performed += i => { isHolding_Show_Cursor = true; StartCoroutine(HandleShowCursor()); };
+                playerControls.Cursor.ShowCursor.canceled += i => { isHolding_Show_Cursor = false; };
 
                 // Lock On
                 playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
@@ -133,11 +139,26 @@ namespace TS
 
         private void HandleAllInputs()
         {
+            if (IsInteracting)
+            {
+                if (playerControls != null)
+                {
+                    playerControls.Disable();
+                }
+            }
+            else
+            {
+                if (playerControls != null)
+                {
+                    playerControls.Enable();
+                }
+            }
+
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
             HandleDodgeInput();
             HandleSprintingInput();
-            HandleAInput();
+            // HandleAInput();
             HandleLockOnInput();
             HandleJumpInput();
 
@@ -189,6 +210,11 @@ namespace TS
             {
                 dodgeInput = false;
 
+                if (isHolding_Show_Cursor)
+                {
+                    return;
+                }
+
                 // Future note: return (DO NOTHING) if menu or UI window is open, do nothing
 
                 // Perform dodge
@@ -214,6 +240,11 @@ namespace TS
             {
                 jumpInput = false;
 
+                if (isHolding_Show_Cursor)
+                {
+                    return;
+                }
+
                 // If UI is open, do nothing (return)
                 player.playerLocomotionManager.AttemptToPerformJump();
             }
@@ -224,18 +255,21 @@ namespace TS
             if (interactInput)
             {
                 interactInput = false;
-                player.interactableManager.AttemptToInteract();
+                player.playerInteractableManager.AttemptToInteract();
             }
         }
 
         private void HandleAInput()
         {
-            if (A_Input)
-            {
-                A_Input = false;
+            if (IsInteracting) return;
 
-                player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.th_A_Action, player.playerInventoryManager.currentRightHandWeapon);
-            }
+            player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.th_A_Action, player.playerInventoryManager.currentRightHandWeapon);
+            // if (A_Input)
+            // {
+            //     A_Input = false;
+
+            //     player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.th_A_Action, player.playerInventoryManager.currentRightHandWeapon);
+            // }
         }
 
         private void HandleLockOnInput()
@@ -270,6 +304,16 @@ namespace TS
 
         private IEnumerator HandleHeavyAttack()
         {
+            if (isHolding_Show_Cursor)
+            {
+                yield break;
+            }
+
+            if (IsInteracting)
+            {
+                yield break;
+            }
+
             if (player.canUseHeavyAttack)
             {
                 bool isHeavyAttackFull = false;
@@ -299,38 +343,24 @@ namespace TS
             }
         }
 
-        // private void HandleHeavyAttack()
-        // {
-        //     bool isHeavyAttackFull;
+        private IEnumerator HandleShowCursor()
+        {
+            WorldCursorManager.Instance.ShowCursor();
 
-        //     if (started_Heavy_Attack)
-        //     {
-        //         started_Heavy_Attack = false;
+            while (isHolding_Show_Cursor)
+            {
+                yield return null;
+            }
 
-        //         player.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.HeavyAttack01, "Th_Charged_Attack_Start_01", true);
-
-        //         while (isHolding_Heavy_Attack || currentTimeToPerformHeavyAttack < timeToPerformHeavyAttack)
-        //         {
-        //             currentTimeToPerformHeavyAttack += Time.deltaTime;
-        //         }
-
-        //         if (currentTimeToPerformHeavyAttack >= timeToPerformHeavyAttack)
-        //         {
-        //             player.playerCombatManager.heavyAttackMultiplier = currentTimeToPerformHeavyAttack * 2;
-        //             isHeavyAttackFull = true;
-        //         }
-        //         else
-        //         {
-        //             player.playerCombatManager.heavyAttackMultiplier = currentTimeToPerformHeavyAttack * 1.5f;
-        //             isHeavyAttackFull = false;
-        //         }
-
-        //         isHolding_Heavy_Attack = false;
-        //         currentTimeToPerformHeavyAttack = 0;
-        //         player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.th_A_Action, player.playerInventoryManager.currentRightHandWeapon, isHeavyAttack: true, isHeavyAttackFull: isHeavyAttackFull);
-        //     }
-        // }
+            WorldCursorManager.Instance.HideCursor();
+        }
         #endregion
+
+        public bool IsInteracting
+        {
+            get => isInteracting;
+            set => isInteracting = value;
+        }
 
         private void HandlePause()
         {

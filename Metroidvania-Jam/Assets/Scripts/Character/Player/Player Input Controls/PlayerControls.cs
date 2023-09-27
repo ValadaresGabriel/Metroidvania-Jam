@@ -620,6 +620,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Cursor"",
+            ""id"": ""8509ebb6-2137-4ce5-af2f-d05d2eec8687"",
+            ""actions"": [
+                {
+                    ""name"": ""Show Cursor"",
+                    ""type"": ""Button"",
+                    ""id"": ""07989756-0611-4a5a-b988-a24a2fb1eeaf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0f403ae8-63f8-41c5-8444-9a8f1df29af9"",
+                    ""path"": ""<Keyboard>/leftAlt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Show Cursor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -646,6 +674,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_UI_X = m_UI.FindAction("X", throwIfNotFound: true);
         m_UI_A = m_UI.FindAction("A", throwIfNotFound: true);
         m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
+        // Cursor
+        m_Cursor = asset.FindActionMap("Cursor", throwIfNotFound: true);
+        m_Cursor_ShowCursor = m_Cursor.FindAction("Show Cursor", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -967,6 +998,52 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Cursor
+    private readonly InputActionMap m_Cursor;
+    private List<ICursorActions> m_CursorActionsCallbackInterfaces = new List<ICursorActions>();
+    private readonly InputAction m_Cursor_ShowCursor;
+    public struct CursorActions
+    {
+        private @PlayerControls m_Wrapper;
+        public CursorActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ShowCursor => m_Wrapper.m_Cursor_ShowCursor;
+        public InputActionMap Get() { return m_Wrapper.m_Cursor; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CursorActions set) { return set.Get(); }
+        public void AddCallbacks(ICursorActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CursorActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CursorActionsCallbackInterfaces.Add(instance);
+            @ShowCursor.started += instance.OnShowCursor;
+            @ShowCursor.performed += instance.OnShowCursor;
+            @ShowCursor.canceled += instance.OnShowCursor;
+        }
+
+        private void UnregisterCallbacks(ICursorActions instance)
+        {
+            @ShowCursor.started -= instance.OnShowCursor;
+            @ShowCursor.performed -= instance.OnShowCursor;
+            @ShowCursor.canceled -= instance.OnShowCursor;
+        }
+
+        public void RemoveCallbacks(ICursorActions instance)
+        {
+            if (m_Wrapper.m_CursorActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICursorActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CursorActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CursorActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CursorActions @Cursor => new CursorActions(this);
     public interface IPlayerLocomotionActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -992,5 +1069,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnX(InputAction.CallbackContext context);
         void OnA(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+    }
+    public interface ICursorActions
+    {
+        void OnShowCursor(InputAction.CallbackContext context);
     }
 }

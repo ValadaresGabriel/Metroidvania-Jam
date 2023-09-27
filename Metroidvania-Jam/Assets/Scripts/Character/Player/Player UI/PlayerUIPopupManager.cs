@@ -26,6 +26,7 @@ namespace TS
             StartCoroutine(StretchPopUpTextOverTime(youDiedPopupBackgroundText, 8, 19));
             StartCoroutine(FadeInPopUpOverTime(youDiedPopupCanvasGroup, 5));
             StartCoroutine(WaitThenFadeOutPopUpOverTime(youDiedPopupCanvasGroup, 2, 5));
+            CloseInteractPopup();
         }
 
         private IEnumerator StretchPopUpTextOverTime(TextMeshProUGUI text, float duration, float stretchAmount)
@@ -95,15 +96,19 @@ namespace TS
 
             canvasGroup.alpha = 0;
 
-            CloseInteractPopup();
-
             yield return null;
         }
         #endregion
 
         #region Interact
+        public bool IsInteractPopupOpen()
+        {
+            return interactPopUpGameObject.activeSelf;
+        }
         public void SendInteractPopup(string newInteractText)
         {
+            if (interactPopUpGameObject.activeSelf && interactText.text == newInteractText) return;
+
             interactPopUpGameObject.SetActive(true);
             interactText.text = newInteractText;
         }

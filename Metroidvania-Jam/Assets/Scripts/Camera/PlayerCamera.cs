@@ -87,6 +87,9 @@ namespace TS
 
         private void HandleRotations()
         {
+            // If the cursor is visible, don't rotate the camera
+            if (WorldCursorManager.Instance != null && WorldCursorManager.Instance.IsCursorVisible) return;
+
             // If locked on, force rotation towards the target
             // else rotate regularly
             Quaternion targetRotation;

@@ -30,20 +30,22 @@ namespace TS
 
         public virtual void DrainStaminaBasedOnAttack()
         {
-            float staminaDeducted = 0;
+            Debug.Log("NO IMPLEMENTATION OF STAMINA");
+            return;
+            // float staminaDeducted = 0;
 
-            if (currentWeaponBeingUsed == null) return;
+            // if (currentWeaponBeingUsed == null) return;
 
-            switch (currentAttackType)
-            {
-                case AttackType.LightAttack01:
-                    staminaDeducted = currentWeaponBeingUsed.baseStaminaCost * currentWeaponBeingUsed.lightAttackStaminaCostMultiplier;
-                    break;
-                default:
-                    break;
-            }
+            // switch (currentAttackType)
+            // {
+            //     case AttackType.LightAttack01:
+            //         staminaDeducted = currentWeaponBeingUsed.baseStaminaCost * currentWeaponBeingUsed.lightAttackStaminaCostMultiplier;
+            //         break;
+            //     default:
+            //         break;
+            // }
 
-            player.UpdateCharacterStamina(staminaDeducted);
+            // player.UpdateCharacterStamina(staminaDeducted);
         }
     }
 }

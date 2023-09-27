@@ -45,6 +45,7 @@ namespace TS
         {
             currentDialogIndex = 0;
             dialogInputManager.ContinueToNextDialogEvent -= ContinueToNextDialog;
+            PlayerInputManager.Instance.IsInteracting = false;
             dialogGameObject.SetActive(false);
         }
 

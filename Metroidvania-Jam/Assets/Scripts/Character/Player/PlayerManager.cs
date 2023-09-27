@@ -11,7 +11,7 @@ namespace TS
         [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
         [HideInInspector] public PlayerInventoryManager playerInventoryManager;
         [HideInInspector] public PlayerEquipmentManager playerEquipmentManager;
-        [HideInInspector] public PlayerInteractableManager interactableManager;
+        [HideInInspector] public PlayerInteractableManager playerInteractableManager;
         [HideInInspector] public PlayerCombatManager playerCombatManager;
 
         [Header("Player Name")]
@@ -36,7 +36,7 @@ namespace TS
             characterStatsManager = GetComponent<PlayerStatsManager>();
             playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
-            interactableManager = GetComponent<PlayerInteractableManager>();
+            playerInteractableManager = GetComponent<PlayerInteractableManager>();
             playerCombatManager = GetComponent<PlayerCombatManager>();
 
             PlayerCamera.Instance.player = this;
@@ -52,7 +52,7 @@ namespace TS
 
             playerLocomotionManager.HandleAllMovement();
 
-            interactableManager.CheckForInteractableObject(this);
+            playerInteractableManager.CheckForInteractableObject(this);
 
             CountPlayedTime();
 
@@ -81,7 +81,6 @@ namespace TS
         public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
         {
             PlayerUIManager.Instance.playerUIPopupManager.SendYouDiedPopup();
-            ReviveCharacter();
             return base.ProcessDeathEvent(manuallySelectDeathAnimation);
         }
 

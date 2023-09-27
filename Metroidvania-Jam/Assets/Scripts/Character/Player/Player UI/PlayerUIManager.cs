@@ -13,6 +13,7 @@ namespace TS
         [HideInInspector] public PlayerUIDialogManager playerUIDialogManager;
         [HideInInspector] public PlayerUIPauseManager playerUIPauseManager;
         [HideInInspector] public PlayerUIInteractMessage playerUIInteractMessage;
+        [HideInInspector] public WorldObjectiveManager worldObjectiveManager;
 
         private void Awake()
         {
@@ -34,6 +35,7 @@ namespace TS
             playerUIDialogManager = GetComponentInChildren<PlayerUIDialogManager>();
             playerUIPauseManager = GetComponentInChildren<PlayerUIPauseManager>();
             playerUIInteractMessage = GetComponentInChildren<PlayerUIInteractMessage>();
+            worldObjectiveManager = GetComponentInChildren<WorldObjectiveManager>();
         }
     }
 }

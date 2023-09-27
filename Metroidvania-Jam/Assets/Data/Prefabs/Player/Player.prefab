@@ -478,7 +478,7 @@ MonoBehaviour:
   playerLocomotionManager: {fileID: 0}
   playerInventoryManager: {fileID: 0}
   playerEquipmentManager: {fileID: 0}
-  interactableManager: {fileID: 0}
+  playerInteractableManager: {fileID: 0}
   playerCombatManager: {fileID: 0}
   characterName: 
   isSprinting: 0
@@ -560,7 +560,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectToTest: {fileID: 11400000, guid: c4a2494978c12884d9916d74b62f4012, type: 2}
-  processEffect: 0
 --- !u!114 &-2539617345158853850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,6 +624,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88ff8322a1bca3a4dbe4ee73277acace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableArea: 0.4
+  isInteracting: 0
 --- !u!1 &1367833217027717718
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,7 +10,6 @@ namespace TS
     public class LightAttackWeaponItemAction : WeaponItemAction
     {
         [SerializeField] private string light_attack_01 = "Main_Light_Attack_01";
-        // Temporary Combo
         [SerializeField] private string light_attack_02 = "Main_Light_Attack_02";
         [SerializeField] private string light_attack_03 = "Main_Light_Attack_03";
 
@@ -23,15 +22,12 @@ namespace TS
             // Check for stops. Example: stamina <= 0 (will not be in this demo)
 
             if (!playerPerformingAction.isGrounded) return;
-            Debug.Log("CHegou0");
 
             // Temporary Heavy Attack
             if (isHeavyAttack)
             {
-                Debug.Log("CHegou1");
                 if (isHeavyAttackFull)
                 {
-                    Debug.Log("CHegou2");
                     playerPerformingAction.isChargeAttackFullReleased = true;
                 }
                 else
@@ -76,11 +72,6 @@ namespace TS
 
                 playerPerformingAction.playerCombatManager.CloseCanDoCombo();
             }
-        }
-
-        private void PerformHeavyAttack()
-        {
-
         }
     }
 }

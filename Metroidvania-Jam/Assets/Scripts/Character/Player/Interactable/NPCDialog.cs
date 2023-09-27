@@ -28,6 +28,12 @@ namespace TS
             hasBeenMet = WorldSaveGameManager.Instance.currentCharacterData.npcsInWorld[npcID];
         }
 
+        protected override void Update()
+        {
+            base.Update();
+        }
+
+
         public override void Interact(PlayerManager playerManager)
         {
             base.Interact(playerManager);
@@ -40,9 +46,9 @@ namespace TS
 
             WorldSaveGameManager.Instance.currentCharacterData.npcsInWorld.Add(npcID, true);
 
-            hasBeenMet = true;
-
             StartDialog();
+
+            hasBeenMet = true;
         }
 
         private void StartDialog()

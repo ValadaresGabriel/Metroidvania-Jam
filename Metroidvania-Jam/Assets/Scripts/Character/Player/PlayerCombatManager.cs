@@ -10,6 +10,8 @@ namespace TS
         public WeaponItem currentWeaponBeingUsed;
         public float heavyAttackMultiplier;
 
+        private float currentTimeToPerformHeavyAttack = 0;
+
         protected override void Awake()
         {
             base.Awake();
@@ -22,6 +24,7 @@ namespace TS
             if (player.isPerformingAction && player.canDoCombo == false && isHeavyAttack == false) return;
 
             player.playerLocomotionManager.HandleRotation();
+
             // Perform the Action
             weaponAction.AttemptToPerformAction(player, weaponPerformingAction, isHeavyAttack, isHeavyAttackFull);
 
