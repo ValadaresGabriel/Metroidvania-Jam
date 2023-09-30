@@ -2452,7 +2452,7 @@ MonoBehaviour:
   currentState: {fileID: 5148917093694182844}
   currentTarget: {fileID: 0}
   rotationSpeed: 15
-  maximumAttackRange: 1.5
+  maximumAttackRange: 2
   detectionRadius: 15
   minimumDetectionAngle: -50
   maximumDetectionAngle: 50
@@ -3815,7 +3815,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8257928079569425312, guid: 0ad932253e8dc8841948afa5d1a0d051, type: 3}
+  - {fileID: 2100000, guid: 50883cd465ba5104bb094f4bf719bb47, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

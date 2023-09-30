@@ -21,7 +21,7 @@ namespace TS
 
         [Header("Locomotion & Ranges Settings")]
         [SerializeField] private float rotationSpeed = 15f;
-        [SerializeField] private float maximumAttackRange = 1.5f;
+        [SerializeField] private float maximumAttackRange = 2f;
 
         [Header("A.I. Settings")]
         [SerializeField] private float detectionRadius = 15f;
