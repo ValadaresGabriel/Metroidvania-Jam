@@ -24,7 +24,7 @@ namespace TS
         [SerializeField] private float maximumAttackRange = 1.5f;
 
         [Header("A.I. Settings")]
-        [SerializeField] private float detectionRadius = 20f;
+        [SerializeField] private float detectionRadius = 15f;
         [SerializeField] private float minimumDetectionAngle = -50f;
         [SerializeField] private float maximumDetectionAngle = 50f;
         public float currentRecoveryTime = 0;
