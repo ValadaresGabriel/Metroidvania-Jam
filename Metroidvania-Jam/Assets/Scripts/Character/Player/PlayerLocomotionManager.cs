@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,6 +28,7 @@ namespace TS
         [SerializeField] private float freeFallSpeed = 2f;
         [SerializeField] private float jumpHeight = 4f;
         [SerializeField] private float jumpStaminaCost = 10f;
+        [SerializeField] private float maxTimeInAir = 3f;
         private Vector3 jumpDirection;
 
         [Header("Dodge")]
@@ -43,10 +45,6 @@ namespace TS
         protected override void Update()
         {
             base.Update();
-
-            // player.characterNetworkManager.verticalMovement = verticalMovement;
-            // player.characterNetworkManager.horizontalMovement = horizontalMovement;
-            // player.characterNetworkManager.moveAmount = moveAmount;
         }
 
         public void HandleAllMovement()
@@ -100,7 +98,7 @@ namespace TS
         {
             if (player.isJumping)
             {
-                player.characterController.Move(jumpDirection * jumpForwardSpeed * Time.deltaTime);
+                player.characterController.Move(jumpForwardSpeed * Time.deltaTime * jumpDirection);
             }
         }
 
@@ -114,7 +112,7 @@ namespace TS
                 freeFallDirection += PlayerCamera.Instance.cameraObject.transform.right * PlayerInputManager.Instance.horizontalInput;
                 freeFallDirection.y = 0;
 
-                player.characterController.Move(freeFallDirection * freeFallSpeed * Time.deltaTime);
+                player.characterController.Move(freeFallSpeed * Time.deltaTime * freeFallDirection);
             }
         }
 
@@ -129,46 +127,15 @@ namespace TS
             targetRotationDirection.Normalize();
             targetRotationDirection.y = 0;
 
-            if (player.isLockedOnEnemy)
+            if (targetRotationDirection == Vector3.zero)
             {
-                // TO DO: isDodging
-                if (player.isSprinting || player.isSprinting)
-                {
-                    if (targetRotationDirection == Vector3.zero)
-                    {
-                        targetRotationDirection = transform.forward;
-                    }
-
-                    Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
-                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
-
-                    transform.rotation = targetRotation;
-                }
-                else
-                {
-                    targetRotationDirection = moveDirection;
-                    targetRotationDirection = PlayerCamera.Instance.GetLockOnCurrentTarget().position - transform.position;
-                    targetRotationDirection.Normalize();
-                    targetRotationDirection.y = 0;
-
-                    Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
-                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
-
-                    transform.rotation = targetRotation;
-                }
+                targetRotationDirection = transform.forward;
             }
-            else
-            {
-                if (targetRotationDirection == Vector3.zero)
-                {
-                    targetRotationDirection = transform.forward;
-                }
 
-                Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
-                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
+            Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
+            Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
 
-                transform.rotation = targetRotation;
-            }
+            transform.rotation = targetRotation;
         }
 
         public void HandleSprinting()
@@ -288,7 +255,7 @@ namespace TS
 
             player.isJumping = true;
 
-            player.characterStatsManager.SetCurrentStamina(player.characterStatsManager.GetCurrentStamina() - jumpStaminaCost);
+            // player.characterStatsManager.SetCurrentStamina(player.characterStatsManager.GetCurrentStamina() - jumpStaminaCost);
         }
 
         public void ApplyJumpingVelocity()

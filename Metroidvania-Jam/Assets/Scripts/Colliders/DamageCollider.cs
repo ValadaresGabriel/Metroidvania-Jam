@@ -61,7 +61,9 @@ namespace TS
 
             TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.Instance.takeDamageEffect);
             damageEffect.characterCausingDamage = characterCausingDamage;
-            damageEffect.SetDamage(damage);
+            damageEffect.Damage = damage;
+            damageEffect.ContactPoint = contactPoint;
+            damageEffect.AngleHitFrom = Vector3.SignedAngle(characterCausingDamage.transform.forward, damageTarget.transform.forward, Vector3.up);
 
             switch (characterCausingDamage.characterCombatManager.currentAttackType)
             {
@@ -92,7 +94,7 @@ namespace TS
 
         protected virtual void ApplyAttackDamageModifiers(float modifier, TakeDamageEffect damage)
         {
-            damage.damage *= modifier;
+            damage.Damage *= modifier;
 
             // If attack is a fully charged heavy, multiply by full charge modifier after normal modifier have been calculated
         }

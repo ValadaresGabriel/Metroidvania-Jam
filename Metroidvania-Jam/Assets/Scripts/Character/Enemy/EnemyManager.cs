@@ -36,6 +36,7 @@ namespace TS
         protected override void Awake()
         {
             base.Awake();
+
             enemyCombatManager = GetComponent<EnemyCombatManager>();
             enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
@@ -45,8 +46,10 @@ namespace TS
             RB = GetComponent<Rigidbody>();
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             navMeshAgent.enabled = false;
             RB.isKinematic = false;
             OnCurrentWeaponBeingUsedIDChange(0);
@@ -71,6 +74,8 @@ namespace TS
 
         private void HandleStateMachine()
         {
+            if (isDead) return;
+
             if (currentState != null)
             {
                 State nextState = currentState.Tick(this, enemyStatsManager, enemyAnimatorManager);

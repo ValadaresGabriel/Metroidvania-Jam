@@ -2311,6 +2311,8 @@ GameObject:
   - component: {fileID: 9011616679772873376}
   - component: {fileID: 3359280110643650222}
   - component: {fileID: 6314037263541012909}
+  - component: {fileID: 688982436979915662}
+  - component: {fileID: 5674819584501217524}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -2428,6 +2430,7 @@ MonoBehaviour:
   characterEffectsManager: {fileID: 0}
   characterAnimatorManager: {fileID: 0}
   characterCombatManager: {fileID: 0}
+  characterSoundFXManager: {fileID: 0}
   isDead: 0
   isPerformingAction: 0
   applyRootMotion: 0
@@ -2441,7 +2444,6 @@ MonoBehaviour:
   isChargeAttackFullReleased: 0
   parentCollider: {fileID: 2514249790809093488}
   characterCollisionBlocker: {fileID: 4763614801255277512}
-  lockOnTransform: {fileID: 739390323049766894}
   enemyAnimatorManager: {fileID: 0}
   enemyCombatManager: {fileID: 0}
   navMeshAgent: {fileID: 0}
@@ -2489,6 +2491,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6ed52cec942fd54c8fc572c144cee13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hit_Forward_Medium_01: Hit_Forward_Medium_01
+  hit_Forward_Medium_02: Hit_Forward_Medium_02
+  hit_Backward_Medium_01: Hit_Backward_Medium_01
+  hit_Backward_Medium_02: Hit_Backward_Medium_02
+  hit_Left_Medium_01: Hit_Left_Medium_01
+  hit_Left_Medium_02: Hit_Left_Medium_02
+  hit_Right_Medium_01: Hit_Right_Medium_01
+  hit_Right_Medium_02: Hit_Right_Medium_02
+  forward_Medium_Damages: []
+  backward_Medium_Damages: []
+  left_Medium_Damages: []
+  right_Medium_Damages: []
 --- !u!114 &7613756500258966550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2521,6 +2535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48aa70af0da6d5744ad25726b73209eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bloodSplatterVFX: {fileID: 0}
 --- !u!114 &9011616679772873376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2533,7 +2548,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2375d577fa421bb48b9ace9ada58f6c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentTarget: {fileID: 0}
   currentAttackType: 0
+  lockOnTransform: {fileID: 0}
   currentWeaponBeingUsed: {fileID: 0}
 --- !u!114 &3359280110643650222
 MonoBehaviour:
@@ -2572,6 +2589,120 @@ MonoBehaviour:
   weaponsInRightHandSlot:
   - {fileID: 11400000, guid: b9254c418c369324298747a76d51d900, type: 2}
   - {fileID: 11400000, guid: 3d2a64b41756fc3449bbb4b48393cae1, type: 2}
+--- !u!114 &688982436979915662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4462738511347466647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1df7d3903e1c9546b03b841e4b2d6f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!82 &5674819584501217524
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4462738511347466647}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 150
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4502828497062927223
 GameObject:
   m_ObjectHideFlags: 0

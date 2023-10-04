@@ -14,7 +14,8 @@ namespace TS
         [Header("World Objective Configurations")]
         [SerializeField] private List<WorldObjective> worldObjectives;
         [SerializeField] private WorldObjective currentWorldObjective;
-        [SerializeField] private AudioSource objectiveAudioSource;
+        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioSource completeObjectiveAudioClip;
         [SerializeField] private AudioClip takeNewObjectiveSFX;
         [SerializeField] private AudioClip completeCurrentObjectiveSFX;
 

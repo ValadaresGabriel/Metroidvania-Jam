@@ -19,6 +19,11 @@ namespace TS
         public float cameraHorizontalInput;
         public float cameraVerticalInput;
 
+        [Header("LOCK ON INPUT")]
+        [SerializeField] private bool lockOnInput = false;
+        [SerializeField] private bool rightStick_Right = false;
+        [SerializeField] private bool rightStick_Left = false;
+
         [Header("PLAYER MOVEMENT INPUT")]
         public Vector2 movementInput;
         public float horizontalInput;
@@ -31,9 +36,6 @@ namespace TS
         [SerializeField] private bool dodgeInput = false;
         [SerializeField] private bool sprintInput = false;
         [SerializeField] private bool jumpInput = false;
-        [SerializeField] private bool lockOnInput = false;
-        [SerializeField] private bool rightStick_Right = false;
-        [SerializeField] private bool rightStick_Left = false;
         [SerializeField] private bool isHolding_Heavy_Attack = false;
         [SerializeField] private float timeToPerformHeavyAttack = 1.28f;
         [SerializeField] private bool isInteracting;
@@ -185,7 +187,7 @@ namespace TS
             if (player == null) return;
 
             // If we are locked on pass the horizontal movement as well
-            if (player.isLockedOnEnemy && player.isSprinting == false)
+            if (player.isLockedOn && player.isSprinting == false)
             {
                 player.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalInput, verticalInput);
             }
@@ -240,10 +242,8 @@ namespace TS
             {
                 jumpInput = false;
 
-                if (isHolding_Show_Cursor)
-                {
+                if (isHolding_Show_Cursor || !player.isGrounded || player.isPerformingAction)
                     return;
-                }
 
                 // If UI is open, do nothing (return)
                 player.playerLocomotionManager.AttemptToPerformJump();
@@ -274,32 +274,36 @@ namespace TS
 
         private void HandleLockOnInput()
         {
-            if (lockOnInput && player.isLockedOnEnemy == false)
+            if (player.isLockedOn)
+            {
+                if (player.playerCombatManager.currentTarget == null)
+                {
+                    return;
+                }
+
+                if (player.playerCombatManager.currentTarget.isDead)
+                {
+                    player.isLockedOn = false;
+                }
+
+                // Attempt to find new target
+            }
+
+            if (lockOnInput && player.isLockedOn)
+            {
+                lockOnInput = false;
+                // Disable lock on
+                return;
+            }
+
+            if (lockOnInput && !player.isLockedOn)
             {
                 lockOnInput = false;
 
-                PlayerCamera.Instance.AttemptToLockOn();
-            }
-            else if (lockOnInput && player.isLockedOnEnemy)
-            {
-                lockOnInput = false;
-                player.isLockedOnEnemy = false;
+                // If we are aiming using ranged weapons, return (do not allow lock whilst aiming)
 
-                PlayerCamera.Instance.ClearLockOnTargets();
+                PlayerCamera.Instance.HandleLocatingLockOnTargets();
             }
-
-            if (player.isLockedOnEnemy && rightStick_Left)
-            {
-                rightStick_Left = false;
-                PlayerCamera.Instance.AttemptToSetLockOnBasedOnLeftOrRightTarget(LockOnRightLeftTarget.Left);
-            }
-
-            if (player.isLockedOnEnemy && rightStick_Right)
-            {
-                rightStick_Right = false;
-                PlayerCamera.Instance.AttemptToSetLockOnBasedOnLeftOrRightTarget(LockOnRightLeftTarget.Right);
-            }
-            PlayerCamera.Instance.SetCameraHeight();
         }
 
         private IEnumerator HandleHeavyAttack()

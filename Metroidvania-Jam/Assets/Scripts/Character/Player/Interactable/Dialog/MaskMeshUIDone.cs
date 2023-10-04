@@ -15,6 +15,11 @@ namespace TS
         protected override void Start()
         {
             base.Start();
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
 
             if (!Application.isPlaying) return; // Don't run in the Editor
 

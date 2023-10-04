@@ -146,7 +146,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 73332515150950602}
+  - {fileID: 8578900786478823075}
   - {fileID: 8159444510980526359}
   - {fileID: 2350056839918317490}
   m_Father: {fileID: 0}
@@ -285,7 +285,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04116d893f2546248ac274d84a40eae9, type: 3}
---- !u!4 &73332515150950602 stripped
+--- !u!4 &8578900786478823075 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4171746013389360, guid: 04116d893f2546248ac274d84a40eae9,
     type: 3}

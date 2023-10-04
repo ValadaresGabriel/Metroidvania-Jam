@@ -15,6 +15,7 @@ namespace TS
         [HideInInspector] public CharacterEffectsManager characterEffectsManager;
         [HideInInspector] public CharacterAnimatorManager characterAnimatorManager;
         [HideInInspector] public CharacterCombatManager characterCombatManager;
+        [HideInInspector] public CharacterSoundFXManager characterSoundFXManager;
 
         [Header("Character Status")]
         public bool isDead = false;
@@ -35,9 +36,6 @@ namespace TS
         [SerializeField] private Collider parentCollider;
         [SerializeField] private Collider characterCollisionBlocker;
 
-        [Header("Camera Target Lock On")]
-        public Transform lockOnTransform;
-
         protected virtual void Awake()
         {
             // DontDestroyOnLoad(gameObject);
@@ -49,8 +47,14 @@ namespace TS
             characterEffectsManager = GetComponent<CharacterEffectsManager>();
             characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
             characterCombatManager = GetComponent<CharacterCombatManager>();
+            characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
 
             Physics.IgnoreCollision(parentCollider, characterCollisionBlocker, true);
+        }
+
+        protected virtual void Start()
+        {
+
         }
 
         public virtual void UpdateCharacterHealth(float newHealthValue)

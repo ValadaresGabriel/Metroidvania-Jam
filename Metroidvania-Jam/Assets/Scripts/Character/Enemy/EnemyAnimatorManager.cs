@@ -13,8 +13,10 @@ namespace TS
             base.Awake();
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             enemy = GetComponent<EnemyManager>();
         }
 

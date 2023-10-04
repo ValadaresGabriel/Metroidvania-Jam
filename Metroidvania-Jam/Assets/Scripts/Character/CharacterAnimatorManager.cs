@@ -10,11 +10,76 @@ namespace TS
         private int horizontal;
         private int vertical;
 
+        [Header("Damage Animations")]
+        private string lastDamageAnimationPlayed;
+
+        [SerializeField] private string hit_Forward_Medium_01 = "Hit_Forward_Medium_01";
+        [SerializeField] private string hit_Forward_Medium_02 = "Hit_Forward_Medium_02";
+
+        [SerializeField] private string hit_Backward_Medium_01 = "Hit_Backward_Medium_01";
+        [SerializeField] private string hit_Backward_Medium_02 = "Hit_Backward_Medium_02";
+
+        [SerializeField] private string hit_Left_Medium_01 = "Hit_Left_Medium_01";
+        [SerializeField] private string hit_Left_Medium_02 = "Hit_Left_Medium_02";
+
+        [SerializeField] private string hit_Right_Medium_01 = "Hit_Right_Medium_01";
+        [SerializeField] private string hit_Right_Medium_02 = "Hit_Right_Medium_02";
+
+        [SerializeField] private List<string> forward_Medium_Damages = new();
+        [SerializeField] private List<string> backward_Medium_Damages = new();
+        [SerializeField] private List<string> left_Medium_Damages = new();
+        [SerializeField] private List<string> right_Medium_Damages = new();
+
+        public List<string> Forward_Medium_Damages => forward_Medium_Damages;
+        public List<string> Backward_Medium_Damages => backward_Medium_Damages;
+        public List<string> Left_Medium_Damages => left_Medium_Damages;
+        public List<string> Right_Medium_Damages => right_Medium_Damages;
+
         protected virtual void Awake()
         {
             character = GetComponent<CharacterManager>();
             horizontal = Animator.StringToHash("Horizontal");
             vertical = Animator.StringToHash("Vertical");
+        }
+
+        protected virtual void Start()
+        {
+            forward_Medium_Damages.Add(hit_Forward_Medium_01);
+            forward_Medium_Damages.Add(hit_Forward_Medium_02);
+
+            backward_Medium_Damages.Add(hit_Backward_Medium_01);
+            backward_Medium_Damages.Add(hit_Backward_Medium_02);
+
+            left_Medium_Damages.Add(hit_Left_Medium_01);
+            left_Medium_Damages.Add(hit_Left_Medium_02);
+
+            right_Medium_Damages.Add(hit_Right_Medium_01);
+            right_Medium_Damages.Add(hit_Right_Medium_02);
+        }
+
+        public string GetRandomAnimationFromList(List<string> animationList)
+        {
+            List<string> finalList = new();
+
+            foreach (var animation in animationList)
+            {
+                finalList.Add(animation);
+            }
+
+            finalList.Remove(lastDamageAnimationPlayed);
+
+            // Check for null entries
+            for (int i = finalList.Count - 1; i > -1; i--)
+            {
+                if (finalList[i] == null)
+                {
+                    finalList.RemoveAt(i);
+                }
+            }
+
+            int randomValue = Random.Range(0, finalList.Count);
+
+            return finalList[randomValue];
         }
 
         public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue, bool isSprinting = false)
@@ -80,6 +145,12 @@ namespace TS
 
             // Tell the server/host we played an animation, and to play that animation for everybody else present
             // character.characterNetworkManager.NotifyTheServerOfActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
+        }
+
+        public string LastDamageAnimationPlayed
+        {
+            get => lastDamageAnimationPlayed;
+            set => lastDamageAnimationPlayed = value;
         }
     }
 }

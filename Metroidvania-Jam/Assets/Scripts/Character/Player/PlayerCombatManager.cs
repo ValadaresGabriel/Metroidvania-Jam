@@ -10,8 +10,6 @@ namespace TS
         public WeaponItem currentWeaponBeingUsed;
         public float heavyAttackMultiplier;
 
-        private float currentTimeToPerformHeavyAttack = 0;
-
         protected override void Awake()
         {
             base.Awake();

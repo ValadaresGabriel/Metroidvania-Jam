@@ -9,6 +9,9 @@ namespace TS
     {
         public static WorldCharacterEffectsManager Instance { get; private set; }
 
+        [Header("VFX")]
+        public GameObject bloodSplatterVFX;
+
         [Header("Damage")]
         public TakeDamageEffect takeDamageEffect;
 

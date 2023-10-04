@@ -6,7 +6,15 @@ namespace TS
 {
     public class CharacterCombatManager : MonoBehaviour
     {
+        [Header("Attack Target")]
+        public CharacterManager currentTarget;
+
+        [Header("Attack Type")]
         public AttackType currentAttackType;
+
+        [Header("Lock On Transform")]
+        public Transform lockOnTransform;
+
         private CharacterManager character;
 
         protected virtual void Awake()

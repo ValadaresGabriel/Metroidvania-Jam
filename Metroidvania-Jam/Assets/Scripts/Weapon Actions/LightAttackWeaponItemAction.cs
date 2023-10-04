@@ -13,8 +13,6 @@ namespace TS
         [SerializeField] private string light_attack_02 = "Main_Light_Attack_02";
         [SerializeField] private string light_attack_03 = "Main_Light_Attack_03";
 
-        [SerializeField] private float timeToPerformHeavyAttack = 1.28f;
-
         public override void AttemptToPerformAction(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction, bool isHeavyAttack, bool isHeavyAttackFull)
         {
             base.AttemptToPerformAction(playerPerformingAction, weaponPerformingAction);

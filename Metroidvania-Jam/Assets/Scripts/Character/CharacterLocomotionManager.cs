@@ -69,11 +69,5 @@ namespace TS
             character.isGrounded = Physics.CheckSphere(character.transform.position, groundCheckSphereRadius, groundLayer);
         }
 
-        protected void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(character.transform.position, groundCheckSphereRadius);
-        }
-
     }
 }

@@ -19,7 +19,7 @@ namespace TS
 
         [Header("Flags")]
         public bool isSprinting = false;
-        public bool isLockedOnEnemy = false;
+        public bool isLockedOn = false;
         public bool isUsingRightHand = true;
         public bool isUsingLeftHand = false;
 
@@ -44,6 +44,13 @@ namespace TS
             WorldSaveGameManager.Instance.player = this;
         }
 
+        protected override void Start()
+        {
+            base.Start();
+
+            SceneManager.activeSceneChanged += OnSceneChange;
+        }
+
         protected override void Update()
         {
             base.Update();
@@ -58,6 +65,11 @@ namespace TS
 
             // Regen stamina
             // playerStatsManager.RegenerateStamina();
+        }
+
+        private void OnSceneChange(Scene oldScene, Scene newScene)
+        {
+            characterSoundFXManager.FindTerrain();
         }
 
         private void CountPlayedTime()
@@ -192,5 +204,10 @@ namespace TS
             }
         }
         #endregion
+
+        private void OnDestroy()
+        {
+            SceneManager.activeSceneChanged -= OnSceneChange;
+        }
     }
 }

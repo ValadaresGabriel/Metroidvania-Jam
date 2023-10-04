@@ -362,13 +362,15 @@ GameObject:
   - component: {fileID: 3456985146082378751}
   - component: {fileID: 4006952998267322134}
   - component: {fileID: 4426227916107385988}
+  - component: {fileID: 8651932645413148681}
   - component: {fileID: 6983131131149773318}
   - component: {fileID: 7418307817776873692}
   - component: {fileID: 6554350861833357860}
   - component: {fileID: -2539617345158853850}
   - component: {fileID: -5634443522188581276}
-  - component: {fileID: 8651932645413148681}
   - component: {fileID: 951330368906378667}
+  - component: {fileID: 7080523737535519282}
+  - component: {fileID: 704189393379748373}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -460,6 +462,7 @@ MonoBehaviour:
   characterEffectsManager: {fileID: 0}
   characterAnimatorManager: {fileID: 0}
   characterCombatManager: {fileID: 0}
+  characterSoundFXManager: {fileID: 0}
   isDead: 0
   isPerformingAction: 0
   applyRootMotion: 0
@@ -473,7 +476,6 @@ MonoBehaviour:
   isChargeAttackFullReleased: 0
   parentCollider: {fileID: 3456985146082378751}
   characterCollisionBlocker: {fileID: 5308356975041963682}
-  lockOnTransform: {fileID: 5901356129736300866}
   playerAnimatorManager: {fileID: 0}
   playerLocomotionManager: {fileID: 0}
   playerInventoryManager: {fileID: 0}
@@ -482,7 +484,7 @@ MonoBehaviour:
   playerCombatManager: {fileID: 0}
   characterName: 
   isSprinting: 0
-  isLockedOnEnemy: 0
+  isLockedOn: 0
   isUsingRightHand: 1
   isUsingLeftHand: 0
   canUseHeavyAttack: 0
@@ -519,6 +521,23 @@ MonoBehaviour:
   jumpHeight: 6
   jumpStaminaCost: 10
   dodgeStaminaCost: 25
+--- !u!114 &8651932645413148681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349060570454581987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f77d5e7b82183d4eb7a332e6bff37f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTarget: {fileID: 0}
+  currentAttackType: 0
+  lockOnTransform: {fileID: 5901356129736300866}
+  currentWeaponBeingUsed: {fileID: 0}
+  heavyAttackMultiplier: 0
 --- !u!114 &6983131131149773318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,6 +566,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d73e09bada34ad4e97ae8339fc71dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hit_Forward_Medium_01: Hit_Forward_Medium_01
+  hit_Forward_Medium_02: Hit_Forward_Medium_02
+  hit_Backward_Medium_01: Hit_Backward_Medium_01
+  hit_Backward_Medium_02: Hit_Backward_Medium_02
+  hit_Left_Medium_01: Hit_Left_Medium_01
+  hit_Left_Medium_02: Hit_Left_Medium_02
+  hit_Right_Medium_01: Hit_Right_Medium_01
+  hit_Right_Medium_02: Hit_Right_Medium_02
+  forward_Medium_Damages: []
+  backward_Medium_Damages: []
+  left_Medium_Damages: []
+  right_Medium_Damages: []
 --- !u!114 &6554350861833357860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,6 +590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c75915df40d57346b79d0d284da531c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bloodSplatterVFX: {fileID: 0}
   effectToTest: {fileID: 11400000, guid: c4a2494978c12884d9916d74b62f4012, type: 2}
 --- !u!114 &-2539617345158853850
 MonoBehaviour:
@@ -597,21 +629,6 @@ MonoBehaviour:
   leftWeaponManager: {fileID: 0}
   rightHandWeaponModel: {fileID: 0}
   leftHandWeaponModel: {fileID: 0}
---- !u!114 &8651932645413148681
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1349060570454581987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f77d5e7b82183d4eb7a332e6bff37f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentAttackType: 0
-  currentWeaponBeingUsed: {fileID: 0}
-  heavyAttackMultiplier: 0
 --- !u!114 &951330368906378667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,7 +642,121 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableArea: 0.4
-  isInteracting: 0
+--- !u!114 &7080523737535519282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349060570454581987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1df7d3903e1c9546b03b841e4b2d6f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  terrainTypes: []
+--- !u!82 &704189393379748373
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349060570454581987}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 70
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1367833217027717718
 GameObject:
   m_ObjectHideFlags: 0

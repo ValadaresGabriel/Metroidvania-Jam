@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Interactable
   - Spawn Point
+  - Terrain
   layers:
   - Default
   - TransparentFX
