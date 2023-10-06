@@ -520,6 +520,7 @@ MonoBehaviour:
   freeFallSpeed: 5
   jumpHeight: 6
   jumpStaminaCost: 10
+  maxTimeInAir: 3
   dodgeStaminaCost: 25
 --- !u!114 &8651932645413148681
 MonoBehaviour:
@@ -591,7 +592,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bloodSplatterVFX: {fileID: 0}
-  effectToTest: {fileID: 11400000, guid: c4a2494978c12884d9916d74b62f4012, type: 2}
 --- !u!114 &-2539617345158853850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -642,6 +642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableArea: 0.4
+  maxDistance: 5
 --- !u!114 &7080523737535519282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +661,6 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
-  terrainTypes: []
 --- !u!82 &704189393379748373
 AudioSource:
   m_ObjectHideFlags: 0

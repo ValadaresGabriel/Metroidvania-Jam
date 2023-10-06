@@ -9,6 +9,7 @@ namespace TS
     {
         private bool interact = false;
         [SerializeField] private float interactableArea = 0.4f;
+        [SerializeField] private float maxDistance = 3f;
 
         public void AttemptToInteract()
         {
@@ -19,7 +20,7 @@ namespace TS
         {
             RaycastHit hit;
 
-            if (Physics.SphereCast(transform.position, interactableArea, transform.forward, out hit, 1f))
+            if (Physics.SphereCast(transform.position, interactableArea, transform.forward, out hit, maxDistance))
             {
                 if (PlayerInputManager.Instance.IsInteracting)
                 {
