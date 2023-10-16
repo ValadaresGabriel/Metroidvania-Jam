@@ -36,8 +36,7 @@ namespace TS
                 {
                     if (hit.collider.TryGetComponent(out Interactable interactableObject))
                     {
-                        string interactableText = interactableObject.interactableText;
-                        PlayerUIManager.Instance.playerUIPopupManager.SendInteractPopup(interactableText);
+                        PlayerUIManager.Instance.playerUIPopupManager.SendInteractPopup(interactableObject);
 
                         if (interact)
                         {

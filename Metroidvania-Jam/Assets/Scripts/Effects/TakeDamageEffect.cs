@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using EZCameraShake;
@@ -54,6 +55,7 @@ namespace TS
             PlayDamageVFX(characterTakingDamage);
 
             CameraShaker.Instance.ShakeOnce(1.5f, 1.5f, 0f, .8f);
+            CombatUtilityManager.Instance.PlaySleepTimeWhenHit();
             // If character is A.I, check for new target if character causing damage is present
         }
 
@@ -80,6 +82,8 @@ namespace TS
 
         private void PlayDirectionalBasedDamageAnimation(CharacterManager character)
         {
+            if (character.isDead) return;
+
             // TO DO: Calculate if poise is broken
             poiseIsBroken = true;
 

@@ -32,6 +32,8 @@ namespace TS
                 { "Wood", WorldSoundFXManager.Instance.rockRoadSounds },
                 { "Rock", WorldSoundFXManager.Instance.rockRoadSounds },
             };
+
+            FindTerrain();
         }
 
         public void FindTerrain()
@@ -66,7 +68,7 @@ namespace TS
         private void DetectMaterial()
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, 1f, terrainLayer))
+            if (terrain != null && Physics.Raycast(transform.position, Vector3.down, out hit, 1f, terrainLayer))
             {
                 int textureIndex = GetMainTexture(transform.position, terrain);
                 currentMaterial = terrain.terrainData.terrainLayers[textureIndex].name;

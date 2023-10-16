@@ -2550,7 +2550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentTarget: {fileID: 0}
   currentAttackType: 0
-  lockOnTransform: {fileID: 0}
+  lockOnTransform: {fileID: 739390323049766894}
   currentWeaponBeingUsed: {fileID: 0}
 --- !u!114 &3359280110643650222
 MonoBehaviour:

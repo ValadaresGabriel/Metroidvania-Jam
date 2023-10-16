@@ -20,6 +20,13 @@ namespace TS
 
             interactableText = "Press <b><size=40>E</size></b> or <b><size=40>Y</size></b> to interact";
 
+            if (WorldDynamicControllerTypeDetector.Instance.controllerType == ControllerType.Xbox)
+                control = "Y";
+            else if (WorldDynamicControllerTypeDetector.Instance.controllerType == ControllerType.Playstation)
+                control = "△";
+            else
+                control = "E";
+
             if (!WorldSaveGameManager.Instance.currentCharacterData.npcsInWorld.ContainsKey(npcID))
             {
                 WorldSaveGameManager.Instance.currentCharacterData.npcsInWorld.Add(npcID, false); // false = not looted

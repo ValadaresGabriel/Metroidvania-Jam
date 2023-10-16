@@ -21,8 +21,9 @@ namespace TS
 
         [Header("LOCK ON INPUT")]
         [SerializeField] private bool lockOnInput = false;
-        [SerializeField] private bool rightStick_Right = false;
-        [SerializeField] private bool rightStick_Left = false;
+        [SerializeField] private bool lockOnRightInput = false;
+        [SerializeField] private bool lockOnLeftInput = false;
+        private Coroutine lockOnCoroutine;
 
         [Header("PLAYER MOVEMENT INPUT")]
         public Vector2 movementInput;
@@ -98,8 +99,8 @@ namespace TS
 
                 // Lock On
                 playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
-                playerControls.PlayerCamera.LockOnTargetRight.performed += i => rightStick_Right = true;
-                playerControls.PlayerCamera.LockOnTargetLeft.performed += i => rightStick_Left = true;
+                playerControls.PlayerActions.SeekLeftLockOnTarget.performed += i => lockOnLeftInput = true;
+                playerControls.PlayerActions.SeekRightLockOnTarget.performed += i => lockOnRightInput = true;
 
                 // Holding the input
                 playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
@@ -156,12 +157,13 @@ namespace TS
                 }
             }
 
+            HandleLockOnInput();
+            HandleLockOnSwitchTargetInput();
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
             HandleDodgeInput();
             HandleSprintingInput();
             // HandleAInput();
-            HandleLockOnInput();
             HandleJumpInput();
 
             AttemptToInteract();
@@ -187,7 +189,7 @@ namespace TS
             if (player == null) return;
 
             // If we are locked on pass the horizontal movement as well
-            if (player.isLockedOn && player.isSprinting == false)
+            if (player.isLockedOn && !player.isSprinting)
             {
                 player.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalInput, verticalInput);
             }
@@ -274,6 +276,7 @@ namespace TS
 
         private void HandleLockOnInput()
         {
+            // Check for dead target
             if (player.isLockedOn)
             {
                 if (player.playerCombatManager.currentTarget == null)
@@ -287,12 +290,22 @@ namespace TS
                 }
 
                 // Attempt to find new target
+
+                // This assures us that the coroutine never runs multiple times overlapping itself
+                if (lockOnCoroutine != null)
+                {
+                    StopCoroutine(lockOnCoroutine);
+                }
+
+                lockOnCoroutine = StartCoroutine(PlayerCamera.Instance.WaitThenFindNewTarget());
             }
 
             if (lockOnInput && player.isLockedOn)
             {
                 lockOnInput = false;
-                // Disable lock on
+                PlayerCamera.Instance.ClearLockOnTargets();
+                player.isLockedOn = false;
+                player.playerCombatManager.currentTarget = null;
                 return;
             }
 
@@ -303,6 +316,45 @@ namespace TS
                 // If we are aiming using ranged weapons, return (do not allow lock whilst aiming)
 
                 PlayerCamera.Instance.HandleLocatingLockOnTargets();
+
+                if (PlayerCamera.Instance.nearestLockOnTarget != null)
+                {
+                    player.playerCombatManager.SetTarget(PlayerCamera.Instance.nearestLockOnTarget);
+                    player.isLockedOn = true;
+                }
+            }
+        }
+
+        private void HandleLockOnSwitchTargetInput()
+        {
+            if (lockOnLeftInput)
+            {
+                lockOnLeftInput = false;
+
+                if (player.isLockedOn)
+                {
+                    PlayerCamera.Instance.HandleLocatingLockOnTargets();
+
+                    if (PlayerCamera.Instance.leftLockOnTarget != null)
+                    {
+                        player.playerCombatManager.SetTarget(PlayerCamera.Instance.leftLockOnTarget);
+                    }
+                }
+            }
+
+            if (lockOnRightInput)
+            {
+                lockOnRightInput = false;
+
+                if (player.isLockedOn)
+                {
+                    PlayerCamera.Instance.HandleLocatingLockOnTargets();
+
+                    if (PlayerCamera.Instance.rightLockOnTarget != null)
+                    {
+                        player.playerCombatManager.SetTarget(PlayerCamera.Instance.rightLockOnTarget);
+                    }
+                }
             }
         }
 

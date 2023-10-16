@@ -26,6 +26,9 @@ namespace TS
         protected bool fallingVelocityHasBeenSet = false;
         protected float inAirTimer = 0;
 
+        [Header("Flags")]
+        public bool isRolling = false;
+
         protected virtual void Awake()
         {
             character = GetComponent<CharacterManager>();

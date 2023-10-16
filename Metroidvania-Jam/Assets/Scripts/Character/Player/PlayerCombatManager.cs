@@ -29,6 +29,13 @@ namespace TS
             // player.PerformWeaponBasedAction(weaponAction.actionID, weaponPerformingAction.itemID);
         }
 
+        public override void SetTarget(CharacterManager newTarget)
+        {
+            base.SetTarget(newTarget);
+
+            PlayerCamera.Instance.SetLockCameraHeight();
+        }
+
         public virtual void DrainStaminaBasedOnAttack()
         {
             float staminaDeducted = 0;

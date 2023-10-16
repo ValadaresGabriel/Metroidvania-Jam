@@ -101,9 +101,9 @@ namespace TS
         {
             base.ReviveCharacter();
 
+            isDead = false;
             characterStatsManager.InitializeStats();
             playerAnimatorManager.PlayTargetActionAnimation("Empty", false);
-            isDead = false;
         }
 
         protected override void LateUpdate()

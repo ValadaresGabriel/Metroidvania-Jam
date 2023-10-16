@@ -273,20 +273,13 @@ MonoBehaviour:
   cameraCollisionRadius: 0.2
   collideWithLayers:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1
   environmentLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1
   leftAndRightLookAngle: 0
   upAndDownLookAngle: 0
-  lockOnTargetLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  lockOnMaximumDistance: 30
-  lockOnNearestTarget: {fileID: 0}
-  lockOnCurrentTarget: {fileID: 0}
-  lockOnLeftTarget: {fileID: 0}
-  lockOnRightTarget: {fileID: 0}
-  shortestDistanceOfLeftTarget: {fileID: 0}
-  lockedPivotPosition: 2.25
-  unlockedPivotPosition: 1.65
+  lockOnRadius: 20
+  minimumViewableAngle: -50
+  maximumViewableAngle: 50
+  lockOnTargetFollowSpeed: 0.2

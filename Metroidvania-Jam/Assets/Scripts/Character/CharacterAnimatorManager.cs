@@ -84,16 +84,58 @@ namespace TS
 
         public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue, bool isSprinting = false)
         {
-            float horizontalAmount = horizontalValue;
-            float verticalAmount = verticalValue;
+            float snappedHorizontal;
+            float snappedVertical;
+
+            if (horizontalValue > 0f && horizontalValue <= 0.5f)
+            {
+                snappedHorizontal = 0.5f;
+            }
+            else if (horizontalValue > 0.5f && horizontalValue <= 1)
+            {
+                snappedHorizontal = 1f;
+            }
+            else if (horizontalValue < 0 && horizontalValue >= -0.5f)
+            {
+                snappedHorizontal = -0.5f;
+            }
+            else if (horizontalValue < -0.5f && horizontalValue >= -1)
+            {
+                snappedHorizontal = -1;
+            }
+            else
+            {
+                snappedHorizontal = 0;
+            }
+
+            if (verticalValue > 0f && verticalValue <= 0.5f)
+            {
+                snappedVertical = 0.5f;
+            }
+            else if (verticalValue > 0.5f && verticalValue <= 1)
+            {
+                snappedVertical = 1f;
+            }
+            else if (verticalValue < 0 && verticalValue >= -0.5f)
+            {
+                snappedVertical = -0.5f;
+            }
+            else if (verticalValue < -0.5f && verticalValue >= -1)
+            {
+                snappedVertical = -1;
+            }
+            else
+            {
+                snappedVertical = 0;
+            }
 
             if (isSprinting)
             {
-                verticalAmount = 2;
+                snappedVertical = 2;
             }
 
-            character.animator.SetFloat(horizontal, horizontalAmount, 0.1f, Time.deltaTime);
-            character.animator.SetFloat(vertical, verticalAmount, 0.1f, Time.deltaTime);
+            character.animator.SetFloat(horizontal, snappedHorizontal, 0.1f, Time.deltaTime);
+            character.animator.SetFloat(vertical, snappedVertical, 0.1f, Time.deltaTime);
         }
 
         public virtual void PlayTargetActionAnimation(

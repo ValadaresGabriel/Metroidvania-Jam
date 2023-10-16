@@ -228,5 +228,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46945d893d7a7c4591d0517f737efd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
   characterCausingDamage: {fileID: 0}
+  damage: 0
+  light_attack_01_modifier: 0
+  light_attack_02_modifier: 0
+  light_attack_03_modifier: 0
+  heavy_attack_01_modifier: 0
+  heavy_attack_02_modifier: 0
+  heavy_attack_03_modifier: 0

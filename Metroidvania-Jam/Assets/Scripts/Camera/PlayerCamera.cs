@@ -43,7 +43,15 @@ namespace TS
         [SerializeField] private float lockOnRadius = 20f;
         [SerializeField] private float minimumViewableAngle = -50f;
         [SerializeField] private float maximumViewableAngle = 50f;
-        [SerializeField] private float maximumLockOnDistance = 20f;
+        [SerializeField] private float lockOnTargetFollowSpeed = 0.2f;
+        [SerializeField] private float unlockedCameraHeight = 1.5f;
+        [SerializeField] private float lockedCameraHeight = 2.0f;
+        [SerializeField] private float setCameraHeightSpeed = 0.05f;
+        private List<CharacterManager> avaliableTargets = new();
+        private Coroutine cameraLockOnHeightCoroutine;
+        public CharacterManager nearestLockOnTarget { get; private set; }
+        public CharacterManager leftLockOnTarget { get; private set; }
+        public CharacterManager rightLockOnTarget { get; private set; }
 
         private void Awake()
         {
@@ -84,40 +92,57 @@ namespace TS
             // If the cursor is visible, don't rotate the camera
             if (WorldCursorManager.Instance != null && WorldCursorManager.Instance.IsCursorVisible) return;
 
-            // If locked on, force rotation towards the target
-            // else rotate regularly
-            Quaternion targetRotation;
+            // Lock on camera rotation
+            if (player.isLockedOn)
+            {
+                // Rotates this gameobject
+                Vector3 rotationDirection = player.playerCombatManager.currentTarget.characterCombatManager.lockOnTransform.position - transform.position;
+                rotationDirection.Normalize();
+                rotationDirection.y = 0;
+                Quaternion targetRotation = Quaternion.LookRotation(rotationDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lockOnTargetFollowSpeed);
 
-            #region Normal Camera Rotation
-            // Normal rotations
-            // Rotate left and right based on horizontal movement on the right joystick
-            leftAndRightLookAngle += PlayerInputManager.Instance.cameraHorizontalInput * leftAndRightRotationSpeed * Time.deltaTime;
-            // Rotate up and down based on vertical movement on the right joystick
-            upAndDownLookAngle -= PlayerInputManager.Instance.cameraVerticalInput * upAndDownRotationSpeed * Time.deltaTime;
+                // Rotates pivot object
+                rotationDirection = player.playerCombatManager.currentTarget.characterCombatManager.lockOnTransform.position - cameraPivotTransform.position;
+                rotationDirection.Normalize();
+                targetRotation = Quaternion.LookRotation(rotationDirection);
+                cameraPivotTransform.rotation = Quaternion.Slerp(cameraPivotTransform.rotation, targetRotation, lockOnTargetFollowSpeed);
 
-            // Clamp the up and down look angle between a min and max value
-            upAndDownLookAngle = Mathf.Clamp(upAndDownLookAngle, minimumPivot, maximumPivot);
+                // Save our rotations to our look angles, so when we unlock it doesnt snap too far away
+                leftAndRightLookAngle = transform.eulerAngles.y;
+                upAndDownLookAngle = transform.eulerAngles.x;
+            }
+            // Normal camera rotation
+            else
+            {
+                // If locked on, force rotation towards the target
+                // else rotate regularly
+                Quaternion targetRotation;
 
-            Vector3 cameraRotation;
-            # region Rotate this GameObject left and right
-            cameraRotation = Vector3.zero;
+                // Normal rotations
+                // Rotate left and right based on horizontal movement on the right joystick
+                leftAndRightLookAngle += PlayerInputManager.Instance.cameraHorizontalInput * leftAndRightRotationSpeed * Time.deltaTime;
+                // Rotate up and down based on vertical movement on the right joystick
+                upAndDownLookAngle -= PlayerInputManager.Instance.cameraVerticalInput * upAndDownRotationSpeed * Time.deltaTime;
 
-            cameraRotation.y = leftAndRightLookAngle;
+                // Clamp the up and down look angle between a min and max value
+                upAndDownLookAngle = Mathf.Clamp(upAndDownLookAngle, minimumPivot, maximumPivot);
 
-            targetRotation = Quaternion.Euler(cameraRotation);
-            transform.rotation = targetRotation;
-            #endregion
+                Vector3 cameraRotation;
+                #region Rotate this GameObject left and right
+                cameraRotation = Vector3.zero;
+                cameraRotation.y = leftAndRightLookAngle;
+                targetRotation = Quaternion.Euler(cameraRotation);
+                transform.rotation = targetRotation;
+                #endregion
 
-            #region Rotate this GameObject up and down
-            cameraRotation = Vector3.zero;
-
-            cameraRotation.x = upAndDownLookAngle;
-            targetRotation = Quaternion.Euler(cameraRotation);
-
-            cameraPivotTransform.localRotation = targetRotation;
-            #endregion
-
-            #endregion
+                #region Rotate this GameObject up and down
+                cameraRotation = Vector3.zero;
+                cameraRotation.x = upAndDownLookAngle;
+                targetRotation = Quaternion.Euler(cameraRotation);
+                cameraPivotTransform.localRotation = targetRotation;
+                #endregion
+            }
         }
 
         private void HandleCollisions()
@@ -147,9 +172,9 @@ namespace TS
 
         public void HandleLocatingLockOnTargets()
         {
-            float shortDistance = Mathf.Infinity;
-            float shortDistanceOfRightTarget = Mathf.Infinity;
-            float shortDistanceOfLeftTarget = -Mathf.Infinity;
+            float shortestDistance = Mathf.Infinity;
+            float shortestDistanceOfRightTarget = Mathf.Infinity;
+            float shortestDistanceOfLeftTarget = -Mathf.Infinity;
 
             // TO DO: use layer mask
             Collider[] colliders = Physics.OverlapSphere(player.transform.position, lockOnRadius, WorldUtilityManager.Instance.GetCharacterLayers);
@@ -169,9 +194,6 @@ namespace TS
                     if (lockOnTarget.transform.root == player.transform.root)
                         continue;
 
-                    if (distanceFromTarget > maximumLockOnDistance)
-                        continue;
-
                     if (viewableAngle > minimumViewableAngle && viewableAngle < maximumViewableAngle)
                     {
                         RaycastHit hit;
@@ -184,13 +206,133 @@ namespace TS
                         }
                         else
                         {
-                            Debug.Log("Target found!");
+                            avaliableTargets.Add(lockOnTarget);
                         }
                     }
                 }
             }
+
+            foreach (var target in avaliableTargets)
+            {
+                if (target != null)
+                {
+                    float distanceFromTarget = Vector3.Distance(player.transform.position, target.transform.position);
+
+                    if (distanceFromTarget < shortestDistance)
+                    {
+                        shortestDistance = distanceFromTarget;
+                        nearestLockOnTarget = target;
+                    }
+
+                    // If we are already locked on
+                    if (player.isLockedOn)
+                    {
+                        Vector3 relativeEnemyPosition = player.transform.InverseTransformPoint(target.transform.position);
+
+                        var distanceFromLeftTarget = relativeEnemyPosition.x;
+                        var distanceFromRightTarget = relativeEnemyPosition.x;
+
+                        if (target == player.playerCombatManager.currentTarget) continue;
+
+                        if (relativeEnemyPosition.x <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget)
+                        {
+                            shortestDistanceOfLeftTarget = distanceFromLeftTarget;
+                            leftLockOnTarget = target;
+                        }
+                        else if (relativeEnemyPosition.x >= 0.00 && distanceFromRightTarget < shortestDistanceOfRightTarget)
+                        {
+                            shortestDistanceOfRightTarget = distanceFromRightTarget;
+                            rightLockOnTarget = target;
+                        }
+                    }
+                }
+                else
+                {
+                    ClearLockOnTargets();
+                    player.isLockedOn = false;
+                }
+            }
         }
 
+        public void SetLockCameraHeight()
+        {
+            if (cameraLockOnHeightCoroutine != null)
+            {
+                StopCoroutine(cameraLockOnHeightCoroutine);
+            }
+
+            cameraLockOnHeightCoroutine = StartCoroutine(SetCameraHeight());
+        }
+
+        public void ClearLockOnTargets()
+        {
+            nearestLockOnTarget = null;
+            leftLockOnTarget = null;
+            rightLockOnTarget = null;
+            avaliableTargets.Clear();
+        }
+
+        public IEnumerator WaitThenFindNewTarget()
+        {
+            while (player.isPerformingAction)
+            {
+                yield return null;
+            }
+
+            ClearLockOnTargets();
+            HandleLocatingLockOnTargets();
+
+            if (nearestLockOnTarget != null)
+            {
+                player.playerCombatManager.SetTarget(nearestLockOnTarget);
+                player.isLockedOn = true;
+            }
+
+            yield return null;
+        }
+
+        private IEnumerator SetCameraHeight()
+        {
+            float duration = 1f;
+            float timer = 0;
+
+            Vector3 velocity = Vector3.zero;
+            Vector3 newLockedCameraHeight = new(cameraPivotTransform.localPosition.x, lockedCameraHeight);
+            Vector3 newUnlockedCameraHeight = new(cameraPivotTransform.localPosition.x, unlockedCameraHeight);
+
+            while (timer < duration)
+            {
+                timer += Time.deltaTime;
+
+                if (player != null)
+                {
+                    if (player.playerCombatManager.currentTarget != null)
+                    {
+                        cameraPivotTransform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.localPosition, newLockedCameraHeight, ref velocity, setCameraHeightSpeed);
+                        cameraPivotTransform.localRotation = Quaternion.Slerp(cameraPivotTransform.localRotation, Quaternion.Euler(0, 0, 0), lockOnTargetFollowSpeed);
+                    }
+                    else
+                    {
+                        cameraPivotTransform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.localPosition, newUnlockedCameraHeight, ref velocity, setCameraHeightSpeed);
+                    }
+                }
+
+                yield return null;
+            }
+
+            if (player != null)
+            {
+                if (player.playerCombatManager.currentTarget != null)
+                {
+                    cameraPivotTransform.localPosition = newLockedCameraHeight;
+                    cameraPivotTransform.localRotation = Quaternion.Euler(0, 0, 0);
+                }
+                else
+                {
+                    cameraPivotTransform.localPosition = newUnlockedCameraHeight;
+                }
+            }
+        }
         // public void SetCameraHeight()
         // {
         //     Vector3 velocity = Vector3.zero;

@@ -437,7 +437,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.8
+  m_Height: 1.78
   m_Radius: 0.26
   m_SlopeLimit: 45
   m_StepOffset: 0.3
@@ -463,6 +463,7 @@ MonoBehaviour:
   characterAnimatorManager: {fileID: 0}
   characterCombatManager: {fileID: 0}
   characterSoundFXManager: {fileID: 0}
+  characterLocomotionManager: {fileID: 0}
   isDead: 0
   isPerformingAction: 0
   applyRootMotion: 0
@@ -508,6 +509,7 @@ MonoBehaviour:
   yVelocity: {x: 0, y: 0, z: 0}
   groundedYVelocity: -20
   fallStartYVelocity: -5
+  isRolling: 0
   horizontalMovement: 0
   verticalMovement: 0
   moveAmount: 0
@@ -520,7 +522,6 @@ MonoBehaviour:
   freeFallSpeed: 5
   jumpHeight: 6
   jumpStaminaCost: 10
-  maxTimeInAir: 3
   dodgeStaminaCost: 25
 --- !u!114 &8651932645413148681
 MonoBehaviour:
@@ -1815,7 +1816,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.26
-  m_Height: 1.8
+  m_Height: 1.78
   m_Direction: 1
   m_Center: {x: 0, y: 0.89595044, z: 0}
 --- !u!1 &6188632663140309712

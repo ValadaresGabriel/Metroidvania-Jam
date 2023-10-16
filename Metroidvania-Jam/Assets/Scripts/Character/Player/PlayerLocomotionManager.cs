@@ -28,7 +28,6 @@ namespace TS
         [SerializeField] private float freeFallSpeed = 2f;
         [SerializeField] private float jumpHeight = 4f;
         [SerializeField] private float jumpStaminaCost = 10f;
-        [SerializeField] private float maxTimeInAir = 3f;
         private Vector3 jumpDirection;
 
         [Header("Dodge")]
@@ -118,24 +117,62 @@ namespace TS
 
         public void HandleRotation()
         {
+            if (player.isDead) return;
+
             if (!player.canRotate) return;
 
-            targetRotationDirection = Vector3.zero;
-            targetRotationDirection = PlayerCamera.Instance.cameraObject.transform.forward * verticalMovement;
-            targetRotationDirection += PlayerCamera.Instance.cameraObject.transform.right * horizontalMovement;
-
-            targetRotationDirection.Normalize();
-            targetRotationDirection.y = 0;
-
-            if (targetRotationDirection == Vector3.zero)
+            if (player.isLockedOn)
             {
-                targetRotationDirection = transform.forward;
+                if (player.isSprinting || player.playerLocomotionManager.isRolling)
+                {
+                    Vector3 targetDirection = Vector3.zero;
+                    targetDirection = PlayerCamera.Instance.cameraObject.transform.forward * verticalMovement;
+                    targetDirection += PlayerCamera.Instance.cameraObject.transform.right * horizontalMovement;
+                    targetDirection.Normalize();
+                    targetDirection.y = 0;
+
+                    if (targetDirection == Vector3.zero)
+                    {
+                        targetDirection = transform.forward;
+                    }
+
+                    Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+                    Quaternion finalRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                    transform.rotation = finalRotation;
+                }
+                else
+                {
+                    if (player.playerCombatManager.currentTarget == null) return;
+
+                    Vector3 targetDirection;
+                    targetDirection = player.playerCombatManager.currentTarget.transform.position - transform.position;
+                    targetDirection.y = 0;
+                    targetDirection.Normalize();
+
+                    Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+                    Quaternion finalRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                    transform.rotation = finalRotation;
+                }
             }
+            else
+            {
+                targetRotationDirection = Vector3.zero;
+                targetRotationDirection = PlayerCamera.Instance.cameraObject.transform.forward * verticalMovement;
+                targetRotationDirection += PlayerCamera.Instance.cameraObject.transform.right * horizontalMovement;
 
-            Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
-            Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
+                targetRotationDirection.Normalize();
+                targetRotationDirection.y = 0;
 
-            transform.rotation = targetRotation;
+                if (targetRotationDirection == Vector3.zero)
+                {
+                    targetRotationDirection = transform.forward;
+                }
+
+                Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
+                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
+
+                transform.rotation = targetRotation;
+            }
         }
 
         public void HandleSprinting()
@@ -189,6 +226,7 @@ namespace TS
 
                 // Perform roll animation
                 player.playerAnimatorManager.PlayTargetActionAnimation("Roll_Forward_01", true);
+                player.playerLocomotionManager.isRolling = true;
             }
             // If we are stationary, we perform a backstep
             else
@@ -198,26 +236,6 @@ namespace TS
             }
 
             player.characterStatsManager.SetCurrentStamina(player.characterStatsManager.GetCurrentStamina() - dodgeStaminaCost);
-
-            jumpDirection = PlayerCamera.Instance.cameraObject.transform.forward * PlayerInputManager.Instance.verticalInput;
-            jumpDirection += PlayerCamera.Instance.cameraObject.transform.right * PlayerInputManager.Instance.horizontalInput;
-            jumpDirection.y = 0;
-
-            if (jumpDirection != Vector3.zero)
-            {
-                if (player.isSprinting)
-                {
-                    jumpDirection *= 2f;
-                }
-                else if (PlayerInputManager.Instance.moveAmount > 0.5f)
-                {
-                    jumpDirection *= 1f;
-                }
-                else if (PlayerInputManager.Instance.moveAmount < 0.5f)
-                {
-                    jumpDirection *= 0.5f;
-                }
-            }
         }
 
         public void OpenDodge()

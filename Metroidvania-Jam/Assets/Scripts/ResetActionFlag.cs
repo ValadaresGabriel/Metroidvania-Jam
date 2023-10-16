@@ -23,6 +23,8 @@ namespace TS
             character.isJumping = false;
             character.isChargeAttackReleased = false;
             character.isChargeAttackFullReleased = false;
+            character.characterLocomotionManager.isRolling = false;
+            character.isJumping = false;
         }
 
         // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

@@ -140,24 +140,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Lock On Target Left",
-                    "type": "Button",
-                    "id": "f6a19445-b682-4cf7-85d6-4cc9629206d9",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Lock On Target Right",
-                    "type": "Button",
-                    "id": "e05e6e46-6c00-459e-bf49-827c5d50aba0",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -226,50 +208,6 @@
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c085ba21-025a-4422-8ff9-bd3f81b376d9",
-                    "path": "<Gamepad>/rightStick/left",
-                    "interactions": "Tap",
-                    "processors": "AxisDeadzone",
-                    "groups": "",
-                    "action": "Lock On Target Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b2a23090-9aea-4f83-a2bd-92ea62dc6cba",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Lock On Target Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e3e0ea0d-7f87-414c-806f-fbc9439be6f9",
-                    "path": "<Gamepad>/rightStick/right",
-                    "interactions": "Tap",
-                    "processors": "AxisDeadzone",
-                    "groups": "",
-                    "action": "Lock On Target Right",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "dbf4bf41-7f9c-4894-af34-34ff99b72986",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Lock On Target Right",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
@@ -335,6 +273,24 @@
                     "name": "Lock On",
                     "type": "Button",
                     "id": "e4cc5e46-39b4-4836-b959-1ebf484583d7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Seek Left Lock On Target",
+                    "type": "Button",
+                    "id": "954615ec-3d0b-46f3-8dcf-1c48c3e455ce",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Seek Right Lock On Target",
+                    "type": "Button",
+                    "id": "cc3fbe55-3de7-4a63-9cef-693d26a80a6a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -493,6 +449,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4c618dfa-fda1-4eba-9491-c5f5dc5ff9dc",
+                    "path": "<Gamepad>/rightStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Seek Left Lock On Target",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8a588f56-d962-4b36-b4e2-f914d6a74289",
+                    "path": "<Gamepad>/rightStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Seek Right Lock On Target",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

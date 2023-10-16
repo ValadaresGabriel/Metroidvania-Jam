@@ -61,7 +61,7 @@ namespace TS
             player.canUseHeavyAttack = canUseHeavyAttack;
 
             if (canUseHeavyAttack)
-                PlayerUIManager.Instance.playerUIInteractMessage.InitializeInteractMessage("Hold attack button to use HEAVY ATTACK. More charging time is equivalent to more damage.");
+                PlayerUIManager.Instance.playerUIPopupManager.InitializeInteractResponseMessage("Hold attack button to use HEAVY ATTACK. More charging time is equivalent to more damage.");
 
             gameObject.SetActive(false);
         }

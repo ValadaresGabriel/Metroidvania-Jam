@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 namespace TS
 {
     public class PlayerUIPopupManager : MonoBehaviour
     {
+        [Header("Control Button Game Object")]
+        [SerializeField] private GameObject controlGameObject;
+
         [Header("You Died Pop Up")]
         [SerializeField] private GameObject youDiedPopupGameObject;
         [SerializeField] private TextMeshProUGUI youDiedPopupBackgroundText;
@@ -15,7 +19,15 @@ namespace TS
 
         [Header("Interact Popup")]
         [SerializeField] private GameObject interactPopUpGameObject;
+        [SerializeField] private GameObject interactPopUpControlButtonGameObject;
         [SerializeField] private TextMeshProUGUI interactText;
+
+        [Header("Interact Response Popup")]
+        [SerializeField] private GameObject interactResponsePopUpGameObject;
+        [SerializeField] private TextMeshProUGUI interactResponseMessage;
+        [SerializeField] private Button closeInteractResponseButton;
+
+        private GameObject controlInstance;
 
         #region You Died
         public void SendYouDiedPopup()
@@ -105,9 +117,20 @@ namespace TS
         {
             return interactPopUpGameObject.activeSelf;
         }
-        public void SendInteractPopup(string newInteractText)
+
+        public void SendInteractPopup(Interactable interactableObject)
         {
+            string newInteractText = interactableObject.interactableText;
+
             if (interactPopUpGameObject.activeSelf && interactText.text == newInteractText) return;
+
+            if (interactableObject.control != null && interactableObject.control != "")
+            {
+                controlInstance = Instantiate(controlGameObject, interactPopUpControlButtonGameObject.transform.position, Quaternion.identity);
+                controlInstance.GetComponent<ControlButton>().SetControlButtonText(interactableObject.control);
+                controlInstance.transform.SetParent(interactPopUpControlButtonGameObject.transform);
+                controlInstance.transform.localScale = new Vector3(1, 1, 1);
+            }
 
             interactPopUpGameObject.SetActive(true);
             interactText.text = newInteractText;
@@ -117,8 +140,28 @@ namespace TS
         {
             if (interactPopUpGameObject.activeSelf)
             {
+                Destroy(controlInstance);
                 interactPopUpGameObject.SetActive(false);
             }
+        }
+        #endregion
+
+        #region Interact Response
+        public void InitializeInteractResponseMessage(string newText)
+        {
+            closeInteractResponseButton.Select();
+            interactResponsePopUpGameObject.SetActive(true);
+            SetInteractResponseMessage(newText);
+        }
+
+        public void SetInteractResponseMessage(string newText)
+        {
+            interactResponseMessage.SetText(newText);
+        }
+
+        public void CloseInteractResponseMessage()
+        {
+            interactResponsePopUpGameObject.SetActive(false);
         }
         #endregion
     }
