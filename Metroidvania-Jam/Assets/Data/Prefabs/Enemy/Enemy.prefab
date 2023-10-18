@@ -2339,7 +2339,7 @@ Transform:
   - {fileID: 4402622039093809158}
   - {fileID: 5480887152255919247}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &209601725208818047
 Animator:
@@ -2351,7 +2351,7 @@ Animator:
   m_GameObject: {fileID: 4462738511347466647}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 0ad932253e8dc8841948afa5d1a0d051, type: 3}
-  m_Controller: {fileID: 9100000, guid: 7ed4e50709cf6ac4d85e448b1985b233, type: 2}
+  m_Controller: {fileID: 9100000, guid: edbc3deaac8d48d4b963b727edf0326f, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2431,6 +2431,7 @@ MonoBehaviour:
   characterAnimatorManager: {fileID: 0}
   characterCombatManager: {fileID: 0}
   characterSoundFXManager: {fileID: 0}
+  characterLocomotionManager: {fileID: 0}
   isDead: 0
   isPerformingAction: 0
   applyRootMotion: 0
@@ -2523,6 +2524,7 @@ MonoBehaviour:
   yVelocity: {x: 0, y: 0, z: 0}
   groundedYVelocity: -20
   fallStartYVelocity: -5
+  isRolling: 0
 --- !u!114 &4072895110934221866
 MonoBehaviour:
   m_ObjectHideFlags: 0

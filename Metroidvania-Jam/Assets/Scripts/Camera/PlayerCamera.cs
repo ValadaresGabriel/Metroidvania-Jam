@@ -308,8 +308,8 @@ namespace TS
                 {
                     if (player.playerCombatManager.currentTarget != null)
                     {
-                        cameraPivotTransform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.localPosition, newLockedCameraHeight, ref velocity, setCameraHeightSpeed);
-                        cameraPivotTransform.localRotation = Quaternion.Slerp(cameraPivotTransform.localRotation, Quaternion.Euler(0, 0, 0), lockOnTargetFollowSpeed);
+                        cameraPivotTransform.SetLocalPositionAndRotation(Vector3.SmoothDamp(cameraPivotTransform.localPosition, newLockedCameraHeight, ref velocity, setCameraHeightSpeed),
+                        Quaternion.Slerp(cameraPivotTransform.localRotation, Quaternion.Euler(0, 0, 0), lockOnTargetFollowSpeed));
                     }
                     else
                     {
@@ -324,31 +324,15 @@ namespace TS
             {
                 if (player.playerCombatManager.currentTarget != null)
                 {
-                    cameraPivotTransform.localPosition = newLockedCameraHeight;
-                    cameraPivotTransform.localRotation = Quaternion.Euler(0, 0, 0);
+                    cameraPivotTransform.SetLocalPositionAndRotation(newLockedCameraHeight, Quaternion.Euler(0, 0, 0));
                 }
                 else
                 {
                     cameraPivotTransform.localPosition = newUnlockedCameraHeight;
                 }
             }
+
+            yield return null;
         }
-        // public void SetCameraHeight()
-        // {
-        //     Vector3 velocity = Vector3.zero;
-        //     Vector3 newLockedPosition = new Vector3(0, lockedPivotPosition);
-        //     Vector3 newUnlockedPosition = new Vector3(0, unlockedPivotPosition);
-
-        //     if (lockOnCurrentTarget != null)
-        //     {
-        //         cameraPivotTransform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.localPosition, newLockedPosition, ref velocity, Time.deltaTime);
-        //     }
-        //     else
-        //     {
-        //         cameraPivotTransform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.localPosition, newUnlockedPosition, ref velocity, Time.deltaTime);
-        //     }
-        // }
-
-        // public Transform GetLockOnCurrentTarget() => lockOnCurrentTarget.transform;
     }
 }

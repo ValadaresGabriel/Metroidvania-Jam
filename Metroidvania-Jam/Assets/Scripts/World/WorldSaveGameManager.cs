@@ -201,6 +201,8 @@ namespace TS
 
         public IEnumerator LoadWorldScene()
         {
+            WorldLoadScreenManager.Instance.LoadScreenManagement(true);
+
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(currentCharacterData.sceneIndex);
 
             // Espere até que a cena esteja completamente carregada
@@ -208,6 +210,8 @@ namespace TS
             {
                 yield return null;
             }
+
+            WorldLoadScreenManager.Instance.LoadScreenManagement(false);
 
             player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
 

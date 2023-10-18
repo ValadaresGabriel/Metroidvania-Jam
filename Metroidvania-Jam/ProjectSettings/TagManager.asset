@@ -22,7 +22,7 @@ TagManager:
   - 
   - Ground
   - UI Stuffs
-  - 
+  - Load Screen UI
   - 
   - 
   - 
@@ -46,4 +46,7 @@ TagManager:
     locked: 0
   - name: Effects
     uniqueID: 3899279409
+    locked: 0
+  - name: Load Screen
+    uniqueID: 2743492621
     locked: 0
