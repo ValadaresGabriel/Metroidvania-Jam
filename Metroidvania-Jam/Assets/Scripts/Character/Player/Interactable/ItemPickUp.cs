@@ -63,6 +63,8 @@ namespace TS
             // playerAnimatorManager.PlayTargetActionAnimation("Pick Up Item", true, true);
             playerInventoryManager.AddItem(item);
 
+            PlayerUIManager.Instance.playerUIPopupManager.InitializeInteractResponse(item);
+
             gameObject.SetActive(false);
         }
     }

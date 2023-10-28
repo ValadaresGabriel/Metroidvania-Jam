@@ -24,7 +24,7 @@ namespace TS
             player.playerLocomotionManager.HandleRotation();
 
             // Perform the Action
-            weaponAction.AttemptToPerformAction(player, weaponPerformingAction, isHeavyAttack, isHeavyAttackFull);
+            weaponAction.AttemptToPerformAction(player, weaponPerformingAction);
 
             // player.PerformWeaponBasedAction(weaponAction.actionID, weaponPerformingAction.itemID);
         }

@@ -8,18 +8,10 @@ namespace TS
     {
         public int actionID;
 
-        public virtual void AttemptToPerformAction(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction, bool isHeavyAttack = false, bool isHeavyAttackFull = false)
+        public virtual void AttemptToPerformAction(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction)
         {
             // What does every weapon action have in common?
             playerPerformingAction.OnCurrentWeaponBeingUsedIDChange(weaponPerformingAction.itemID);
-        }
-
-        public virtual IEnumerator AttemptToPerformAction(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction)
-        {
-            // What does every weapon action have in common?
-            playerPerformingAction.OnCurrentWeaponBeingUsedIDChange(weaponPerformingAction.itemID);
-
-            yield return null;
         }
     }
 }

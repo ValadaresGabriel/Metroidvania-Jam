@@ -23,7 +23,7 @@ namespace TS
         {
             base.Start();
 
-            interactableText = "Press <b><size=40>E</size></b> or <b><size=40>Y</size></b> to interact";
+            interactableText = " to interact";
 
             if (!WorldSaveGameManager.Instance.currentCharacterData.powerUpsInWorld.ContainsKey(powerUpID))
             {
@@ -61,7 +61,7 @@ namespace TS
             player.canUseHeavyAttack = canUseHeavyAttack;
 
             if (canUseHeavyAttack)
-                PlayerUIManager.Instance.playerUIPopupManager.InitializeInteractResponseMessage("Hold attack button to use HEAVY ATTACK. More charging time is equivalent to more damage.");
+                PlayerUIManager.Instance.playerUIPopupManager.InitializeInteractResponse(item);
 
             gameObject.SetActive(false);
         }

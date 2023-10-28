@@ -2717,7 +2717,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8433459099043429589
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3576,7 +3576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &976780421408799485
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5713,6 +5713,7 @@ MonoBehaviour:
   interactText: {fileID: 87973142257680648}
   interactResponsePopUpGameObject: {fileID: 5770193709474970382}
   interactResponseMessage: {fileID: 6005791499942073161}
+  interactResponseRewardIcon: {fileID: 7253257903486714709}
   closeInteractResponseButton: {fileID: 7072270124629981563}
 --- !u!1 &9028517625784105290
 GameObject:

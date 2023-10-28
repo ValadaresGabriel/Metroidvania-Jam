@@ -13,7 +13,7 @@ namespace TS
         [SerializeField] private string light_attack_02 = "Main_Light_Attack_02";
         [SerializeField] private string light_attack_03 = "Main_Light_Attack_03";
 
-        public override void AttemptToPerformAction(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction, bool isHeavyAttack, bool isHeavyAttackFull)
+        public override void AttemptToPerformAction(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction)
         {
             base.AttemptToPerformAction(playerPerformingAction, weaponPerformingAction);
 
@@ -21,28 +21,13 @@ namespace TS
 
             if (!playerPerformingAction.isGrounded) return;
 
-            // Temporary Heavy Attack
-            if (isHeavyAttack)
+            if (playerPerformingAction.canDoCombo)
             {
-                if (isHeavyAttackFull)
-                {
-                    playerPerformingAction.isChargeAttackFullReleased = true;
-                }
-                else
-                {
-                    playerPerformingAction.isChargeAttackReleased = true;
-                }
+                PerformLightAttackCombo(playerPerformingAction, weaponPerformingAction);
             }
             else
             {
-                if (playerPerformingAction.canDoCombo)
-                {
-                    PerformLightAttackCombo(playerPerformingAction, weaponPerformingAction);
-                }
-                else
-                {
-                    PerformLightAttack(playerPerformingAction, weaponPerformingAction);
-                }
+                PerformLightAttack(playerPerformingAction, weaponPerformingAction);
             }
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 namespace TS
 {
@@ -25,6 +26,7 @@ namespace TS
         [Header("Interact Response Popup")]
         [SerializeField] private GameObject interactResponsePopUpGameObject;
         [SerializeField] private TextMeshProUGUI interactResponseMessage;
+        [SerializeField] private Image interactResponseRewardIcon;
         [SerializeField] private Button closeInteractResponseButton;
 
         private GameObject controlInstance;
@@ -147,11 +149,17 @@ namespace TS
         #endregion
 
         #region Interact Response
-        public void InitializeInteractResponseMessage(string newText)
+        public void InitializeInteractResponse(Item item)
         {
             closeInteractResponseButton.Select();
             interactResponsePopUpGameObject.SetActive(true);
-            SetInteractResponseMessage(newText);
+            SetInteractResponseMessage(item.itemName);
+            SetInteractResponseIcon(item.itemIcon);
+        }
+
+        private void SetInteractResponseIcon(Sprite itemIcon)
+        {
+            interactResponseRewardIcon.sprite = itemIcon;
         }
 
         public void SetInteractResponseMessage(string newText)
