@@ -82,32 +82,28 @@ namespace TS
                 playerControls.PlayerLocomotion.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
                 playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
 
-                playerControls.PlayerActions.LightAttack.performed += i => HandleAInput();//A_Input = true;
-                playerControls.PlayerActions.Interact.performed += i => interactInput = true;
-                playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
+                // // Jump
+                // playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
 
-                // Jump
-                playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
+                // // Heavy Attack
+                // playerControls.PlayerActions.HeavyAttack.performed += i => { isHolding_Heavy_Attack = true; StartCoroutine(HandleHeavyAttack()); };
+                // playerControls.PlayerActions.HeavyAttack.canceled += i => { isHolding_Heavy_Attack = false; };
 
-                // Heavy Attack
-                playerControls.PlayerActions.HeavyAttack.performed += i => { isHolding_Heavy_Attack = true; StartCoroutine(HandleHeavyAttack()); };
-                playerControls.PlayerActions.HeavyAttack.canceled += i => { isHolding_Heavy_Attack = false; };
+                // // Cursor
+                // playerControls.Cursor.ShowCursor.performed += i => { isHolding_Show_Cursor = true; StartCoroutine(HandleShowCursor()); };
+                // playerControls.Cursor.ShowCursor.canceled += i => { isHolding_Show_Cursor = false; };
 
-                // Cursor
-                playerControls.Cursor.ShowCursor.performed += i => { isHolding_Show_Cursor = true; StartCoroutine(HandleShowCursor()); };
-                playerControls.Cursor.ShowCursor.canceled += i => { isHolding_Show_Cursor = false; };
+                // // Lock On
+                // playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
+                // playerControls.PlayerActions.SeekLeftLockOnTarget.performed += i => lockOnLeftInput = true;
+                // playerControls.PlayerActions.SeekRightLockOnTarget.performed += i => lockOnRightInput = true;
 
-                // Lock On
-                playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
-                playerControls.PlayerActions.SeekLeftLockOnTarget.performed += i => lockOnLeftInput = true;
-                playerControls.PlayerActions.SeekRightLockOnTarget.performed += i => lockOnRightInput = true;
+                // // Holding the input
+                // playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
+                // playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
 
-                // Holding the input
-                playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
-                playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
-
-                // Pause
-                playerControls.UI.Pause.performed += i => HandlePause();
+                // // Pause
+                // playerControls.UI.Pause.performed += i => HandlePause();
             }
 
             playerControls.Enable();
